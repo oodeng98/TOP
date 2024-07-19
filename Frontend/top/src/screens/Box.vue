@@ -8,7 +8,7 @@
           </div>
           <div class="div">
             <div class="text-wrapper-2">EDIT</div>
-            <Edit class="edit-instance" />
+            <EditComponent class="edit-1" />
           </div>
         </div>
       </div>
@@ -17,50 +17,58 @@
           <div class="friends">
             <div class="overlap-group">
               <div class="overlap">
-                <Default class="ionicon-p-person" />
+                <IoniconPPersonDefault1 class="ionicon-p-person" />
               </div>
               <div class="text-wrapper-3">Friends</div>
               <div class="list">
                 <div class="items">
                   <div class="freduardo-hill">
-                    <img class="line" alt="Line" src="line.png" />
+                    <img class="line" alt="Line" src="/img/line-2.png" />
                     <div class="content">
                       <div class="avatar">
                         <div class="name">
                           <div class="text-wrapper-4">Freduardo Hill</div>
                         </div>
-                        <img class="image" alt="Image" src="image.png" />
+                        <img class="image" alt="Image" src="/img/image-2.png" />
                       </div>
-                      <img class="status" alt="Status" src="status.png" />
+                      <img class="status" alt="Status" src="/img/status.png" />
                     </div>
                   </div>
                 </div>
                 <div class="freduardo-hill-wrapper">
                   <div class="freduardo-hill">
-                    <img class="line" alt="Line" src="line-2.png" />
+                    <img class="line" alt="Line" src="/img/line-2.png" />
                     <div class="content">
                       <div class="avatar">
                         <div class="name">
                           <div class="text-wrapper-4">Freduardo Hill</div>
                         </div>
-                        <img class="image" alt="Image" src="image-2.png" />
+                        <img class="image" alt="Image" src="/img/image-2.png" />
                       </div>
-                      <img class="status" alt="Status" src="status-2.png" />
+                      <img
+                        class="status"
+                        alt="Status"
+                        src="/img/status-2.png"
+                      />
                     </div>
                   </div>
                 </div>
                 <div class="div-wrapper">
                   <div class="freduardo-hill-2">
-                    <img class="img" alt="Line" src="line-3.png" />
-                    <img class="line-2" alt="Line" src="line-4.png" />
+                    <img class="img" alt="Line" src="/img/line-2.png" />
+                    <img class="line-2" alt="Line" src="/img/line-3.png" />
                     <div class="content-2">
                       <div class="avatar">
                         <div class="name">
                           <div class="text-wrapper-4">Freduardo Hill</div>
                         </div>
-                        <img class="image" alt="Image" src="image-3.png" />
+                        <img class="image" alt="Image" src="/img/image-2.png" />
                       </div>
-                      <img class="status" alt="Status" src="status-3.png" />
+                      <img
+                        class="status"
+                        alt="Status"
+                        src="/img/status-2.png"
+                      />
                     </div>
                   </div>
                 </div>
@@ -70,7 +78,7 @@
           <div class="overlap-wrapper">
             <div class="overlap-2">
               <div class="ionicon-s-stats-wrapper">
-                <Chart class="ionicon-s-stats" />
+                <IoniconSStatsChartComponent class="ionicon-s-stats" />
               </div>
               <div class="text-wrapper-5">DashBoard</div>
             </div>
@@ -81,26 +89,26 @@
           <img
             class="logo-creative-tim"
             alt="Logo creative tim"
-            src="logo-creative-tim-black.png"
+            src="/img/logo-creative-tim-black.png"
           />
         </div>
-        <img class="vector" alt="Vector" src="vector-6.svg" />
+        <img class="vector" alt="Vector" src="/img/vector-6.svg" />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { Chart } from "./Chart";
-import { Default } from "./Default";
-import { Edit } from "./Edit";
+import EditComponent from "../icons/EditComponent/EditComponent.vue";
+import IoniconPPersonDefault1 from "../icons/IoniconPPersonDefault1.vue";
+import IoniconSStatsChartComponent from "../icons/IoniconSStatsChartComponent/IoniconSStatsChartComponent.vue";
 
 export default {
   name: "Box",
   components: {
-    Chart,
-    Default,
-    Edit,
+    EditComponent,
+    IoniconPPersonDefault1,
+    IoniconSStatsChartComponent,
   },
 };
 </script>
@@ -177,7 +185,7 @@ export default {
   width: 58px;
 }
 
-.box .edit-instance {
+.box .edit-1 {
   height: 28px !important;
   left: 0 !important;
   position: absolute !important;
