@@ -24,7 +24,7 @@ public class Friends {
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("friendId")
     @JoinColumn(name = "friend_id")
-    private Friends friends;
+    private Users friends;
 
     @Enumerated(EnumType.STRING)
     Relation relation;
