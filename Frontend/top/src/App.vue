@@ -38,6 +38,12 @@
   <div>
     <CalendarCheck />
   </div>
+  <div>
+    <FocusTimeEachPrograms />
+  </div>
+  <div>
+    <TimeLine />
+  </div>
 </template>
 
 
@@ -73,7 +79,12 @@ import MonthStreakColumn from './components/MonthStreakColumn.vue';
 import MonthStreakRow from './components/MonthStreakRow.vue';
 import HalfYearStreak from './components/HalfYearStreak.vue';
 //9
-import CalendarCheck from './components/CalendarCheck.vue'
+import CalendarCheck from './components/CalendarCheck.vue';
+//10
+import FocusTimeEachPrograms from './components/FocusTimeEachPrograms.vue';
+//11
+import TimeLine from './components/TimeLine.vue';
+
 
 export default {
   name: 'App',
@@ -101,6 +112,8 @@ export default {
     MonthStreakRow,
     HalfYearStreak,
     CalendarCheck,
+    FocusTimeEachPrograms,
+    TimeLine, 
   }
 }
 </script>
