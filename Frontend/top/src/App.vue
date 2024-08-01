@@ -46,48 +46,46 @@
   </div>
 </template>
 
-
 <script>
 // 1
-import TodayFocus1 from './components/TodayFocus1.vue';
-import WeekFocus1 from './components/WeekFocus1.vue';
-import MonthFocus1 from './components/MonthFocus1.vue';
-import TotalFocus1 from './components/TotalFocus1.vue';
+import TodayFocus1 from "./components/TodayFocus1.vue";
+import WeekFocus1 from "./components/WeekFocus1.vue";
+import MonthFocus1 from "./components/MonthFocus1.vue";
+import TotalFocus1 from "./components/TotalFocus1.vue";
 // 2
-import TodayFocus2WithoutID from './components/TodayFocus2WithoutID.vue';
-import WeekFocus2WithoutID from './components/WeekFocus2WithoutID.vue';
-import MonthFocus2WithoutID from './components/MonthFocus2WithoutID.vue';
-import TotalFocus2WithoutID from './components/TotalFocus2WithoutID.vue';
+import TodayFocus2WithoutID from "./components/TodayFocus2WithoutID.vue";
+import WeekFocus2WithoutID from "./components/WeekFocus2WithoutID.vue";
+import MonthFocus2WithoutID from "./components/MonthFocus2WithoutID.vue";
+import TotalFocus2WithoutID from "./components/TotalFocus2WithoutID.vue";
 // 3
-import TodayFocus2 from './components/TodayFocus2.vue';
-import WeekFocus2 from './components/WeekFocus2.vue';
-import MonthFocus2 from './components/MonthFocus2.vue';
+import TodayFocus2 from "./components/TodayFocus2.vue";
+import WeekFocus2 from "./components/WeekFocus2.vue";
+import MonthFocus2 from "./components/MonthFocus2.vue";
 // 4
-import PercentileRank from './components/PercentileRank.vue';
+import PercentileRank from "./components/PercentileRank.vue";
 // 5
-import CheckTime from './components/CheckTime.vue';
+import CheckTime from "./components/CheckTime.vue";
 //6
-import TodayAchievement1 from './components/TodayAchievement1.vue';
-import WeekAchievement1 from './components/WeekAchievement1.vue';
-import MonthAchievement1 from './components/MonthAchievement1.vue';
+import TodayAchievement1 from "./components/TodayAchievement1.vue";
+import WeekAchievement1 from "./components/WeekAchievement1.vue";
+import MonthAchievement1 from "./components/MonthAchievement1.vue";
 //7
-import MonthAchievement2 from './components/MonthAchievement2.vue';
-import WeekAchievement2 from './components/WeekAchievement2.vue';
-import TodayAchievement2 from './components/TodayAchievement2.vue';
+import MonthAchievement2 from "./components/MonthAchievement2.vue";
+import WeekAchievement2 from "./components/WeekAchievement2.vue";
+import TodayAchievement2 from "./components/TodayAchievement2.vue";
 //8
-import MonthStreakColumn from './components/MonthStreakColumn.vue';
-import MonthStreakRow from './components/MonthStreakRow.vue';
-import HalfYearStreak from './components/HalfYearStreak.vue';
+import MonthStreakColumn from "./components/MonthStreakColumn.vue";
+import MonthStreakRow from "./components/MonthStreakRow.vue";
+import HalfYearStreak from "./components/HalfYearStreak.vue";
 //9
-import CalendarCheck from './components/CalendarCheck.vue';
+import CalendarCheck from "./components/CalendarCheck.vue";
 //10
-import FocusTimeEachPrograms from './components/FocusTimeEachPrograms.vue';
+import FocusTimeEachPrograms from "./components/FocusTimeEachPrograms.vue";
 //11
-import TimeLine from './components/TimeLine.vue';
-
+import TimeLine from "./components/TimeLine.vue";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
     TodayFocus1,
     WeekFocus1,
@@ -113,11 +111,10 @@ export default {
     HalfYearStreak,
     CalendarCheck,
     FocusTimeEachPrograms,
-    TimeLine, 
-  }
-}
+    TimeLine,
+  },
+};
 </script>
-
 
 <style>
 #app {
