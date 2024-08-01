@@ -9,9 +9,7 @@
   </div>
 </template>
 
-<script>
-</script>
-
+<script></script>
 
 <style scoped>
 .box1 {
@@ -20,7 +18,7 @@
 }
 
 .box1 .element1 {
-  position : static;
+  position: static;
   height: 100px;
   left: 0;
   top: 0;
