@@ -2,17 +2,83 @@
   <div class="box6">
     <div class="element6">
       <div class="overlap-group6">
-        <div class="text6">43%</div>
+        <div class="text6">{{ monthlyAchievement }}</div>
         <div class="title-data6">월간 목표 달성률</div>
       </div>
     </div>
   </div>
 </template>
 
-
 <script>
-</script>
+import axios from "axios";
+import { ref, onMounted } from "vue";
 
+export default {
+  setup() {
+    const monthlyAchievement = ref("0%");
+
+    const timeStringToSeconds = (timeString) => {
+      const [hours, minutes, seconds] = timeString.split(":").map(Number);
+      return hours * 3600 + minutes * 60 + seconds;
+    };
+
+    const fetchFocusTime = async () => {
+      try {
+        const response = await axios.get(
+          "https://i11a707.p.ssafy.io:8082/dash/stats/focus-time",
+          {
+            params: {
+              period: "month",
+            },
+          }
+        );
+        console.log(response);
+        const monthlyFocusTime = timeStringToSeconds(
+          response.data.totalFocusTime
+        );
+        return monthlyFocusTime;
+      } catch (error) {
+        console.error("데이터를 가져오는 중 오류 발생:", error);
+        return 0;
+      }
+    };
+
+    const fetchTimeGoal = async () => {
+      try {
+        const response = await axios.get(
+          "https://i11a707.p.ssafy.io:8082/focus-time/goal"
+        );
+        console.log(response);
+        const timeGoal = timeStringToSeconds(response.data.timeGoal);
+        return timeGoal;
+      } catch (error) {
+        console.error("데이터를 가져오는 중 오류 발생:", error);
+        return 0;
+      }
+    };
+
+    const updateMonthlyAchievement = async () => {
+      const monthlyFocusTime = await fetchFocusTime();
+      const timeGoal = await fetchTimeGoal();
+
+      if (timeGoal > 0) {
+        const achievementRate = (monthlyFocusTime / timeGoal) * 100;
+        monthlyAchievement.value = `${achievementRate.toFixed(2)}%`;
+      } else {
+        monthlyAchievement.value = "0%";
+      }
+    };
+
+    onMounted(() => {
+      updateMonthlyAchievement();
+    });
+
+    return {
+      monthlyAchievement,
+    };
+  },
+};
+</script>
 
 <style scoped>
 .box6 {

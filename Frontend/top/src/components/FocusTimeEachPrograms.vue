@@ -5,67 +5,67 @@
         <div class="list">
           <div class="items">
             <div class="soft-UI-XD-1">
-              <img class="line" alt="Line" src="../static/img/line.png">
+              <img class="line" alt="Line" src="../static/img/line.png" />
               <div class="text-wrapper">5:32:03</div>
               <div class="content">
                 <div class="title">
                   <div class="div">youtube</div>
                 </div>
-                <img class="icon" alt="icon" src="../static/img/youtube.png">
+                <img class="icon" alt="icon" src="../static/img/youtube.png" />
               </div>
             </div>
             <div class="soft-UI-XD-2">
-              <img class="line" alt="Line" src="../static/img/line.png">
+              <img class="line" alt="Line" src="../static/img/line.png" />
               <div class="text-wrapper">5:32:03</div>
               <div class="content">
                 <div class="title">
                   <div class="div">Chakra Soft UI Version</div>
                 </div>
-                <img class="icon" alt="icon" src="../static/img/youtube.png">
+                <img class="icon" alt="icon" src="../static/img/youtube.png" />
               </div>
             </div>
             <div class="soft-UI-XD-3">
-              <img class="line" alt="Line" src="../static/img/line.png">
+              <img class="line" alt="Line" src="../static/img/line.png" />
               <div class="text-wrapper">5:32:03</div>
               <div class="content">
                 <div class="title">
                   <div class="div">Chakra Soft UI Version</div>
                 </div>
-                <img class="icon" alt="icon" src="../static/img/youtube.png">
+                <img class="icon" alt="icon" src="../static/img/youtube.png" />
               </div>
             </div>
             <div class="soft-UI-XD-4">
-              <img class="line" alt="Line" src="../static/img/line.png">
+              <img class="line" alt="Line" src="../static/img/line.png" />
               <div class="text-wrapper">5:32:03</div>
               <div class="content">
                 <div class="title">
                   <div class="div">Chakra Soft UI Version</div>
                 </div>
-                <img class="icon" alt="icon" src="../static/img/youtube.png">
+                <img class="icon" alt="icon" src="../static/img/youtube.png" />
               </div>
             </div>
             <div class="soft-UI-XD-5">
-              <img class="line" alt="Line" src="../static/img/line.png">
+              <img class="line" alt="Line" src="../static/img/line.png" />
               <div class="text-wrapper">5:32:03</div>
               <div class="content">
                 <div class="title">
                   <div class="div">Chakra Soft UI Version</div>
                 </div>
-                <img class="icon" alt="icon" src="../static/img/youtube.png">
+                <img class="icon" alt="icon" src="../static/img/youtube.png" />
               </div>
             </div>
             <div class="soft-UI-XD-6">
-              <img class="line" alt="Line" src="../static/img/line.png">
+              <img class="line" alt="Line" src="../static/img/line.png" />
               <div class="text-wrapper">5:32:03</div>
               <div class="content">
                 <div class="title">
                   <div class="div">Chakra Soft UI Version</div>
                 </div>
-                <img class="icon" alt="icon" src="../static/img/youtube.png">
+                <img class="icon" alt="icon" src="../static/img/youtube.png" />
               </div>
             </div>
           </div>
-          <img class="line" alt="Line" src="../static/img/line.png">
+          <img class="line" alt="Line" src="../static/img/line.png" />
           <div class="titles">
             <div class="text-wrapper-2">사용 시간</div>
             <div class="text-wrapper-3">Programs</div>
@@ -77,10 +77,7 @@
   </div>
 </template>
 
-
-<script>
-</script>
-
+<script></script>
 
 <style scoped>
 .box {
@@ -218,7 +215,8 @@
   position: absolute;
   top: 0;
   white-space: nowrap;
-  width: 167px;
+  padding-left: 5px;
+  /* width: 167px; */
 }
 
 .box .icon {

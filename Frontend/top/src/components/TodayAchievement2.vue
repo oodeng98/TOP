@@ -2,13 +2,15 @@
   <div class="goal-container">
     <div class="goal-chart">
       <svg viewBox="0 0 36 36" class="circular-chart">
-        <path class="circle-bg"
+        <path
+          class="circle-bg"
           d="M18 2.0845
              a 15.9155 15.9155 0 0 1 0 31.831
              a 15.9155 15.9155 0 0 1 0 -31.831"
         />
-        <path :class="['circle', {'no-animation': !animated}]"
-          :style="{strokeDasharray: `${percentage}, 100`}"
+        <path
+          :class="['circle', { 'no-animation': !animated }]"
+          :style="{ strokeDasharray: `${percentage}, 100` }"
           d="M18 2.0845
              a 15.9155 15.9155 0 0 1 0 31.831
              a 15.9155 15.9155 0 0 1 0 -31.831"
@@ -21,19 +23,80 @@
 </template>
 
 <script>
+import axios from "axios";
+import { ref, onMounted } from "vue";
+
 export default {
   name: "GoalChart",
   props: {
-    percentage: {
-      type: Number,
-      required: true,
-      default: 30
-    },
     animated: {
       type: Boolean,
-      default: true
-    }
-  }
+      default: true,
+    },
+  },
+  setup() {
+    const percentage = ref(0);
+
+    const timeStringToSeconds = (timeString) => {
+      const [hours, minutes, seconds] = timeString.split(":").map(Number);
+      return hours * 3600 + minutes * 60 + seconds;
+    };
+
+    const fetchFocusTime = async () => {
+      try {
+        const response = await axios.get(
+          "https://i11a707.p.ssafy.io:8082/dash/stats/focus-time",
+          {
+            params: {
+              period: "day",
+            },
+          }
+        );
+        console.log(response);
+        const dailyFocusTime = timeStringToSeconds(
+          response.data.totalFocusTime
+        );
+        return dailyFocusTime;
+      } catch (error) {
+        console.error("데이터를 가져오는 중 오류 발생:", error);
+        return 0;
+      }
+    };
+
+    const fetchTimeGoal = async () => {
+      try {
+        const response = await axios.get(
+          "https://i11a707.p.ssafy.io:8082/focus-time/goal"
+        );
+        console.log(response);
+        const timeGoal = timeStringToSeconds(response.data.timeGoal);
+        return timeGoal;
+      } catch (error) {
+        console.error("데이터를 가져오는 중 오류 발생:", error);
+        return 0;
+      }
+    };
+
+    const updatePercentage = async () => {
+      const dailyFocusTime = await fetchFocusTime();
+      const timeGoal = await fetchTimeGoal();
+
+      if (timeGoal > 0) {
+        const achievementRate = (dailyFocusTime / timeGoal) * 100;
+        percentage.value = achievementRate.toFixed(2);
+      } else {
+        percentage.value = "0";
+      }
+    };
+
+    onMounted(() => {
+      updatePercentage();
+    });
+
+    return {
+      percentage,
+    };
+  },
 };
 </script>
 
