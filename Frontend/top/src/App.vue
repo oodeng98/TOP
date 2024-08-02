@@ -18,7 +18,7 @@
     <PercentileRank />
   </div>
   <div>
-    <CheckTime />
+    <TimeCheck />
   </div>
   <div>
     <TodayAchievement1 />
@@ -70,7 +70,7 @@ import MonthFocus2 from './components/MonthFocus2.vue';
 // 4
 import PercentileRank from './components/PercentileRank.vue';
 // 5
-import CheckTime from './components/CheckTime.vue';
+import TimeCheck from './components/TimeCheck.vue';
 //6
 import TodayAchievement1 from './components/TodayAchievement1.vue';
 import WeekAchievement1 from './components/WeekAchievement1.vue';
@@ -110,7 +110,7 @@ export default {
     WeekFocus2,
     MonthFocus2,
     PercentileRank,
-    CheckTime,
+    TimeCheck,
     TodayAchievement1,
     WeekAchievement1,
     MonthAchievement1,

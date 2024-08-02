@@ -16,7 +16,7 @@ export default {
     'bar-chart': Bar
   },
   setup() {
-    const usageData = [10, 20, 30, 15, 25, 35, 10, 20, 30, 15, 25, 35, 10, 20, 30, 15, 25, 35, 10, 20, 56, 10, 20, 30];
+    const usageData = [10, 20, 30, 15, 25, 35, 10, 20, 30, 15, 25, 35, 10, 20, 30, 15, 25, 35, 10, 20, 0, 10, 20, 30];
     const chartData = reactive({
       labels: Array.from({ length: 24 }, (_, i) => i.toString()),
       datasets: [{
@@ -113,7 +113,7 @@ export default {
 }
 
 .chart {
-  height: 50% ;
+  height:  ;
   width: 100% ;
   box-sizing: border-box !important;
 }
