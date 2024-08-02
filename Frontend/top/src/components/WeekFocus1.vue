@@ -3,16 +3,46 @@
     <div class="element1">
       <div class="overlap-group1">
         <div class="text-wrapper1">이번주 집중 시간</div>
-        <div class="div1">01:17:15</div>
+        <div class="div1">{{ weeklyFocusTime }}</div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import axios from "axios";
+import { ref, onMounted } from "vue";
+
 export default {
-  name: 'TodayFocus'
-}
+  setup() {
+    const weeklyFocusTime = ref("00:00:00");
+
+    const fetchFocusTime = async () => {
+      try {
+        const response = await axios.get(
+          "https://i11a707.p.ssafy.io:8082/dash/stats/focus-time",
+          {
+            params: {
+              period: "week",
+            },
+          }
+        );
+        console.log(response);
+        weeklyFocusTime.value = response.data.totalFocusTime;
+      } catch (error) {
+        console.error("데이터를 가져오는 중 오류 발생:", error);
+      }
+    };
+
+    onMounted(() => {
+      fetchFocusTime();
+    });
+
+    return {
+      weeklyFocusTime,
+    };
+  },
+};
 </script>
 
 <style scoped>

@@ -7,26 +7,38 @@
             <div class="chart4">
               <div class="div4">
                 <div class="ellipse4"></div>
-                <div class="text4">85%</div>
-                <img class="img4" alt="Ellipse" src="../static/img/ellipse-17-1.svg" />
+                <div class="text4">{{ dailyPercentile }}</div>
+                <img
+                  class="img4"
+                  alt="Ellipse"
+                  src="../static/img/ellipse-17-1.svg"
+                />
                 <div class="text-wrapper4">일간 백분위</div>
               </div>
             </div>
             <div class="overlap-wrapper4">
               <div class="overlap-4-2">
                 <div class="ellipse-4-2"></div>
-                <div class="text-4-2">85%</div>
+                <div class="text-4-2">{{ weeklyPercentile }}</div>
                 <div class="text-4-3">월간 백분위</div>
-                <img class="ellipse-4-3" alt="Ellipse" src="../static/img/ellipse-17-2.svg" />
+                <img
+                  class="ellipse-4-3"
+                  alt="Ellipse"
+                  src="../static/img/ellipse-17-2.svg"
+                />
               </div>
             </div>
           </div>
           <div class="overlap-group-wrapper4">
             <div class="overlap-4-3">
               <div class="ellipse-4-4"></div>
-              <div class="text-4-4">92%</div>
+              <div class="text-4-4">{{ monthlyPercentile }}</div>
               <div class="text-4-5">주간 백분위</div>
-              <img class="ellipse-4-5" alt="Ellipse" src="../static/img/ellipse-17.svg" />
+              <img
+                class="ellipse-4-5"
+                alt="Ellipse"
+                src="../static/img/ellipse-17.svg"
+              />
             </div>
           </div>
         </div>
@@ -36,6 +48,41 @@
 </template>
 
 <script>
+import axios from "axios";
+import { ref, onMounted } from "vue";
+
+export default {
+  setup() {
+    const dailyPercentile = ref("0%");
+    const weeklyPercentile = ref("0%");
+    const monthlyPercentile = ref("0%");
+
+    const fetchPercentile = async () => {
+      try {
+        const response = await axios.get(
+          "https://i11a707.p.ssafy.io:8082/dash/stats/focus-time/percent"
+        );
+        console.log(response);
+        dailyPercentile.value = response.data.dayPercent;
+        weeklyPercentile.value = response.data.weekPercent;
+        monthlyPercentile.value = response.data.monthPercent;
+      } catch (error) {
+        console.error("데이터를 가져오는 중 오류 발생:", error);
+        return 0;
+      }
+    };
+
+    onMounted(() => {
+      fetchPercentile();
+    });
+
+    return {
+      dailyPercentile,
+      weeklyPercentile,
+      monthlyPercentile,
+    };
+  },
+};
 </script>
 
 <style scoped>
