@@ -1,5 +1,5 @@
 <template>
-  <div class="box">
+  <div class="bigbox">
     <h2>타임라인</h2>
     <bar-chart class="chart" :data="chartData" :options="chartOptions"></bar-chart>
   </div>
@@ -8,63 +8,112 @@
 <script>
 import { Bar } from 'vue-chartjs';
 import { Chart, registerables } from 'chart.js';
-import { ref } from 'vue';
+import { reactive, onMounted, watchEffect } from 'vue';
 Chart.register(...registerables);
 
 export default {
   components: {
     'bar-chart': Bar
   },
-  data() {
-    return {
-      usageData: [10, 20, 30, 15, 25, 35, 10, 20, 30, 15, 25, 35, 10, 20, 30, 15, 25, 35, 10, 20, 56, 10, 20, 30],
-      chartData: {
-        labels: Array.from({ length: 24 }, (_, i) => i.toString()),
-        datasets: [{
-          label: 'Usage',
-          data: ref([10, 20, 30, 40, 60, 50]),
-          backgroundColor: [],
-        }]
-      },
-      chartOptions: {
-        scales: {
-          y: {
-            beginAtZero: true,
-            max: 60
+  setup() {
+    const usageData = [10, 20, 30, 15, 25, 35, 10, 20, 30, 15, 25, 35, 10, 20, 30, 15, 25, 35, 10, 20, 56, 10, 20, 30];
+    const chartData = reactive({
+      labels: Array.from({ length: 24 }, (_, i) => i.toString()),
+      datasets: [{
+        label: '집중 시간',
+        data: [],
+        backgroundColor: [],
+      }]
+    });
+
+    const chartOptions = reactive({
+      scales: {
+        x: {
+          ticks: {
+            maxRotation: 0,
+            minRotation: 0,
+            font: {
+              size: 12,
+              family: 'Arial'
+            },
+            padding: 5,
+          },
+          grid: {
+            display: false
           }
         },
-        plugins: {
-          legend: {
-            display: false
+        y: {
+          beginAtZero: true,
+          max: 60,
+          ticks: {
+            font: {
+              size: 12,
+              family: 'Arial'
+            },
+            padding: 5
+          },
+          grid: {
+            display: true
+          }
+        }
+      },
+      plugins: {
+        legend: {
+          display: false
+        },
+        tooltip: {
+          enabled: true,
+          mode: 'index',
+          intersect: true,
+          position: 'nearest',
+          callbacks: {
+            label: function(context) {
+              let label = context.dataset.label || '';
+              if (label) {
+                label += ': ';
+              }
+              if (context.parsed.y !== null) {
+                label += context.parsed.y;
+              }
+              return label;
+            }
           }
         }
       }
+    });
+
+    const updateChartData = () => {
+      const maxUsage = Math.max(...usageData);
+      chartData.datasets[0].data = usageData;
+      const maxUsageColor = '#FF000080'; // 빨간색 (50% 투명도)
+      const defaultColor = '#C0C0C080'; // 연회색 (50% 투명도)
+      chartData.datasets[0].backgroundColor = usageData.map(value => value === maxUsage ? maxUsageColor : defaultColor);
     };
-  },
-  mounted() {
-    this.updateChartData();
-  },
-  methods: {
-    updateChartData() {
-      const maxUsage = Math.max(...this.usageData);
-      this.chartData.datasets[0].data.value = this.usageData;
-      // 변경할 색상들
-      const maxUsageColor = 'rgba(0, 0, 0, 0)'; // 빨간색
-      const defaultColor = 'rgba(0, 0, 0, 0)'; // 연회색
-      this.chartData.datasets[0].backgroundColor = this.usageData.map(value => value === maxUsage ? maxUsageColor : defaultColor);
-    }
+
+    onMounted(() => {
+      updateChartData();
+    });
+
+    watchEffect(() => {
+      updateChartData();
+    });
+
+    return {
+      chartData,
+      chartOptions
+    };
   }
 };
 </script>
 
 <style scoped>
-.box {
-  height: 200px;
+.bigbox {
+  height: 400px;
   width: 644px;
 }
 
-.box canvas.chart {
-  height: 150px;
+.chart {
+  height: 50% ;
   width: 100% ;
   box-sizing: border-box !important;
 }
@@ -72,6 +121,6 @@ export default {
 h2 {
   color: #b0bec5;
   font-weight: 700;
-  margin-bottom: 20px;
+  margin-bottom: 0px;
 }
 </style>
