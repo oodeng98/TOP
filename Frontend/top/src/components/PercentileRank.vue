@@ -60,7 +60,7 @@ export default {
     const fetchPercentile = async () => {
       try {
         const response = await axios.get(
-          "https://i11a707.p.ssafy.io:8082/dash/stats/focus-time/percent"
+          "https://i11a707.p.ssafy.io/api/dash/stats/focus-time/percent"
         );
         console.log(response);
         dailyPercentile.value = response.data.dayPercent;
