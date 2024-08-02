@@ -201,7 +201,7 @@
 
 .box .title {
   height: 15px;
-  left: 29px;
+  left: 20px;
   position: absolute;
   top: 0;
   width: 169px;

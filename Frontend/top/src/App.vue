@@ -44,6 +44,11 @@
   <div>
     <TimeLine />
   </div>
+  <div>
+    <TodayAchievementTime />
+    <WeekAchievementTime />
+    <MonthAchievementTime />
+  </div>
 </template>
 
 
@@ -84,6 +89,10 @@ import CalendarCheck from './components/CalendarCheck.vue';
 import FocusTimeEachPrograms from './components/FocusTimeEachPrograms.vue';
 //11
 import TimeLine from './components/TimeLine.vue';
+//12
+import TodayAchievementTime from './components/TodayAchievementTime.vue';
+import WeekAchievementTime from './components/WeekAchievementTime.vue';
+import MonthAchievementTime from './components/MonthAchievementTime.vue';
 
 
 export default {
@@ -113,7 +122,10 @@ export default {
     HalfYearStreak,
     CalendarCheck,
     FocusTimeEachPrograms,
-    TimeLine, 
+    TimeLine,
+    TodayAchievementTime,
+    WeekAchievementTime,
+    MonthAchievementTime,
   }
 }
 </script>
