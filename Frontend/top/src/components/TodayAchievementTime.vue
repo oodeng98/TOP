@@ -2,17 +2,44 @@
   <div class="box6">
     <div class="element6">
       <div class="overlap-group6">
-        <div class="text6">4:00:00</div>
+        <div class="text6">{{ dailyTimeGoal }}</div>
         <div class="title-data6">일간 목표 시간</div>
       </div>
     </div>
   </div>
 </template>
 
-
 <script>
-</script>
+import axios from "axios";
+import { ref, onMounted } from "vue";
 
+export default {
+  setup() {
+    const dailyTimeGoal = ref("00:00:00");
+
+    const fetchTimeGoal = async () => {
+      try {
+        const response = await axios.get(
+          "https://i11a707.p.ssafy.io/api/focus-time/goal"
+        );
+        if (response.data.timeGoal) {
+          dailyTimeGoal.value = response.data.timeGoal;
+        }
+      } catch (error) {
+        console.error("데이터를 가져오는 중 오류 발생:", error);
+      }
+    };
+
+    onMounted(() => {
+      fetchTimeGoal();
+    });
+
+    return {
+      dailyTimeGoal,
+    };
+  },
+};
+</script>
 
 <style scoped>
 .box6 {

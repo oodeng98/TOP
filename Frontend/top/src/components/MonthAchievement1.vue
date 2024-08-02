@@ -48,8 +48,10 @@ export default {
         const response = await axios.get(
           "https://i11a707.p.ssafy.io:8082/focus-time/goal"
         );
-        console.log(response);
-        const timeGoal = timeStringToSeconds(response.data.timeGoal);
+        let timeGoal = timeStringToSeconds("00:00:01");
+        if (response.data.timeGoal) {
+          timeGoal = timeStringToSeconds(response.data.timeGoal);
+        }
         return timeGoal;
       } catch (error) {
         console.error("데이터를 가져오는 중 오류 발생:", error);

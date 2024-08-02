@@ -49,21 +49,21 @@ export default {
             },
           }
         );
-        console.log(response);
 
-        const lastTotalFocusTime = timeStringToSeconds(
-          response.data.lastTotalFocusTime
-        );
-        const totalFocusTime = timeStringToSeconds(
-          response.data.totalFocusTime
-        );
-
-        weeklyFocusTime.value = response.data.totalFocusTime;
-        const timeDifferenceInSeconds = totalFocusTime - lastTotalFocusTime;
-        const sign = timeDifferenceInSeconds >= 0 ? "+" : "-";
-        focusTimeDifference.value = `${sign} ${secondsToTimeString(
-          timeDifferenceInSeconds
-        )}`;
+        if (response.data.lastTotalFocusTime) {
+          const lastTotalFocusTime = timeStringToSeconds(
+            response.data.lastTotalFocusTime
+          );
+          const totalFocusTime = timeStringToSeconds(
+            response.data.totalFocusTime
+          );
+          weeklyFocusTime.value = response.data.totalFocusTime;
+          const timeDifferenceInSeconds = totalFocusTime - lastTotalFocusTime;
+          const sign = timeDifferenceInSeconds >= 0 ? "+" : "-";
+          focusTimeDifference.value = `${sign} ${secondsToTimeString(
+            timeDifferenceInSeconds
+          )}`;
+        }
       } catch (error) {
         console.error("데이터를 가져오는 중 오류 발생:", error);
       }
