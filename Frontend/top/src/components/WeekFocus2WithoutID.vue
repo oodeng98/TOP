@@ -30,10 +30,11 @@ export default {
             },
           }
         );
-        console.log(response);
-        weeklyFocusTime.value = response.data.totalFocusTime;
+        if (response.data.totalFocusTime) {
+          weeklyFocusTime.value = response.data.totalFocusTime;
+        }
       } catch (error) {
-        console.error("데이터를 가져오는 중 오류 발생:", error);
+        console.error("어쩌구데이터를 가져오는 중 오류 발생:", error);
       }
     };
 
