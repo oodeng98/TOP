@@ -162,7 +162,7 @@
 }
 
 .box .soft-UI-XD-6 {
-  height: 240px;
+  height: 34px;
   left: 0;
   position: absolute;
   top: 240px;

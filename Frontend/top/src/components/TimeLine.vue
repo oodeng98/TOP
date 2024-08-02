@@ -1,13 +1,14 @@
 <template>
-  <div>
+  <div class="box">
     <h2>타임라인</h2>
-    <bar-chart :data="chartData" :options="chartOptions"></bar-chart>
+    <bar-chart class="chart" :data="chartData" :options="chartOptions"></bar-chart>
   </div>
 </template>
 
 <script>
 import { Bar } from 'vue-chartjs';
 import { Chart, registerables } from 'chart.js';
+import { ref } from 'vue';
 Chart.register(...registerables);
 
 export default {
@@ -21,7 +22,7 @@ export default {
         labels: Array.from({ length: 24 }, (_, i) => i.toString()),
         datasets: [{
           label: 'Usage',
-          data: [10, 20, 30, 40, 50, 60],
+          data: ref([10, 20, 30, 40, 60, 50]),
           backgroundColor: [],
         }]
       },
@@ -46,7 +47,7 @@ export default {
   methods: {
     updateChartData() {
       const maxUsage = Math.max(...this.usageData);
-      this.chartData.datasets[0].data = this.usageData;
+      this.chartData.datasets[0].data.value = this.usageData;
       // 변경할 색상들
       const maxUsageColor = 'rgba(0, 0, 0, 0)'; // 빨간색
       const defaultColor = 'rgba(0, 0, 0, 0)'; // 연회색
@@ -56,7 +57,18 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+.box {
+  height: 200px;
+  width: 644px;
+}
+
+.box canvas.chart {
+  height: 150px;
+  width: 100% ;
+  box-sizing: border-box !important;
+}
+
 h2 {
   color: #b0bec5;
   font-weight: 700;
