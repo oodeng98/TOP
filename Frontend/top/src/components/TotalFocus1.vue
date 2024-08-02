@@ -20,7 +20,7 @@ export default {
     const fetchFocusTime = async () => {
       try {
         const response = await axios.get(
-          "https://i11a707.p.ssafy.io:8082/dash/stats/focus-time/total"
+          "https://i11a707.p.ssafy.io/api/dash/stats/focus-time/total"
         );
         console.log(response);
         totalFocusTime.value = response.data.totalFocusTime;

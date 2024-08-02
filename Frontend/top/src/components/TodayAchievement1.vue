@@ -25,7 +25,7 @@ export default {
     const fetchFocusTime = async () => {
       try {
         const response = await axios.get(
-          "https://i11a707.p.ssafy.io:8082/dash/stats/focus-time",
+          "https://i11a707.p.ssafy.io/api/dash/stats/focus-time",
           {
             params: {
               period: "day",
@@ -46,7 +46,7 @@ export default {
     const fetchTimeGoal = async () => {
       try {
         const response = await axios.get(
-          "https://i11a707.p.ssafy.io:8082/focus-time/goal"
+          "https://i11a707.p.ssafy.io/api/focus-time/goal"
         );
         console.log(response);
         const timeGoal = timeStringToSeconds(response.data.timeGoal);
