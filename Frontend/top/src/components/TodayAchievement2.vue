@@ -113,8 +113,7 @@ export default {
 <style scoped>
 .goal-container {
   text-align: center;
-  height: 200px;
-  width: 161px;
+  height: 100%; /* 부모 요소의 높이를 100%로 설정 */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -122,8 +121,7 @@ export default {
 }
 
 .goal-chart {
-  width: 100%;
-  height: 100%;
+  width: 150px; /* 원하는 크기로 설정 */
 }
 
 .circular-chart {

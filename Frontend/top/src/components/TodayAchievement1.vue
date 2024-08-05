@@ -1,10 +1,8 @@
 <template>
   <div class="box6">
-    <div class="element6">
-      <div class="overlap-group6">
-        <div class="text6">{{ dailyAchievement }}</div>
-        <div class="title-data6">일간 목표 달성률</div>
-      </div>
+    <div class="overlap-group6">
+      <div class="title-data6">일간 목표 달성률</div>
+      <div class="text6">{{ dailyAchievement }}</div>
     </div>
   </div>
 </template>
@@ -95,37 +93,19 @@ export default {
 <style scoped>
 .box6 {
   height: 100px;
-  width: 161px;
-}
-
-.box6 .element6 {
-  height: 100px;
-  left: 0;
-  top: 0;
-  width: 165px;
+  width: 100%;
 }
 
 .box6 .overlap-group6 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   background-color: #ffffff;
   border-radius: 15px;
   box-shadow: 0px 3.5px 5.5px #00000005;
   height: 100px;
-  position: relative;
-  width: 161px;
-}
-
-.box6 .text6 {
-  color: #1d1a1a;
-  font-family: "Helvetica-BoldOblique", Helvetica;
-  font-size: 30px;
-  font-weight: 700;
-  left: 40px;
-  letter-spacing: 0.38px;
-  line-height: 24px;
-  position: absolute;
-  top: 45px;
-  white-space: nowrap;
-  width: 63px;
+  width: 100%;
 }
 
 .box6 .title-data6 {
@@ -133,11 +113,19 @@ export default {
   font-family: "Helvetica-BoldOblique", Helvetica;
   font-size: 14px;
   font-weight: 700;
-  left: 16px;
   letter-spacing: 0.5px;
   line-height: 22px;
-  position: absolute;
-  top: 8px;
+  white-space: nowrap;
+  margin-bottom: 8px; /* 텍스트 간격을 위해 추가 */
+}
+
+.box6 .text6 {
+  color: #1d1a1a;
+  font-family: "Helvetica-BoldOblique", Helvetica;
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: 0.38px;
+  line-height: 24px;
   white-space: nowrap;
 }
 </style>

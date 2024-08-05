@@ -1,7 +1,13 @@
 <template>
   <div class="timer">
-    <h2>Timer</h2>
-    <input type="text" v-model="category" placeholder="카테고리를 입력해주세요">
+    <div class="timer-header">
+      <h2>Timer</h2>
+      <input
+        type="text"
+        v-model="category"
+        placeholder="카테고리를 입력해주세요"
+      />
+    </div>
     <p v-if="warningMessage" class="warning">{{ warningMessage }}</p>
     <p>{{ formattedTime }}</p>
     <button @click="startTimer">집중 시작</button>
@@ -11,32 +17,35 @@
 </template>
 
 <script>
-import axios from 'axios';
+import axios from "axios";
 
 export default {
   data() {
     return {
       time: 0,
       timer: null,
-      category: '',
-      warningMessage: ''
+      category: "",
+      warningMessage: "",
     };
   },
   computed: {
     formattedTime() {
-      const hours = String(Math.floor(this.time / 3600)).padStart(2, '0');
-      const minutes = String(Math.floor((this.time % 3600) / 60)).padStart(2, '0');
-      const seconds = String(this.time % 60).padStart(2, '0');
+      const hours = String(Math.floor(this.time / 3600)).padStart(2, "0");
+      const minutes = String(Math.floor((this.time % 3600) / 60)).padStart(
+        2,
+        "0"
+      );
+      const seconds = String(this.time % 60).padStart(2, "0");
       return `${hours}:${minutes}:${seconds}`;
-    }
+    },
   },
   methods: {
     startTimer() {
       if (!this.category) {
-        this.warningMessage = '카테고리를 입력해주세요';
+        this.warningMessage = "카테고리를 입력해주세요";
         return;
       }
-      this.warningMessage = '';
+      this.warningMessage = "";
       if (this.timer === null) {
         this.timer = setInterval(() => {
           this.time++;
@@ -49,53 +58,56 @@ export default {
     },
     async saveTime() {
       if (!this.category) {
-        this.warningMessage = '카테고리를 입력해주세요';
+        this.warningMessage = "카테고리를 입력해주세요";
         return;
       }
       try {
-        await axios.post('임시 url', {
+        await axios.post("임시 url", {
           category: this.category,
-          time: this.time
+          time: this.time,
         });
-        this.warningMessage = '집중 시간이 저장되었습니다.'
+        this.warningMessage = "집중 시간이 저장되었습니다.";
         this.resetTimer();
-      } catch(error) {
-        this.warningMessage = '집중 시간 저장에 실패했습니다. 다시 시도해주세요.'
+      } catch (error) {
+        this.warningMessage =
+          "집중 시간 저장에 실패했습니다. 다시 시도해주세요.";
       }
     },
     resetTimer() {
       this.stopTimer();
-      this.this.time=0;
-      this.category = '';
-      this.warningMessage = '';
+      this.time = 0;
+      this.category = "";
+      this.warningMessage = "";
     },
   },
   beforeUnmount() {
     this.stopTimer();
-  }
+  },
 };
-
-
-
 </script>
 
 <style scoped>
 .timer {
   text-align: center;
-  margin-top: 20px;
+  margin-top: 0px;
   font-family: Arial, sans-serif;
-  height: 300px;
-  width: 483px;
+  height: 100%;
+  width: 100%;
 }
 
-.timer h2 {
+.timer-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.timer-header h2 {
   color: #b0bec5;
   font-weight: 700;
-  margin-bottom: 20px;
+  margin-right: 10px; /* 여백 추가 */
 }
 
 .timer input {
-  margin-bottom: 20px;
   padding: 10px;
   font-size: 16px;
   border: 1px solid #ccc;
