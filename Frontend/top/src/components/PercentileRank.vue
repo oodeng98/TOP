@@ -63,11 +63,12 @@ export default {
           "https://i11a707.p.ssafy.io/api/dash/stats/focus-time/percent"
         );
         console.log(response);
-        dailyPercentile.value = response.data.dayPercent;
-        weeklyPercentile.value = response.data.weekPercent;
-        monthlyPercentile.value = response.data.monthPercent;
+        console.log("PercentileRank");
+        dailyPercentile.value = response.data.data.dayPercent;
+        weeklyPercentile.value = response.data.data.weekPercent;
+        monthlyPercentile.value = response.data.data.monthPercent;
       } catch (error) {
-        console.error("데이터를 가져오는 중 오류 발생:", error);
+        console.error("PercentileRank 데이터를 가져오는 중 오류 발생:", error);
         return 0;
       }
     };

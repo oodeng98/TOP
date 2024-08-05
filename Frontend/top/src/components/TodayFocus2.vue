@@ -49,14 +49,14 @@ export default {
             },
           }
         );
-        if (response.data.lastTotalFocusTime) {
+        if (response.data.data.lastTotalFocusTime) {
           const lastTotalFocusTime = timeStringToSeconds(
-            response.data.lastTotalFocusTime
+            response.data.data.lastTotalFocusTime
           );
           const totalFocusTime = timeStringToSeconds(
-            response.data.totalFocusTime
+            response.data.data.totalFocusTime
           );
-          dailyFocusTime.value = response.data.totalFocusTime;
+          dailyFocusTime.value = response.data.data.totalFocusTime;
           const timeDifferenceInSeconds = totalFocusTime - lastTotalFocusTime;
           const sign = timeDifferenceInSeconds >= 0 ? "+" : "-";
           focusTimeDifference.value = `${sign} ${secondsToTimeString(
@@ -64,10 +64,7 @@ export default {
           )}`;
         }
       } catch (error) {
-        console.error(
-          "TodayFocus2.vue에서 데이터를 가져오는 중 오류 발생:",
-          error
-        );
+        console.error("TodayFocus2 데이터를 가져오는 중 오류 발생:", error);
       }
     };
 

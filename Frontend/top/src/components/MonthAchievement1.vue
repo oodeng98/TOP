@@ -32,13 +32,15 @@ export default {
             },
           }
         );
-        console.log(response);
         const monthlyFocusTime = timeStringToSeconds(
-          response.data.totalFocusTime
+          response.data.data.totalFocusTime
         );
         return monthlyFocusTime;
       } catch (error) {
-        console.error("데이터를 가져오는 중 오류 발생:", error);
+        console.error(
+          "MonthAchievement1 데이터를 가져오는 중 오류 발생1:",
+          error
+        );
         return 0;
       }
     };
@@ -46,15 +48,18 @@ export default {
     const fetchTimeGoal = async () => {
       try {
         const response = await axios.get(
-          "https://i11a707.p.ssafy.io:8082/focus-time/goal"
+          "https://i11a707.p.ssafy.io/api/focus-time/goal"
         );
-        let timeGoal = timeStringToSeconds("00:00:01");
-        if (response.data.timeGoal) {
-          timeGoal = timeStringToSeconds(response.data.timeGoal);
+        let timeGoal = 1;
+        if (response.data.data.timeGoal) {
+          timeGoal = response.data.data.timeGoal * 60;
         }
         return timeGoal;
       } catch (error) {
-        console.error("데이터를 가져오는 중 오류 발생:", error);
+        console.error(
+          "MonthAchievement1 데이터를 가져오는 중 오류 발생2:",
+          error
+        );
         return 0;
       }
     };
@@ -65,9 +70,13 @@ export default {
 
       if (timeGoal > 0) {
         const achievementRate = (monthlyFocusTime / timeGoal) * 100;
-        monthlyAchievement.value = `${achievementRate.toFixed(2)}%`;
+        if (achievementRate <= 100) {
+          monthlyAchievement.value = `${achievementRate.toFixed(2)}%`;
+        } else {
+          monthlyAchievement.value = "100%";
+        }
       } else {
-        monthlyAchievement.value = "0%";
+        monthlyAchievement.value = "0.00%";
       }
     };
 
