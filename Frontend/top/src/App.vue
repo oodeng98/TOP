@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <template>
   <div>
     <TodayFocus1 />
@@ -131,5 +130,3 @@ export default {
   margin-top: 60px;
 }
 </style>
-=======
->>>>>>> d34c23824b36cfc2b4cfc9672933f27ce2c1d93d
