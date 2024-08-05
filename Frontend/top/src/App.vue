@@ -40,6 +40,7 @@
   </div>
   <div>
     <FocusTimeEachPrograms />
+    <FocusTimeEachProgramsPrecentage />
   </div>
   <div>
     <TimeLine />
@@ -85,7 +86,8 @@ import HalfYearStreak from "./components/HalfYearStreak.vue";
 //9
 import CalendarCheck from "./components/CalendarCheck.vue";
 //10
-import FocusTimeEachPrograms from "./components/FocusTimeEachPrograms.vue";
+import FocusTimeEachPrograms from './components/FocusTimeEachPrograms.vue';
+import FocusTimeEachProgramsPrecentage from './components/FocusTimeEachProgramsPrecentage.vue';
 //11
 import TimeLine from "./components/TimeLine.vue";
 //12
@@ -120,6 +122,7 @@ export default {
     HalfYearStreak,
     CalendarCheck,
     FocusTimeEachPrograms,
+    FocusTimeEachProgramsPrecentage,
     TimeLine,
     TodayAchievementTime,
     WeekAchievementTime,

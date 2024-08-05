@@ -7,7 +7,7 @@
         <div
           v-for="(day, dayIndex) in week"
           :key="dayIndex"
-          :class="['day', { active: day }]"
+          :class="['day', { active: day.active }]"
         ></div>
       </div>
     </div>
@@ -15,20 +15,44 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   name: "CalendarStreak",
   data() {
     return {
       days: ["S", "M", "T", "W", "T", "F", "S"],
-      weeks: [
-        [false, true, false, false, false, true, false],
-        [true, false, true, false, true, false, true],
-        [false, true, false, true, false, true, false],
-        [true, false, true, false, true, false, true],
-        [false, true, false, false, false, true, false],
-      ],
+      weeks: Array(5).fill(Array(7).fill({ active: false })),
     };
   },
+  methods: {
+    async fetchStreakData() {
+      try {
+        const response = await axios.get('/api/dash/streak', {
+          params: { month: 1 }
+        });
+        const focusTimeList = response.data.data.focusTimeList;
+
+        const updatedWeeks = this.weeks.map((week, weekIndex) => 
+          week.map((day, dayIndex) => {
+            const dateString = new Date(2023, 6, weekIndex * 7 + dayIndex + 1)
+              .toISOString()
+              .slice(5, 10);
+            const focusTimeEntry = focusTimeList.find(
+              (entry) => entry.day === dateString
+            );
+            return { active: focusTimeEntry ? focusTimeEntry.focusTime > 0 : false };
+          })
+        );
+        this.weeks = updatedWeeks;
+      } catch (error) {
+        console.error('Error fetching streak data:', error);
+      }
+    }
+  },
+  mounted() {
+    this.fetchStreakData();
+  }
 };
 </script>
 

@@ -6,11 +6,13 @@
     <p>{{ formattedTime }}</p>
     <button @click="startTimer">집중 시작</button>
     <button @click="stopTimer">일시 정지</button>
-    <button @click="resetTimer">시간 저장</button>
+    <button @click="saveTime">시간 저장</button>
   </div>
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   data() {
     return {
@@ -45,21 +47,36 @@ export default {
       clearInterval(this.timer);
       this.timer = null;
     },
-    resetTimer() {
+    async saveTime() {
       if (!this.category) {
         this.warningMessage = '카테고리를 입력해주세요';
         return;
       }
-      this.warningMessage = '';
-      this.category = '';
+      try {
+        await axios.post('임시 url', {
+          category: this.category,
+          time: this.time
+        });
+        this.warningMessage = '집중 시간이 저장되었습니다.'
+        this.resetTimer();
+      } catch(error) {
+        this.warningMessage = '집중 시간 저장에 실패했습니다. 다시 시도해주세요.'
+      }
+    },
+    resetTimer() {
       this.stopTimer();
-      this.time = 0;
-    }
+      this.this.time=0;
+      this.category = '';
+      this.warningMessage = '';
+    },
   },
   beforeUnmount() {
     this.stopTimer();
   }
 };
+
+
+
 </script>
 
 <style scoped>
