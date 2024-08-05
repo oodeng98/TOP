@@ -3,7 +3,7 @@
     <div class="element2">
       <div class="overlap-group2">
         <div class="text-wrapper2">오늘의 집중 시간</div>
-        <div class="div2">01:17:15</div>
+        <div class="div2">{{ dailyFocusTime }}</div>
         <div class="icon2">
           <Default class="ionicon-w-wallet2" />
         </div>
@@ -13,11 +13,43 @@
 </template>
 
 <script>
+import axios from "axios";
+import { ref, onMounted } from "vue";
+
+export default {
+  setup() {
+    const dailyFocusTime = ref("00:00:00");
+
+    const fetchFocusTime = async () => {
+      try {
+        const response = await axios.get(
+          "https://i11a707.p.ssafy.io:8082/dash/stats/focus-time",
+          {
+            params: {
+              period: "day",
+            },
+          }
+        );
+        console.log(response);
+        dailyFocusTime.value = response.data.totalFocusTime;
+      } catch (error) {
+        console.error("데이터를 가져오는 중 오류 발생:", error);
+      }
+    };
+
+    onMounted(() => {
+      fetchFocusTime();
+    });
+
+    return {
+      dailyFocusTime,
+    };
+  },
+};
 </script>
 
-
 <style scoped>
-  .box2 {
+.box2 {
   height: 100px;
   width: 322px;
 }
@@ -82,6 +114,4 @@
   top: 14px !important;
   width: 31px !important;
 }
-
 </style>
-  

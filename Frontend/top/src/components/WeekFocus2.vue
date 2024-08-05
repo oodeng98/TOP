@@ -2,10 +2,10 @@
   <div class="box3">
     <div class="element3">
       <div class="overlap-group3">
-        <div class="text-wrapper3">오늘의 집중 시간</div>
+        <div class="text-wrapper3">이번주 집중 시간</div>
         <div class="overlap3">
-          <div class="div3">01:17:15</div>
-          <div class="text-wrapper-3">+ 01:17:15</div>
+          <div class="div3">{{ weeklyFocusTime }}</div>
+          <div class="text-wrapper-3">{{ focusTimeDifference }}</div>
         </div>
         <div class="icon3">
           <Default class="ionicon-w-wallet3" />
@@ -16,6 +16,69 @@
 </template>
 
 <script>
+import axios from "axios";
+import { ref, onMounted } from "vue";
+
+export default {
+  setup() {
+    const weeklyFocusTime = ref("00:00:00");
+    const focusTimeDifference = ref("+ 00:00:00");
+
+    const timeStringToSeconds = (timeString) => {
+      const [hours, minutes, seconds] = timeString.split(":").map(Number);
+      return hours * 3600 + minutes * 60 + seconds;
+    };
+
+    const secondsToTimeString = (totalSeconds) => {
+      const hours = Math.floor(Math.abs(totalSeconds) / 3600);
+      const minutes = Math.floor((Math.abs(totalSeconds) % 3600) / 60);
+      const seconds = Math.abs(totalSeconds) % 60;
+      return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(
+        2,
+        "0"
+      )}:${String(seconds).padStart(2, "0")}`;
+    };
+
+    const fetchFocusTime = async () => {
+      try {
+        const response = await axios.get(
+          "https://i11a707.p.ssafy.io:8082/dash/stats/focus-time",
+          {
+            params: {
+              period: "week",
+            },
+          }
+        );
+        console.log(response);
+
+        const lastTotalFocusTime = timeStringToSeconds(
+          response.data.lastTotalFocusTime
+        );
+        const totalFocusTime = timeStringToSeconds(
+          response.data.totalFocusTime
+        );
+
+        weeklyFocusTime.value = response.data.totalFocusTime;
+        const timeDifferenceInSeconds = totalFocusTime - lastTotalFocusTime;
+        const sign = timeDifferenceInSeconds >= 0 ? "+" : "-";
+        focusTimeDifference.value = `${sign} ${secondsToTimeString(
+          timeDifferenceInSeconds
+        )}`;
+      } catch (error) {
+        console.error("데이터를 가져오는 중 오류 발생:", error);
+      }
+    };
+
+    onMounted(() => {
+      fetchFocusTime();
+    });
+
+    return {
+      weeklyFocusTime,
+      focusTimeDifference,
+    };
+  },
+};
 </script>
 
 <style scoped>
