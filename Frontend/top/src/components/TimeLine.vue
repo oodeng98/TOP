@@ -16,6 +16,7 @@ export default {
     'bar-chart': Bar
   },
   setup() {
+    // 이곳에 데이터가 들어가야 한다.
     const usageData = [10, 20, 30, 15, 25, 35, 10, 20, 30, 15, 25, 35, 10, 20, 30, 15, 25, 35, 10, 20, 0, 10, 20, 30];
     const chartData = reactive({
       labels: Array.from({ length: 24 }, (_, i) => i.toString()),
@@ -85,8 +86,8 @@ export default {
     const updateChartData = () => {
       const maxUsage = Math.max(...usageData);
       chartData.datasets[0].data = usageData;
-      const maxUsageColor = '#FF000080'; // 빨간색 (50% 투명도)
-      const defaultColor = '#C0C0C080'; // 연회색 (50% 투명도)
+      const maxUsageColor = '#5865f2'; // 빨간색 (50% 투명도)
+      const defaultColor = '#c6d1ff'; // 연회색 (50% 투명도)
       chartData.datasets[0].backgroundColor = usageData.map(value => value === maxUsage ? maxUsageColor : defaultColor);
     };
 
@@ -113,7 +114,7 @@ export default {
 }
 
 .chart {
-  height:  ;
+  height: 100%;
   width: 100% ;
   box-sizing: border-box !important;
 }

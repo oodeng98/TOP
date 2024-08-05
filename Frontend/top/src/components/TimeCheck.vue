@@ -60,6 +60,8 @@ export default {
     this.stopTimer();
   }
 };
+
+
 </script>
 
 <style scoped>
