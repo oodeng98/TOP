@@ -1,5 +1,6 @@
 <template>
   <div>
+    <BannedProgramList />
     <TodayFocus1 />
     <WeekFocus1 />
     <MonthFocus1 />
@@ -49,6 +50,7 @@
 
 <script>
 
+import BannedProgramList from "./components/BannedProgramList.vue";
 // 1
 import TodayFocus1 from "./components/TodayFocus1.vue";
 import WeekFocus1 from "./components/WeekFocus1.vue";
@@ -90,6 +92,7 @@ import TimeLine from "./components/TimeLine.vue";
 export default {
   name: "App",
   components: {
+    BannedProgramList,
     TodayFocus1,
     WeekFocus1,
     MonthFocus1,

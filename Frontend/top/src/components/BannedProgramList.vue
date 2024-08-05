@@ -9,11 +9,13 @@
         placeholder="프로그램/URL 입력"
         v-model="banprogram"
         />
-        <button type="submit" class="image-button image-button-plus"><img src="../../static/img/PlusCircle.svg" alt="추가"></button>
+        <!-- <button type="submit" class="image-button image-button-plus"><img src="../../static/img/PlusCircle.svg" alt="추가"></button> -->
+        <button type="submit" class="image-button image-button-plus"><img src=# alt="#"></button>
       </form>
       <div class="kebob-icon">
-        <button type="submit">:</button>
-        <!-- <MoreVert1 /> 아이콘 추가 -->
+        <button type="submit" class="image-button">
+          <MoreVert1 />
+        </button>
       </div>
     </div>
     <div class="pass-list">
@@ -26,10 +28,11 @@
         <li v-for="(program, index) in bannedList" :key="index" class="li-relative">
           <div class="between">
             <div style="font-weight: 700;">{{ program.url }}</div>
-            <div class="focus-time">{{ program.sessionTime  }}</div>
+            <div class="focus-time">{{ formatTime(program.sessionTime) }}</div>
           </div>
           <form @submit.prevent="removeprogram(index)">
-            <button type="submit" class="image-button image-button-minus"><img src="../../static/img/DeleteCircle.svg" alt="삭제"></button>
+            <!-- <button type="submit" class="image-button image-button-minus"><img src="../../static/img/DeleteCircle.svg" alt="삭제"></button> -->
+            <button type="submit" class="image-button image-button-minus"><img src="#" alt="#"></button>
           </form>
           <hr/>
         </li>
@@ -39,20 +42,18 @@
 </template>
 
 <script>
-// import MoreVert1 from "./icons/MoreVert1/MoreVert1.vue"; // 땡땡땡 아이콘
-// import { axios } from 'axios';
+import MoreVert1 from "../icons/MoreVert1/MoreVert1.vue"; // 땡땡땡 아이콘
+import { axios } from 'axios';
 
 export default {
-  // name: "App",
-  // components: {
-  //   MoreVert1,
-  // }
+  name: "App",
+  components: {
+    MoreVert1,
+  },
   data() {
     return {
       banprogram: "",
       bannedList: [],
-      startTime: null,
-      sessionTime: 0,
       interval: null,
       isActive: true,
       targetUrls: [],
@@ -63,99 +64,129 @@ export default {
     // 금지 프로그램 목록 불러오기
     // async fetchProgramLists() {
     //   try {
-    //       const response = await axios.get('https://i11a707.p.ssafy.io/api/focus-time/ban');
-    //       this.bannedList = response.data;
-    //       console.log(this.bannedList);
+    //     const response = await axios.get('https://i11a707.p.ssafy.io/api/focus-time/ban');
+    //     this.bannedList = response.data.map(program => ({
+    //       ...program,
+    //       startTime: null,
+    //       sessionTime: 0
+    //     }));
     //   } catch (error) {
-    //       console.log('Error to fetchdata:' , error);
+    //     console.log('Error to fetch data:', error);
     //   }
     // },
           
-      // 금지프로그램 저장
+    // 금지프로그램 저장
     // async addprogram() {
     //   if (this.banprogram.trim() !== '') {
     //     try {
-    //         await axios.post('https://i11a707.p.ssafy.io/api/focus-time/ban',
-    //         { url: this.banprogram.trim(),
-    //           sessionTime: 0,
-    //         });
-    //         this.banprogram = '';
-    //         this.fetchProgramLists();
+    //       await axios.post('https://i11a707.p.ssafy.io/api/focus-time/ban', {
+    //         url: this.banprogram.trim(),
+    //         sessionTime: 0,
+    //       });
+    //       this.banprogram = '';
+    //       this.fetchProgramLists();
     //     } catch (error) {
-    //         console.log('Error adding program: ', error);
-    //       }
+    //       console.log('Error adding program:', error);
+    //     }
     //   }
     // },
+
     // 금지 프로그램 저장(axios 안쓰는거)
     addprogram() {
       if (this.banprogram.trim() !== "") {
-        this.bannedList.push ({
+        this.bannedList.push ({ // bannedList: []
           url:this.banprogram.trim(),
-          sessionTime: this.sessionTime
+          sessionTime: 0
         });
-        this.targetUrls.push(this.banprogram.trim());
+        this.targetUrls.push(this.banprogram.trim()); // targetUrls: []
         this.banprogram = "";
       }
     },
+
     // 금지프로그램 삭제
-    removeprogram(index) {
-      this.bannedList.splice(index, 1);
-      this.targetUrls.splice(index, 1);
+    async removeprogram(index) {
+      const program = this.bannedList[index];
+      try {
+        await axios.delete('https://i11a707.p.ssafy.io/api/focus-time/ban');
+        this.bannedList.splice(index, 1);
+      } catch (error) {
+        console.log('Error removing program:', error);
+      }
     },
+    // 금지프로그램 삭제 (non axios)
+    // removeprogram(index) {
+    //   this.bannedList.splice(index, 1);
+    //   this.targetUrls.splice(index, 1);
+    // },
+
     // 창 열리면 시간측정함
-    startSession() {
-      this.startTime = new Date();
-      this.interval = setInterval(() => {
-        if (this.isActive && this.startTime) {
-          const now = new Date();
-          this.sessionTime = Math.floor((now - this.startTime) / 1000); // 시간(초)
-        }
-      }, 1000);
+    startSession(url) {
+      const program = this.bannedList.find(prog => prog.url === url);
+      if (program) {
+        program.startTime = new Date();
+        this.interval = setInterval(() => {
+          if (this.isActive && program.startTime) {
+            const now = new Date();
+            program.sessionTime = Math.floor((now - program.startTime) / 1000); // 시간(초)
+          }
+        }, 1000);
+      }
     },
 
-    endSession() {
-      if (this.interval) {
+    endSession(url) {
+      const program = this.bannedList.find(prog => prog.url === url);
+      if (program && this.interval) {
         clearInterval(this.interval);
         this.interval = null;
-        this.sendSessionTime();
+        this.sendSessionTime(program);
       }
     },
 
     handleVisibilityChange() {
       const currentUrl = window.location.href;
-      this.isActive = this.targetUrls.some(url => currentUrl.includes(url));
-      if (this.isActive && !this.startTime) {
-        this.startSession();
-      } else if (!this.isActive && this.startTime) {
-        this.endSession();
+      this.isActive = this.bannedList.some(program => currentUrl.includes(program.url));
+      const activeProgram = this.bannedList.find(program => currentUrl.includes(program.url));
+
+      if (this.isActive && activeProgram && !activeProgram.startTime) {
+        this.startSession(activeProgram.url);
+      } else if (!this.isActive && activeProgram && activeProgram.startTime) {
+        this.endSession(activeProgram.url);
       }
     },
 
-  //   async sendSessionTime() {
-  //     if (this.startTime) {
-  //       const sessionDuration = Math.floor((new Date() - this.startTime) / 1000); // 시간(초)
-  //       try {
-  //         await axios.put('https://i11a707.p.ssafy.io/api/focus-time/ban', {
-  //           url: window.location.href,
-  //           sessionTime: sessionDuration,
-  //         });
-  //       } catch (error) {
-  //         console.error('Error logging session:', error);
-  //       }
-  //     }
-  //   },
-  // },
-},
+    async sendSessionTime(program) {
+      if (program.startTime) {
+        const sessionDuration = Math.floor((new Date() - program.startTime) / 1000); // 시간(초)
+        try {
+          await axios.put('https://i11a707.p.ssafy.io/api/focus-time/ban', {
+            url: program.url,
+            sessionTime: sessionDuration,
+          });
+          program.startTime = null;
+          program.sessionTime = 0;
+        } catch (error) {
+          console.error('Error logging session:', error);
+        }
+      }
+    },
 
-created() {
-  document.addEventListener('visibilitychange', this.handleVisibilityChange);
-  // this.handleVisibilityChange(); // 초기 상태 확인
-},
+    formatTime(seconds) {
+      const hrs = Math.floor(seconds / 3600);
+      const mins = Math.floor((seconds % 3600) / 60);
+      const secs = seconds % 60;
+      return `${hrs.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    },
+  },
 
-beforeUnmount() {
-  document.removeEventListener('visibilitychange', this.handleVisibilityChange)
-  this.endSession(); // 컴포넌트가 파괴될 때 세션 종료
-}
+  created() {
+    document.addEventListener('visibilitychange', this.handleVisibilityChange);
+    // this.fetchProgramLists(); // 초기 상태 확인
+  },
+
+  beforeUnmount() {
+    document.removeEventListener('visibilitychange', this.handleVisibilityChange);
+    this.bannedList.forEach(program => this.endSession(program.url)); // 컴포넌트가 파괴될 때 모든 세션 종료
+  }
 }
 </script>
 
@@ -254,6 +285,7 @@ ul {
 .li-relative {
   position: relative;
 }
+
 .mid-font {
   font-family: "Helvetica-BoldOblique", Helvetica;
   color: #a0aec0;
