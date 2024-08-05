@@ -34,6 +34,7 @@
     <MonthStreakColumn />
     <MonthStreakRow />
     <HalfYearStreak />
+    <SixMonthStreak />
   </div>
   <div>
     <CalendarCheck />
@@ -47,6 +48,7 @@
 </template>
 
 <script>
+
 // 1
 import TodayFocus1 from "./components/TodayFocus1.vue";
 import WeekFocus1 from "./components/WeekFocus1.vue";
@@ -77,6 +79,7 @@ import TodayAchievement2 from "./components/TodayAchievement2.vue";
 import MonthStreakColumn from "./components/MonthStreakColumn.vue";
 import MonthStreakRow from "./components/MonthStreakRow.vue";
 import HalfYearStreak from "./components/HalfYearStreak.vue";
+import SixMonthStreak from "./components/SixMonthStreak.vue";
 //9
 import CalendarCheck from "./components/CalendarCheck.vue";
 //10
@@ -109,6 +112,7 @@ export default {
     MonthStreakColumn,
     MonthStreakRow,
     HalfYearStreak,
+    SixMonthStreak,
     CalendarCheck,
     FocusTimeEachPrograms,
     TimeLine,
