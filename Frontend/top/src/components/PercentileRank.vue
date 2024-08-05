@@ -90,6 +90,9 @@ export default {
 .subbox4 {
   height: 300px;
   width: 322px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .box4 {

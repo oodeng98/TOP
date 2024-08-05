@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <div>
     <TodayFocus1 />
     <WeekFocus1 />
@@ -127,6 +127,33 @@ export default {
     TodayAchievementTime,
     WeekAchievementTime,
     MonthAchievementTime,
+  },
+};
+</script>
+
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+</style> -->
+<template>
+  <div id="app" class="container">
+    <Dashboard />
+  </div>
+</template>
+
+<script>
+import Dashboard from "./components/Dashboard.vue";
+
+export default {
+  name: "App",
+  components: {
+    Dashboard,
   },
 };
 </script>
