@@ -28,7 +28,7 @@ export default {
   methods: {
     async fetchStreakData() {
       try {
-        const response = await axios.get('/api/dash/streak', {
+        const response = await axios.get('https://i11a707.p.ssafy.io/api/dash/streak', {
           params: { month: 1 }
         });
         const focusTimeList = response.data.data.focusTimeList;
