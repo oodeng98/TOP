@@ -27,11 +27,11 @@ export default {
             },
           }
         );
-        if (response.data.dailyFocusTime) {
-          weeklyFocusTime.value = response.data.totalFocusTime;
+        if (response.data.data.totalFocusTime) {
+          weeklyFocusTime.value = response.data.data.totalFocusTime;
         }
       } catch (error) {
-        console.error("데이터를 가져오는 중 오류 발생:", error);
+        console.error("WeekFocus1 데이터를 가져오는 중 오류 발생:", error);
       }
     };
 

@@ -51,13 +51,15 @@ export default {
         const response = await axios.get(
           "https://i11a707.p.ssafy.io/api/dash/stats/focus-time"
         );
+        console.log("FocusTimeEachPrograms");
+        console.log(response.data);
         if (response.status === 200 && response.data.statusCode === "200") {
           this.appList = response.data.data.appList;
         } else {
           console.error("Failed to fetch data:", response.data.message);
         }
       } catch (error) {
-        console.error("API request failed:", error);
+        console.error("FocusTimeEachPrograms API request failed:", error);
       }
     },
     formatTime(seconds) {

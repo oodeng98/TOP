@@ -32,13 +32,15 @@ export default {
             },
           }
         );
-        console.log(response);
         const weeklyFocusTime = timeStringToSeconds(
-          response.data.totalFocusTime
+          response.data.data.totalFocusTime
         );
         return weeklyFocusTime;
       } catch (error) {
-        console.error("데이터를 가져오는 중 오류 발생:", error);
+        console.error(
+          "WeekAchievement1 데이터를 가져오는 중 오류 발생1:",
+          error
+        );
         return 0;
       }
     };
@@ -48,13 +50,16 @@ export default {
         const response = await axios.get(
           "https://i11a707.p.ssafy.io/api/focus-time/goal"
         );
-        let timeGoal = timeStringToSeconds("00:00:01");
-        if (response.data.timeGoal) {
-          timeGoal = timeStringToSeconds(response.data.timeGoal);
+        let timeGoal = 1;
+        if (response.data.data.timeGoal) {
+          timeGoal = response.data.data.timeGoal * 60;
         }
         return timeGoal;
       } catch (error) {
-        console.error("week 데이터를 가져오는 중 오류 발생:", error);
+        console.error(
+          "WeekAchievement1 데이터를 가져오는 중 오류 발생2:",
+          error
+        );
         return 0;
       }
     };
@@ -65,9 +70,13 @@ export default {
 
       if (timeGoal > 0) {
         const achievementRate = (weeklyFocusTime / timeGoal) * 100;
-        weeklyAchievement.value = `${achievementRate.toFixed(2)}%`;
+        if (achievementRate <= 100) {
+          weeklyAchievement.value = `${achievementRate.toFixed(2)}%`;
+        } else {
+          weeklyAchievement.value = "100%";
+        }
       } else {
-        weeklyAchievement.value = "0%";
+        weeklyAchievement.value = "0.00%";
       }
     };
 
