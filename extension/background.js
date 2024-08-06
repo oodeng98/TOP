@@ -1,7 +1,7 @@
 let port = null;
 
 function connect() {
-  const hostName = "com.google.chrome.example.echo";
+  const hostName = "com.google.chrome.top";
   console.log("Connecting to native messaging host " + hostName);
   port = chrome.runtime.connectNative(hostName);
   port.onMessage.addListener(onNativeMessage);
