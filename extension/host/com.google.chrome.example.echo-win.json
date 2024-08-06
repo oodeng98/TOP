@@ -3,5 +3,5 @@
   "description": "Chrome Native Messaging API Example Host",
   "path": "native-messaging-example-host.bat",
   "type": "stdio",
-  "allowed_origins": ["chrome-extension://lhjblndehofnplnddbopabefdhoiomon/"]
+  "allowed_origins": ["chrome-extension://lfclhlffkodcjhhoblnpgnpbhlhabdag/"]
 }

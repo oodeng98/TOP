@@ -5,7 +5,7 @@ function appendMessage(text) {
   document.getElementById("response").innerHTML += "<p>" + text + "</p>";
 }
 
-function updateUiState() {
+function updateUiState() { // 3
   if (port) {
     document.getElementById("response").innerHTML += "<p>Connected</p>";
   } else {
@@ -13,13 +13,13 @@ function updateUiState() {
   }
 }
 
-function onDisconnected() {
+function onDisconnected() { // 4
   appendMessage("Failed to connect: " + chrome.runtime.lastError.message);
   port = null;
   updateUiState();
 }
 
-function connect() {
+function connect() { // 2
   const hostName = "com.google.chrome.example.echo";
   appendMessage("Connecting to native messaging host <b>" + hostName + "</b>");
   port = chrome.runtime.connectNative(hostName);
@@ -27,6 +27,6 @@ function connect() {
   updateUiState();
 }
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function () { // 1
   connect();
 });
