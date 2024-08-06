@@ -31,8 +31,8 @@ export default {
         const response = await axios.get('https://i11a707.p.ssafy.io/api/dash/streak', {
           params: { month: 1 }
         });
-        const focusTimeList = response.data.data.focusTimeList;
-
+        const focusTimeList = response.data.data;
+        console.log(focusTimeList);
         const updatedWeeks = this.weeks.map((week, weekIndex) => 
           week.map((day, dayIndex) => {
             const dateString = new Date(2023, 6, weekIndex * 7 + dayIndex + 1)

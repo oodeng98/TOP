@@ -41,8 +41,8 @@ export default {
         const response = await axios.get('https://i11a707.p.ssafy.io/api/dash/streak', {
           params: { month: 1 }
         });
-        const focusTimeList = response.data.data.focusTimeList;
-
+        const focusTimeList = response.data.data;
+        console.log(focusTimeList);
         const updatedColumns = this.columns.map((column, colIndex) =>
           column.map((day, rowIndex) => {
             const dateString = new Date(2023, 6, colIndex * 7 + rowIndex + 1)
