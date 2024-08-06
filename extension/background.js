@@ -10,9 +10,6 @@ function connect() {
 
 function onNativeMessage(message) {
   console.log("최상단 프로그램: " + message["info"]);
-  if (message["info"] == "chrome.exe") {
-    logActiveTabUrl();
-  }
 }
 
 function onDisconnected() {
@@ -20,14 +17,13 @@ function onDisconnected() {
   port = null;
 }
 
-function logActiveTabUrl() {
-  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-    if (tabs.length > 0) {
-      let activeTab = tabs[0];
-      console.log("URL: ", activeTab.url);
-    }
-  });
+function logTabUrl(tabId, changeInfo, tab) {
+  if (changeInfo.url) {
+    console.log("URL: ", changeInfo.url);
+  }
 }
+
+chrome.tabs.onUpdated.addListener(logTabUrl);
 
 chrome.runtime.onStartup.addListener(connect);
 chrome.runtime.onInstalled.addListener(connect);

@@ -13,10 +13,6 @@ function updateUiState() {
   }
 }
 
-// function onNativeMessage(message) {
-//   appendMessage("Received message: <b>" + JSON.stringify(message) + "</b>");
-// }
-
 function onDisconnected() {
   appendMessage("Failed to connect: " + chrome.runtime.lastError.message);
   port = null;
@@ -27,7 +23,6 @@ function connect() {
   const hostName = "com.google.chrome.example.echo";
   appendMessage("Connecting to native messaging host <b>" + hostName + "</b>");
   port = chrome.runtime.connectNative(hostName);
-  // port.onMessage.addListener(onNativeMessage);
   port.onDisconnect.addListener(onDisconnected);
   updateUiState();
 }
