@@ -72,7 +72,7 @@ export default {
           <div class="grid-stack-item-content">
             <div class="widget-delete">✖</div>
           </div>`;
-      grid.addWidget(widgetElement, { w: width, h: height, disableResize : true });
+      grid.addWidget(widgetElement, { w: width, h: height, noResize : true });
 
       const contentElement = widgetElement.querySelector(
         ".grid-stack-item-content"
@@ -132,13 +132,13 @@ export default {
           { component: TodayFocus1, width: 2, height: 1 },
           { component: WeekFocus1, width: 2, height: 1 },
           { component: MonthFocus1, width: 2, height: 1 },
-          { component: TodayFocus2, width: 4, height: 1 },
-          { component: WeekFocus2, width: 4, height: 1 },
-          { component: MonthFocus2, width: 4, height: 1 },
-          { component: TodayFocus2WithoutID, width: 4, height: 1 },
-          { component: WeekFocus2WithoutID, width: 4, height: 1 },
-          { component: MonthFocus2WithoutID, width: 4, height: 1 },
-          { component: TotalFocus2WithoutID, width: 4, height: 1 },
+          { component: TodayFocus2, width: 3, height: 1 },
+          { component: WeekFocus2, width: 3, height: 1 },
+          { component: MonthFocus2, width: 3, height: 1 },
+          { component: TodayFocus2WithoutID, width: 3, height: 1 },
+          { component: WeekFocus2WithoutID, width: 3, height: 1 },
+          { component: MonthFocus2WithoutID, width: 3, height: 1 },
+          { component: TotalFocus2WithoutID, width: 3, height: 1 },
           { component: PercentileRank, width: 4, height: 3 },
           { component: TimeCheck, width: 4, height: 2 },
           { component: TodayAchievement1, width: 2, height: 1 },
@@ -149,15 +149,15 @@ export default {
           { component: MonthAchievement2, width: 2, height: 2 },
           { component: MonthStreakColumn, width: 2, height: 2 },
           { component: MonthStreakRow, width: 2, height: 2 },
-          { component: CalendarCheck, width: 6, height: 4 },
+          { component: CalendarCheck, width: 4, height: 4 },
           { component: FocusTimeEachPrograms, width: 6, height: 4 },
-          { component: FocusTimeEachProgramsPrecentage, width: 6, height: 4 },
-          { component: TimeLine, width: 6, height: 4 },
+          { component: FocusTimeEachProgramsPrecentage, width: 7, height: 4 },
+          { component: TimeLine, width: 7, height: 4 },
           { component: TodayAchievementTime, width: 2, height: 1 },
           { component: WeekAchievementTime, width: 2, height: 1 },
           { component: MonthAchievementTime, width: 2, height: 1 },
-          { component: SixMonthStreak, width: 6, height: 2},
-          { component: BannedProgramList, width: 6, height: 6},
+          { component: SixMonthStreak, width: 7, height: 2},
+          { component: BannedProgramList, width: 5, height: 4},
         ];
 
         components.forEach(({ component, width, height }) => {

@@ -43,8 +43,8 @@ export default {
 
 <style scoped>
 .box1 {
-  height: 100px;
-  width: 161px;
+  height: 100%;
+  width: 100%;
 }
 
 .box1 .element1 {

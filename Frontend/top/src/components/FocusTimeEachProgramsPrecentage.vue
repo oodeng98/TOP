@@ -13,7 +13,7 @@
             <div
               v-for="(app, index) in appList"
               :key="index"
-              class="soft-UI-XD-1"
+              class="number"
             >
               <div class="item-content">
                 <img
@@ -23,8 +23,8 @@
                   @error="handleImageError"
                 />
                 <div class="app-name">{{ app.name }}</div>
-                <div class="text-wrapper">{{ formatTime(app.focusTime) }}</div>
-                <div class="text-wrapper">{{ app.percentage }}%</div>
+                <div class="text-wrapper0">{{ formatTime(app.focusTime) }}</div>
+                <div class="text-wrapper1">{{ app.percentage }}%</div>
                 <div class="progress-bar">
                   <div class="progress" :style="{ width: app.percentage + '%' }"></div>
                 </div>
@@ -54,15 +54,15 @@ export default {
     async fetchData() {
       try {
         const response = await axios.get(
-          "https://i11a707.p.ssafy.io/api/dash/stats/focus-time"
+          "https://i11a707.p.ssafy.io/api/dash/stats/app"
         );
-        if (response.status === 200 && response.data.statusCode === "200") {
-          this.appList = response.data.data.appList.map(app => ({
+        if (response.status === 200 && response.data.statusCode === 200) {
+          this.appList = response.data.data.map(app => ({
             ...app,
             percentage: this.calculatePercentage(app.focusTime, response.data.data.totalFocusTime)
           }));
         } else {
-          console.error("Failed to fetch data:", response.data.message);
+          console.error("Failed to fetch data:", '프로그램 조회에 실패하였습니다.');
         }
       } catch (error) {
         console.error("API request failed:", error);
@@ -95,16 +95,16 @@ export default {
 
 <style scoped>
 .box {
-  height: 400px;
-  width: 644px;
+  height: 100%;
+  width: 100%;
+  background-color: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0px 3.5px 5.5px #00000005;
   padding-top: 20px;
 }
 
 .box .element {
-  background-color: #ffffff;
-  border-radius: 15px;
-  box-shadow: 0px 3.5px 5.5px #00000005;
-  height: 335px;
+  height: 400px;
   left: 0;
   top: 0;
   width: 644px;
@@ -114,6 +114,7 @@ export default {
   height: 400px;
   position: relative;
   width: 644px;
+  margin-left: 35px;
   padding: 20px;
 }
 
@@ -126,7 +127,7 @@ export default {
   flex-direction: column;
 }
 
-.box .soft-UI-XD-1 {
+.box .number {
   display: flex;
   flex-direction: column;
   margin-bottom: 10px;
@@ -158,13 +159,26 @@ export default {
   text-align: left;
 }
 
-.box .text-wrapper {
+.box .text-wrapper0 {
   color: #2d3748;
   font-family: "Helvetica-BoldOblique", Helvetica;
   font-size: 18px;
   font-weight: 700;
   letter-spacing: 0;
   line-height: 25.2px;
+  text-align: center;
+  white-space: nowrap;
+  margin-right: 10px;
+}
+
+.box .text-wrapper1 {
+  color: #2d3748;
+  font-family: "Helvetica-BoldOblique", Helvetica;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 25.2px;
+  text-align: center;
   white-space: nowrap;
   margin-right: 10px;
 }

@@ -17,7 +17,7 @@
               <div class="item-content">
                 <img
                   class="icon"
-                  :src="getImagePath(app.name)"
+                  :src="app.imagePath"
                   :alt="app.name"
                   @error="handleImageError"
                 />
@@ -49,14 +49,15 @@ export default {
     async fetchData() {
       try {
         const response = await axios.get(
-          "https://i11a707.p.ssafy.io/api/dash/stats/focus-time"
+          "https://i11a707.p.ssafy.io/api/dash/stats/app"
         );
-        console.log("FocusTimeEachPrograms");
-        console.log(response.data);
-        if (response.status === 200 && response.data.statusCode === "200") {
-          this.appList = response.data.data.appList;
+        if (response.status === 200 && response.data.statusCode === 200) {
+          this.appList = response.data.data.map(app => ({
+            ...app,
+            imagePath: this.getImagePath(app.name),
+          }));
         } else {
-          console.error("Failed to fetch data:", response.data.message);
+          console.error("Failed to fetch data:", '데이터 조회에 실패했습니다');
         }
       } catch (error) {
         console.error("FocusTimeEachPrograms API request failed:", error);
@@ -69,16 +70,12 @@ export default {
       return `${h}:${m < 10 ? "0" : ""}${m}:${s < 10 ? "0" : ""}${s}`;
     },
     getImagePath(appName) {
-      try {
-        return require(`../static/img/application_icon/${appName
-          .toLowerCase()
-          .replace(/\s+/g, "")}.png`);
-      } catch (e) {
-        return require("../static/img/application_icon/default.png"); // 기본 이미지 경로
-      }
+      return require(`../static/img/application_icon/${appName
+        .toLowerCase()
+        .replace(/\s+/g, "")}.png`).default;
     },
     handleImageError(event) {
-      event.target.src = require("../static/img/application_icon/default.png"); // 기본 이미지 경로
+      event.target.src = require("../static/img/application_icon/default.png").default;
     },
   },
 };
@@ -86,8 +83,11 @@ export default {
 
 <style scoped>
 .box {
-  height: 400px;
-  width: 483px;
+  height: 100%;
+  width: 100%;
+  background-color: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0px 3.5px 5.5px #00000005;
   padding-top: 20px;
 }
 
@@ -99,9 +99,6 @@ export default {
 }
 
 .box .overlap-group {
-  background-color: #ffffff;
-  border-radius: 15px;
-  box-shadow: 0px 3.5px 5.5px #00000005;
   height: 400px;
   position: relative;
   width: 483px;

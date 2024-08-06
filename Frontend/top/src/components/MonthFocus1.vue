@@ -46,7 +46,7 @@ export default {
 
 <style scoped>
 .box1 {
-  height: 100px;
+  height: 100%;
   width: 100%;
 }
 

@@ -129,8 +129,8 @@ export default {
 
 <style scoped>
 .banned-program {
-  height: 400px;
-  width: 483px;
+  height: 100%;
+  width: 100%;
   border-radius: 15px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   background-color: #ffffff;

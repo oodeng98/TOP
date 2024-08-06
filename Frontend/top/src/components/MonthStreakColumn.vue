@@ -69,8 +69,8 @@ export default {
 
 <style scoped>
 .calendar-streak {
-  width: 190px;
-  height: 230px;
+  width: 100%;
+  height: 100%;
   background-color: #ffffff;
   border-radius: 15px;
   box-shadow: 0px 3.5px 5.5px #00000005;

@@ -118,6 +118,7 @@ export default {
   box-shadow: 0px 3.5px 5.5px #00000005;
   text-align: center;
   height: 100%; /* 부모 요소의 높이를 100%로 설정 */
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;

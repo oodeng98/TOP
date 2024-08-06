@@ -92,7 +92,7 @@ export default {
 
 <style scoped>
 .box6 {
-  height: 100px;
+  height: 100%;
   width: 100%;
 }
 

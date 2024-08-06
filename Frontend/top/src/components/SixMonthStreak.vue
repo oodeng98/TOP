@@ -144,8 +144,8 @@ export default {
 <style scoped>
 .streak-container {
   position: relative;
-  width: 644px;
-  height: 200px;
+  width: 100%;
+  height: 100%;
   border-radius: 15px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   background-color: white;

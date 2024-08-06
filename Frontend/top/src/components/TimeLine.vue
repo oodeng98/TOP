@@ -130,8 +130,8 @@ export default {
   background-color: #ffffff;
   border-radius: 15px;
   box-shadow: 0px 3.5px 5.5px #00000005;
-  height: 460px;
-  width: 718px;
+  height: 100%;
+  width: 100%;
 }
 
 .chart {
@@ -145,7 +145,6 @@ h2 {
   color: #a0aec0;
   font-family: "Helvetica-BoldOblique", Helvetica;
   font-weight: 700;
-  margin-top: 10px; /* 글씨를 아래로 옮기기 위해 추가 */
   text-align: center; /* 추가: 중앙 정렬을 위해 */
 }
 </style>
