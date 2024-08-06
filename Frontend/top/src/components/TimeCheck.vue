@@ -1,40 +1,51 @@
 <template>
   <div class="timer">
-    <h2>Timer</h2>
-    <input type="text" v-model="category" placeholder="카테고리를 입력해주세요">
+    <div class="timer-header">
+      <h2>Timer</h2>
+      <input
+        type="text"
+        v-model="category"
+        placeholder="카테고리를 입력해주세요"
+      />
+    </div>
     <p v-if="warningMessage" class="warning">{{ warningMessage }}</p>
     <p>{{ formattedTime }}</p>
     <button @click="startTimer">집중 시작</button>
     <button @click="stopTimer">일시 정지</button>
-    <button @click="resetTimer">시간 저장</button>
+    <button @click="saveTime">시간 저장</button>
   </div>
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   data() {
     return {
       time: 0,
       timer: null,
-      category: '',
-      warningMessage: ''
+      category: "",
+      warningMessage: "",
     };
   },
   computed: {
     formattedTime() {
-      const hours = String(Math.floor(this.time / 3600)).padStart(2, '0');
-      const minutes = String(Math.floor((this.time % 3600) / 60)).padStart(2, '0');
-      const seconds = String(this.time % 60).padStart(2, '0');
+      const hours = String(Math.floor(this.time / 3600)).padStart(2, "0");
+      const minutes = String(Math.floor((this.time % 3600) / 60)).padStart(
+        2,
+        "0"
+      );
+      const seconds = String(this.time % 60).padStart(2, "0");
       return `${hours}:${minutes}:${seconds}`;
-    }
+    },
   },
   methods: {
     startTimer() {
       if (!this.category) {
-        this.warningMessage = '카테고리를 입력해주세요';
+        this.warningMessage = "카테고리를 입력해주세요";
         return;
       }
-      this.warningMessage = '';
+      this.warningMessage = "";
       if (this.timer === null) {
         this.timer = setInterval(() => {
           this.time++;
@@ -45,46 +56,71 @@ export default {
       clearInterval(this.timer);
       this.timer = null;
     },
-    resetTimer() {
+    async saveTime() {
       if (!this.category) {
-        this.warningMessage = '카테고리를 입력해주세요';
+        this.warningMessage = "카테고리를 입력해주세요";
         return;
       }
-      this.warningMessage = '';
-      this.category = '';
+      try {
+        await axios.post("임시 url", {
+          category: this.category,
+          time: this.time,
+        });
+        this.warningMessage = "집중 시간이 저장되었습니다.";
+        this.resetTimer();
+      } catch (error) {
+        this.warningMessage =
+          "집중 시간 저장에 실패했습니다. 다시 시도해주세요.";
+      }
+    },
+    resetTimer() {
       this.stopTimer();
       this.time = 0;
-    }
+      this.category = "";
+      this.warningMessage = "";
+    },
   },
   beforeUnmount() {
     this.stopTimer();
-  }
+  },
 };
 </script>
 
 <style scoped>
 .timer {
+  background-color: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0px 3.5px 5.5px #00000005;
   text-align: center;
-  margin-top: 20px;
+  margin-top: 0px;
   font-family: Arial, sans-serif;
-  height: 300px;
-  width: 483px;
+  height: 100%;
+  width: 100%;
 }
 
-.timer h2 {
+.timer-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.timer-header h2 {
   color: #b0bec5;
+  font-family: "Helvetica-BoldOblique", Helvetica;
+  font-size: 30px;
   font-weight: 700;
-  margin-bottom: 20px;
+  margin-right: 10px; /* 여백 추가 */
+  margin-top: 20px;
 }
 
 .timer input {
-  margin-bottom: 20px;
   padding: 10px;
   font-size: 16px;
   border: 1px solid #ccc;
   border-radius: 5px;
   width: 200px;
   text-align: center;
+  margin-top: 20px;
 }
 
 .timer input::placeholder {
@@ -102,7 +138,7 @@ export default {
 .timer p {
   font-size: 48px;
   font-weight: bold;
-  margin: 20px 0;
+  margin: 0 0;
 }
 
 .timer button {

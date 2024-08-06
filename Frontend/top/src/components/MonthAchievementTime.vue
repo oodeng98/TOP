@@ -2,17 +2,44 @@
   <div class="box6">
     <div class="element6">
       <div class="overlap-group6">
-        <div class="text6">4:00:00</div>
+        <div class="text6">{{ monthlyTimeGoal }}</div>
         <div class="title-data6">월간 목표 시간</div>
       </div>
     </div>
   </div>
 </template>
 
-
 <script>
-</script>
+import axios from "axios";
+import { ref, onMounted } from "vue";
 
+export default {
+  setup() {
+    const monthlyTimeGoal = ref("00:00:00");
+
+    const fetchTimeGoal = async () => {
+      try {
+        const response = await axios.get(
+          "https://i11a707.p.ssafy.io/api/focus-time/goal"
+        );
+        if (response.data.timeGoal) {
+          monthlyTimeGoal.value = response.data.timeGoal;
+        }
+      } catch (error) {
+        console.error("데이터를 가져오는 중 오류 발생:", error);
+      }
+    };
+
+    onMounted(() => {
+      fetchTimeGoal();
+    });
+
+    return {
+      monthlyTimeGoal,
+    };
+  },
+};
+</script>
 
 <style scoped>
 .box6 {
@@ -33,7 +60,7 @@
   box-shadow: 0px 3.5px 5.5px #00000005;
   height: 100px;
   position: relative;
-  width: 161px;
+  width: 190px;
 }
 
 .box6 .text6 {
@@ -41,7 +68,7 @@
   font-family: "Helvetica-BoldOblique", Helvetica;
   font-size: 30px;
   font-weight: 700;
-  left: 30px;
+  left: 35px;
   letter-spacing: 0.38px;
   line-height: 24px;
   position: absolute;
@@ -55,10 +82,11 @@
   font-family: "Helvetica-BoldOblique", Helvetica;
   font-size: 14px;
   font-weight: 700;
-  left: 35px;
+  left: 45px;
   letter-spacing: 0.5px;
   line-height: 22px;
   position: absolute;
+  text-align: center;
   top: 8px;
   white-space: nowrap;
 }

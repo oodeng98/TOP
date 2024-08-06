@@ -1,5 +1,6 @@
 <template>
   <div class="goal-container">
+    <div class="goal-label">일간 목표 달성률</div>
     <div class="goal-chart">
       <svg viewBox="0 0 36 36" class="circular-chart">
         <path
@@ -15,10 +16,9 @@
              a 15.9155 15.9155 0 0 1 0 31.831
              a 15.9155 15.9155 0 0 1 0 -31.831"
         />
-        <text x="18" y="20.35" class="percentage">{{ percentage }}%</text>
+        <text x="18" y="20.35" class="percentage">{{ dailyAchievement }}</text>
       </svg>
     </div>
-    <div class="goal-label">일간 목표 달성률</div>
   </div>
 </template>
 
@@ -35,7 +35,7 @@ export default {
     },
   },
   setup() {
-    const percentage = ref(0);
+    const dailyAchievement = ref("0%");
 
     const timeStringToSeconds = (timeString) => {
       const [hours, minutes, seconds] = timeString.split(":").map(Number);
@@ -45,20 +45,22 @@ export default {
     const fetchFocusTime = async () => {
       try {
         const response = await axios.get(
-          "https://i11a707.p.ssafy.io:8082/dash/stats/focus-time",
+          "https://i11a707.p.ssafy.io/api/dash/stats/focus-time",
           {
             params: {
               period: "day",
             },
           }
         );
-        console.log(response);
         const dailyFocusTime = timeStringToSeconds(
-          response.data.totalFocusTime
+          response.data.data.totalFocusTime
         );
         return dailyFocusTime;
       } catch (error) {
-        console.error("데이터를 가져오는 중 오류 발생:", error);
+        console.error(
+          "TodayAchievement2 데이터를 가져오는 중 오류 발생1:",
+          error
+        );
         return 0;
       }
     };
@@ -66,13 +68,17 @@ export default {
     const fetchTimeGoal = async () => {
       try {
         const response = await axios.get(
-          "https://i11a707.p.ssafy.io:8082/focus-time/goal"
+          "https://i11a707.p.ssafy.io/api/focus-time/goal"
         );
         console.log(response);
-        const timeGoal = timeStringToSeconds(response.data.timeGoal);
+        let timeGoal = 1;
+        timeGoal = response.data.data.timeGoal * 60;
         return timeGoal;
       } catch (error) {
-        console.error("데이터를 가져오는 중 오류 발생:", error);
+        console.error(
+          "TodayAchievement2 데이터를 가져오는 중 오류 발생2:",
+          error
+        );
         return 0;
       }
     };
@@ -83,9 +89,13 @@ export default {
 
       if (timeGoal > 0) {
         const achievementRate = (dailyFocusTime / timeGoal) * 100;
-        percentage.value = achievementRate.toFixed(2);
+        if (achievementRate <= 100) {
+          dailyAchievement.value = `${achievementRate.toFixed(2)}%`;
+        } else {
+          dailyAchievement.value = "100%";
+        }
       } else {
-        percentage.value = "0";
+        dailyAchievement.value = "0.00%";
       }
     };
 
@@ -94,7 +104,7 @@ export default {
     });
 
     return {
-      percentage,
+      dailyAchievement,
     };
   },
 };
@@ -102,9 +112,11 @@ export default {
 
 <style scoped>
 .goal-container {
+  background-color: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0px 3.5px 5.5px #00000005;
   text-align: center;
-  height: 200px;
-  width: 161px;
+  height: 100%; /* 부모 요소의 높이를 100%로 설정 */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -112,8 +124,7 @@ export default {
 }
 
 .goal-chart {
-  width: 100%;
-  height: 100%;
+  width: 150px; /* 원하는 크기로 설정 */
 }
 
 .circular-chart {
@@ -140,16 +151,19 @@ export default {
 }
 
 .percentage {
-  fill: #000;
-  font-family: Arial, sans-serif;
+  color: #1d1a1a;
+  font-family: "Helvetica-BoldOblique", Helvetica;
+  font-weight: 700;
   font-size: 0.5em;
   text-anchor: middle;
 }
 
 .goal-label {
   margin-top: 10px;
-  font-family: Arial, sans-serif;
-  font-size: 1em;
-  color: #888;
+  font-family: "Helvetica-BoldOblique", Helvetica;
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: #a0aec0;
 }
 </style>

@@ -3,13 +3,23 @@
     <div class="title">스트릭</div>
     <div class="grid-container">
       <div class="day-labels">
-        <div class="day-label" v-for="(day, index) in days" :key="index">{{ day }}</div>
+        <div class="day-label" v-for="(day, index) in days" :key="index">
+          {{ day }}
+        </div>
       </div>
       <div class="months-container">
-        <div v-for="(month, monthIndex) in filteredMonths" :key="monthIndex" class="month">
+        <div
+          v-for="(month, monthIndex) in filteredMonths"
+          :key="monthIndex"
+          class="month"
+        >
           <div class="month-label">{{ month.year }} {{ month.name }}</div>
           <div class="weeks">
-            <div v-for="(week, weekIndex) in month.weeks" :key="weekIndex" class="week">
+            <div
+              v-for="(week, weekIndex) in month.weeks"
+              :key="weekIndex"
+              class="week"
+            >
               <div
                 v-for="(day, dayIndex) in week"
                 :key="dayIndex"
@@ -57,7 +67,7 @@ export default {
     generateMonthData(date) {
       const year = date.getFullYear();
       const month = date.getMonth();
-      const monthName = date.toLocaleString('default', { month: 'long' });
+      const monthName = date.toLocaleString("default", { month: "long" });
       const weeks = this.generateWeeks(year, month);
       return { year, name: monthName, weeks };
     },
@@ -95,7 +105,6 @@ export default {
 
 <style scoped>
 .streak-container {
-  width: 644px;
   height: 200px;
   font-family: Arial, sans-serif;
 }

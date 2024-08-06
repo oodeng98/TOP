@@ -1,6 +1,7 @@
-<template>
+`<template>
   <div class="subbox4">
     <div class="box4">
+      <div class="title">나의 백분위</div>
       <div class="group4">
         <div class="overlap4">
           <div class="overlap-group4">
@@ -60,14 +61,15 @@ export default {
     const fetchPercentile = async () => {
       try {
         const response = await axios.get(
-          "https://i11a707.p.ssafy.io:8082/dash/stats/focus-time/percent"
+          "https://i11a707.p.ssafy.io/api/dash/stats/focus-time/percent"
         );
         console.log(response);
-        dailyPercentile.value = response.data.dayPercent;
-        weeklyPercentile.value = response.data.weekPercent;
-        monthlyPercentile.value = response.data.monthPercent;
+        console.log("PercentileRank");
+        dailyPercentile.value = response.data.data.dayPercent;
+        weeklyPercentile.value = response.data.data.weekPercent;
+        monthlyPercentile.value = response.data.data.monthPercent;
       } catch (error) {
-        console.error("데이터를 가져오는 중 오류 발생:", error);
+        console.error("PercentileRank 데이터를 가져오는 중 오류 발생:", error);
         return 0;
       }
     };
@@ -87,8 +89,23 @@ export default {
 
 <style scoped>
 .subbox4 {
-  height: 300px;
-  width: 322px;
+  background-color: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0px 3.5px 5.5px #00000005;
+  height: 354px;
+  width: 403px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.title {
+  margin-top: -60px;
+  margin-bottom: 20px;
+  color: #a0aec0;
+  font-family: "Helvetica-BoldOblique", Helvetica;
+  font-size: 20px;
+  font-weight: 700;
 }
 
 .box4 {
@@ -303,3 +320,4 @@ export default {
   width: 123px;
 }
 </style>
+`
