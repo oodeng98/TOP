@@ -13,7 +13,7 @@
       </form>
       <div class="kebob-icon">
         <button type="submit" class="image-button">
-          <MoreVert1 />
+          <MoreVert1 style="width: 25px;height: 25px;"/>
         </button>
       </div>
     </div>
@@ -75,22 +75,22 @@ export default {
     addprogram() {
     const trimmedUrl = this.banprogram.trim();
     // URL이 빈 문자열이거나 targetUrls에 이미 존재하는 경우 추가하지 않음
-    if (trimmedUrl !== "" && !this.targetUrls.some(target => target.url === trimmedUrl)) {
-      this.targetUrls.push({ url: trimmedUrl });
-      this.banprogram = "";
-      this.fetchProgramLists(); // 금지 프로그램 추가 후 목록 갱신
-    }
-  },
+      if (trimmedUrl !== "" && !this.targetUrls.some(target => target.url === trimmedUrl)) {
+        this.targetUrls.push({ url: trimmedUrl });
+        this.banprogram = "";
+        this.fetchProgramLists(); // 금지 프로그램 추가 후 목록 갱신
+        }
+    },
 
     // 금지 프로그램 삭제
     removeprogram(url) {
     // targetUrls 배열에서 URL을 찾아 제거
-    const index = this.targetUrls.findIndex(target => target.url === url);
-    if (index !== -1) {
-      this.targetUrls.splice(index, 1); // 배열에서 URL 제거
-      this.fetchProgramLists(); // 목록 갱신
-    }
-  },
+      const index = this.targetUrls.findIndex(target => target.url === url);
+      if (index !== -1) {
+        this.targetUrls.splice(index, 1); // 배열에서 URL 제거
+        this.fetchProgramLists(); // 목록 갱신
+      }
+    },
 
     // 시간 형식 변환
     formatTime(seconds) {
@@ -99,20 +99,21 @@ export default {
       const secs = seconds % 60;
       return `${hrs.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
     },
-  },
     // 주기적인 사용 시간 데이터 업데이트 시작
     startPeriodicUpdates() {
       this.interval = setInterval(() => {
         this.fetchProgramLists(); // 10분(600000ms)마다 사용 시간 데이터 업데이트
       }, 600000);
     },
-
+    
     // 주기적인 업데이트 정지
     stopPeriodicUpdates() {
       if (this.interval) {
         clearInterval(this.interval);
       }
     },
+
+  },
 
   created() {
     this.fetchProgramLists(); // 초기 상태 확인
@@ -138,7 +139,6 @@ export default {
 
 .header {
   position: relative;
-  margin-bottom: 20px;
 }
 
 ul {
@@ -147,10 +147,20 @@ ul {
       margin: 0; /* 기본 여백 제거 */
     }
 
+hr {
+  margin-top: 5px;
+}
+
+input::placeholder {
+  color: #a0aec0;
+  font-family: "Helvetica-BoldOblique", Helvetica;
+  opacity: 0.8; /* placeholder의 불투명도 */
+  font-size: 14px;
+    }
 .kebob-icon {
   position: absolute;
-  top: 20px;
-  right: 0%;
+  top: -10px;
+  right: -10px;
 }
 
 .form-program {
@@ -172,13 +182,15 @@ ul {
 }
 
 .top-font {
-  font-family: "Helvetica-BoldOblique", Helvetica;
   color: #a0aec0;
+  font-family: "Helvetica-BoldOblique", Helvetica;
   font-weight: 700;
-  font-size: 20px;
+  font-size: 18px;
   padding-top: 10px;
-  margin-bottom: 50px;
+  padding-bottom: 30px;
   text-align: left;
+  letter-spacing: 0;
+  line-height: 25.2px;
 }
 
 .image-button {
@@ -190,8 +202,8 @@ ul {
 
 .image-button-plus {
   position: absolute;
-  top: 20px;
-  right: 25px;
+  top: 15px;
+  right: 20px;
 }
 
 .image-button-minus {

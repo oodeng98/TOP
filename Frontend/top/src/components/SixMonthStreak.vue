@@ -44,9 +44,8 @@ export default {
     // axios로 데이터 받기, 데이터 채워지면 focusTimeList 주석처리하고 위에 3줄 주석지우기
     async fetchFocusTimeData() {
       try {
-        // const response = await axios.get('https://i11a707.p.ssafy.io/api/dash/streak?month=6');
-        // console.log(response);
-        // this.focusTimeList = response.data.data.focusTimeList;
+        const response = await axios.get('https://i11a707.p.ssafy.io/api/dash/streak?month=6');
+        this.focusTimeList = response.data.data.focusTimeList;
       //   this.focusTimeList = [
 			// 	{
 			// 		"day" : "07-15",
@@ -200,7 +199,7 @@ export default {
 }
 
 .low-activity {
-  background-color: red;
+  background-color: rgba(88, 101, 242, 0.2);
 }
 
 .medium-activity {
