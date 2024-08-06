@@ -1,10 +1,8 @@
 <template>
   <div class="box1">
-    <div class="element1">
-      <div class="overlap-group1">
-        <div class="text-wrapper1">이번달 집중 시간</div>
-        <div class="div1">{{ monthlyFocusTime }}</div>
-      </div>
+    <div class="overlap-group1">
+      <div class="text-wrapper1">이번달 집중 시간</div>
+      <div class="div1">{{ monthlyFocusTime }}</div>
     </div>
   </div>
 </template>
@@ -20,17 +18,18 @@ export default {
     const fetchFocusTime = async () => {
       try {
         const response = await axios.get(
-          "https://i11a707.p.ssafy.io:8082/dash/stats/focus-time",
+          "https://i11a707.p.ssafy.io/api/dash/stats/focus-time",
           {
             params: {
               period: "month",
             },
           }
         );
-        console.log(response);
-        monthlyFocusTime.value = response.data.totalFocusTime;
+        if (response.data.data.totalFocusTime) {
+          monthlyFocusTime.value = response.data.data.totalFocusTime;
+        }
       } catch (error) {
-        console.error("데이터를 가져오는 중 오류 발생:", error);
+        console.error("MonthFocus1 데이터를 가져오는 중 오류 발생:", error);
       }
     };
 
@@ -48,23 +47,19 @@ export default {
 <style scoped>
 .box1 {
   height: 100px;
-  width: 161px;
-}
-
-.box1 .element1 {
-  height: 100px;
-  left: 0;
-  top: 0; /* Adjust this if needed */
-  width: 165px;
+  width: 100%;
 }
 
 .box1 .overlap-group1 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   background-color: #ffffff;
   border-radius: 15px;
   box-shadow: 0px 3.5px 5.5px #00000005;
-  position: relative;
   height: 100px;
-  width: 161px;
+  width: 100%;
 }
 
 .box1 .text-wrapper1 {
@@ -72,13 +67,10 @@ export default {
   font-family: "Helvetica-BoldOblique", Helvetica;
   font-size: 12px;
   font-weight: 700;
-  left: 38px;
   letter-spacing: 0;
   line-height: 18px;
-  position: absolute;
-  top: 25px;
+  margin-bottom: 5px;
   white-space: nowrap;
-  width: 84px;
 }
 
 .box1 .div1 {
@@ -86,11 +78,8 @@ export default {
   font-family: "Helvetica-BoldOblique", Helvetica;
   font-size: 18px;
   font-weight: 700;
-  position: relative;
-  left: 38px;
   letter-spacing: 0;
   line-height: 25.2px;
-  top: 47px;
-  width: 83px;
+  white-space: nowrap;
 }
 </style>

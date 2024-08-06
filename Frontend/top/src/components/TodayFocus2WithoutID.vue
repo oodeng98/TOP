@@ -1,11 +1,13 @@
 <template>
-  <div class="box2">
-    <div class="element2">
-      <div class="overlap-group2">
-        <div class="text-wrapper2">오늘의 집중 시간</div>
-        <div class="div2">{{ dailyFocusTime }}</div>
-        <div class="icon2">
-          <Default class="ionicon-w-wallet2" />
+  <div class="box3">
+    <div class="overlap-group3">
+      <div class="text-wrapper3">오늘의 집중 시간</div>
+      <div class="text-and-icon-wrapper">
+        <div class="overlap3">
+          <div class="div3">{{ dailyFocusTime }}</div>
+        </div>
+        <div class="icon3">
+          <Default class="ionicon-w-wallet3" />
         </div>
       </div>
     </div>
@@ -23,17 +25,19 @@ export default {
     const fetchFocusTime = async () => {
       try {
         const response = await axios.get(
-          "https://i11a707.p.ssafy.io:8082/dash/stats/focus-time",
+          "https://i11a707.p.ssafy.io/api/dash/stats/focus-time",
           {
             params: {
               period: "day",
             },
           }
         );
-        console.log(response);
-        dailyFocusTime.value = response.data.totalFocusTime;
+        dailyFocusTime.value = response.data.data.totalFocusTime;
       } catch (error) {
-        console.error("데이터를 가져오는 중 오류 발생:", error);
+        console.error(
+          "TodayFocus2WithoutID 데이터를 가져오는 중 오류 발생:",
+          error
+        );
       }
     };
 
@@ -49,69 +53,83 @@ export default {
 </script>
 
 <style scoped>
-.box2 {
-  height: 100px;
-  width: 322px;
+.box3 {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.box2 .element2 {
-  height: 100px;
-  left: 0;
-  top: 0;
-  width: 326px;
-}
-
-.box2 .overlap-group2 {
+.overlap-group3 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   background-color: #ffffff;
   border-radius: 15px;
   box-shadow: 0px 3.5px 5.5px #00000005;
-  height: 100px;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
   position: relative;
-  width: 322px;
+  box-sizing: border-box;
 }
 
-.box2 .text-wrapper2 {
+.text-wrapper3 {
   color: #a0aec0;
   font-family: "Helvetica-BoldOblique", Helvetica;
   font-size: 12px;
   font-weight: 700;
-  left: 20px;
-  letter-spacing: 0;
-  line-height: 18px;
-  position: absolute;
-  top: 21px;
-  width: 151px;
+  margin-bottom: 5px;
+  white-space: nowrap;
+  text-align: center;
+  width: 100%;
+  margin-right: 76px;
 }
 
-.box2 .div2 {
+.text-and-icon-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.overlap3 {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-right: 76px;
+}
+
+.div3 {
   color: #2d3748;
   font-family: "Helvetica-BoldOblique", Helvetica;
   font-size: 18px;
   font-weight: 700;
-  left: 20px;
-  letter-spacing: 0;
-  line-height: 25.2px;
-  position: absolute;
-  top: 45px;
-  width: 149px;
+  white-space: nowrap;
+  text-align: center;
+  margin-right: 5px;
 }
 
-.box2 .icon2 {
+.icon3 {
   background-color: #5865f2;
   border-radius: 12px;
   box-shadow: 0px 3.5px 5.5px #00000005;
+  width: 56px;
   height: 56px;
-  left: 245px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: absolute;
-  top: 21px;
-  width: 59px;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
-.box2 .ionicon-w-wallet2 {
-  height: 29px !important;
-  left: 14px !important;
-  position: absolute !important;
-  top: 14px !important;
-  width: 31px !important;
+.ionicon-w-wallet3 {
+  width: 29px;
+  height: 29px;
 }
 </style>

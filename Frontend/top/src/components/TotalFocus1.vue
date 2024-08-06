@@ -20,12 +20,13 @@ export default {
     const fetchFocusTime = async () => {
       try {
         const response = await axios.get(
-          "https://i11a707.p.ssafy.io:8082/dash/stats/focus-time/total"
+          "https://i11a707.p.ssafy.io/api/dash/stats/focus-time/total"
         );
-        console.log(response);
-        totalFocusTime.value = response.data.totalFocusTime;
+        if (response.data.data.totalFocusTime) {
+          totalFocusTime.value = response.data.data.totalFocusTime;
+        }
       } catch (error) {
-        console.error("데이터를 가져오는 중 오류 발생:", error);
+        console.error("TotalFocus1 데이터를 가져오는 중 오류 발생:", error);
       }
     };
 

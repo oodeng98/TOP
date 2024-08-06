@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <div>
     <BannedProgramList />
     <TodayFocus1 />
@@ -19,7 +19,7 @@
     <PercentileRank />
   </div>
   <div>
-    <CheckTime />
+    <TimeCheck />
   </div>
   <div>
     <TodayAchievement1 />
@@ -42,9 +42,15 @@
   </div>
   <div>
     <FocusTimeEachPrograms />
+    <FocusTimeEachProgramsPrecentage />
   </div>
   <div>
     <TimeLine />
+  </div>
+  <div>
+    <TodayAchievementTime />
+    <WeekAchievementTime />
+    <MonthAchievementTime />
   </div>
 </template>
 
@@ -68,7 +74,7 @@ import MonthFocus2 from "./components/MonthFocus2.vue";
 // 4
 import PercentileRank from "./components/PercentileRank.vue";
 // 5
-import CheckTime from "./components/CheckTime.vue";
+import TimeCheck from "./components/TimeCheck.vue";
 //6
 import TodayAchievement1 from "./components/TodayAchievement1.vue";
 import WeekAchievement1 from "./components/WeekAchievement1.vue";
@@ -81,13 +87,17 @@ import TodayAchievement2 from "./components/TodayAchievement2.vue";
 import MonthStreakColumn from "./components/MonthStreakColumn.vue";
 import MonthStreakRow from "./components/MonthStreakRow.vue";
 import HalfYearStreak from "./components/HalfYearStreak.vue";
-import SixMonthStreak from "./components/SixMonthStreak.vue";
 //9
 import CalendarCheck from "./components/CalendarCheck.vue";
 //10
-import FocusTimeEachPrograms from "./components/FocusTimeEachPrograms.vue";
+import FocusTimeEachPrograms from './components/FocusTimeEachPrograms.vue';
+import FocusTimeEachProgramsPrecentage from './components/FocusTimeEachProgramsPrecentage.vue';
 //11
 import TimeLine from "./components/TimeLine.vue";
+//12
+import TodayAchievementTime from "./components/TodayAchievementTime.vue";
+import WeekAchievementTime from "./components/WeekAchievementTime.vue";
+import MonthAchievementTime from "./components/MonthAchievementTime.vue";
 
 export default {
   name: "App",
@@ -105,7 +115,7 @@ export default {
     WeekFocus2,
     MonthFocus2,
     PercentileRank,
-    CheckTime,
+    TimeCheck,
     TodayAchievement1,
     WeekAchievement1,
     MonthAchievement1,
@@ -118,7 +128,38 @@ export default {
     SixMonthStreak,
     CalendarCheck,
     FocusTimeEachPrograms,
+    FocusTimeEachProgramsPrecentage,
     TimeLine,
+    TodayAchievementTime,
+    WeekAchievementTime,
+    MonthAchievementTime,
+  },
+};
+</script>
+
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+</style> -->
+<template>
+  <div id="app" class="container">
+    <Dashboard />
+  </div>
+</template>
+
+<script>
+import Dashboard from "./components/Dashboard.vue";
+
+export default {
+  name: "App",
+  components: {
+    Dashboard,
   },
 };
 </script>

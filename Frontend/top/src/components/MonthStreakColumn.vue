@@ -19,20 +19,51 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   name: "CalendarStreak",
   data() {
     return {
       days: ["S", "M", "T", "W", "T", "F", "S"],
       columns: [
-        [true, true, true, false, true, true, false],
-        [false, true, false, true, false, true, false],
-        [true, false, true, false, true, false, true],
-        [false, true, false, true, false, true, false],
-        [true, false, true, false, true, false, true],
+        [false, false, false, false, false, false, false],
+        [false, false, false, false, false, false, false],
+        [false, false, false, false, false, false, false],
+        [false, false, false, false, false, false, false],
+        [false, false, false, false, false, false, false],
       ],
     };
   },
+  methods: {
+    async fetchStreakData() {
+      try {
+        const response = await axios.get('https://i11a707.p.ssafy.io/api/dash/streak', {
+          params: { month: 1 }
+        });
+        const focusTimeList = response.data.data.focusTimeList;
+
+        const updatedColumns = this.columns.map((column, colIndex) =>
+          column.map((day, rowIndex) => {
+            const dateString = new Date(2023, 6, colIndex * 7 + rowIndex + 1)
+              .toISOString()
+              .slice(5, 10);
+            const focusTimeEntry = focusTimeList.find(
+              (entry) => entry.day === dateString
+            );
+            return focusTimeEntry ? focusTimeEntry.focusTime > 0 : false;
+          })
+        );
+
+        this.columns = updatedColumns;
+      } catch (error) {
+        console.error('Error fetching streak data:', error);
+      }
+    }
+  },
+  mounted() {
+    this.fetchStreakData();
+  }
 };
 </script>
 
@@ -93,4 +124,4 @@ export default {
 .day.active {
   background-color: #5865f2;
 }
-</style>+
+</style>

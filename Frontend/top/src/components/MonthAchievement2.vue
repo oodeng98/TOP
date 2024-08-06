@@ -15,7 +15,9 @@
              a 15.9155 15.9155 0 0 1 0 31.831
              a 15.9155 15.9155 0 0 1 0 -31.831"
         />
-        <text x="18" y="20.35" class="percentage">{{ percentage }}%</text>
+        <text x="18" y="20.35" class="percentage">
+          {{ monthlyAchievement }}
+        </text>
       </svg>
     </div>
     <div class="goal-label">월간 목표 달성률</div>
@@ -35,7 +37,7 @@ export default {
     },
   },
   setup() {
-    const percentage = ref(0);
+    const monthlyAchievement = ref("0%");
 
     const timeStringToSeconds = (timeString) => {
       const [hours, minutes, seconds] = timeString.split(":").map(Number);
@@ -45,20 +47,22 @@ export default {
     const fetchFocusTime = async () => {
       try {
         const response = await axios.get(
-          "https://i11a707.p.ssafy.io:8082/dash/stats/focus-time",
+          "https://i11a707.p.ssafy.io/api/dash/stats/focus-time",
           {
             params: {
               period: "month",
             },
           }
         );
-        console.log(response);
         const monthlyFocusTime = timeStringToSeconds(
-          response.data.totalFocusTime
+          response.data.data.totalFocusTime
         );
         return monthlyFocusTime;
       } catch (error) {
-        console.error("데이터를 가져오는 중 오류 발생:", error);
+        console.error(
+          "MonthAchievement2 데이터를 가져오는 중 오류 발생1:",
+          error
+        );
         return 0;
       }
     };
@@ -66,13 +70,16 @@ export default {
     const fetchTimeGoal = async () => {
       try {
         const response = await axios.get(
-          "https://i11a707.p.ssafy.io:8082/focus-time/goal"
+          "https://i11a707.p.ssafy.io/api/focus-time/goal"
         );
-        console.log(response);
-        const timeGoal = timeStringToSeconds(response.data.timeGoal);
+        let timeGoal = 1;
+        timeGoal = response.data.data.timeGoal * 60;
         return timeGoal;
       } catch (error) {
-        console.error("데이터를 가져오는 중 오류 발생:", error);
+        console.error(
+          "MonthAchievement2 데이터를 가져오는 중 오류 발생2:",
+          error
+        );
         return 0;
       }
     };
@@ -83,9 +90,13 @@ export default {
 
       if (timeGoal > 0) {
         const achievementRate = (monthlyFocusTime / timeGoal) * 100;
-        percentage.value = achievementRate.toFixed(2);
+        if (achievementRate <= 100) {
+          monthlyAchievement.value = `${achievementRate.toFixed(2)}%`;
+        } else {
+          monthlyAchievement.value = "100%";
+        }
       } else {
-        percentage.value = "0";
+        monthlyAchievement.value = "0.00%";
       }
     };
 
@@ -94,7 +105,7 @@ export default {
     });
 
     return {
-      percentage,
+      monthlyAchievement,
     };
   },
 };
@@ -103,8 +114,7 @@ export default {
 <style scoped>
 .goal-container {
   text-align: center;
-  height: 200px;
-  width: 161px;
+  height: 100%; /* 부모 요소의 높이를 100%로 설정 */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -112,8 +122,7 @@ export default {
 }
 
 .goal-chart {
-  width: 100%;
-  height: 100%;
+  width: 150px; /* 원하는 크기로 설정 */
 }
 
 .circular-chart {

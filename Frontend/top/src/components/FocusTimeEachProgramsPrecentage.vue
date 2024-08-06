@@ -5,7 +5,8 @@
       <div class="overlap-group">
         <div class="titles">
           <div class="text-wrapper-3">Programs</div>
-          <div class="text-wrapper-2">사용 시간</div>
+          <div class="text-wrapper-2">집중 시간</div>
+          <div class="text-wrapper-2">집중 비율</div>
         </div>
         <div class="list">
           <div class="items">
@@ -23,6 +24,10 @@
                 />
                 <div class="app-name">{{ app.name }}</div>
                 <div class="text-wrapper">{{ formatTime(app.focusTime) }}</div>
+                <div class="text-wrapper">{{ app.percentage }}%</div>
+                <div class="progress-bar">
+                  <div class="progress" :style="{ width: app.percentage + '%' }"></div>
+                </div>
               </div>
               <img class="line" alt="Line" src="../static/img/line.png" />
             </div>
@@ -51,15 +56,16 @@ export default {
         const response = await axios.get(
           "https://i11a707.p.ssafy.io/api/dash/stats/focus-time"
         );
-        console.log("FocusTimeEachPrograms");
-        console.log(response.data);
         if (response.status === 200 && response.data.statusCode === "200") {
-          this.appList = response.data.data.appList;
+          this.appList = response.data.data.appList.map(app => ({
+            ...app,
+            percentage: this.calculatePercentage(app.focusTime, response.data.data.totalFocusTime)
+          }));
         } else {
           console.error("Failed to fetch data:", response.data.message);
         }
       } catch (error) {
-        console.error("FocusTimeEachPrograms API request failed:", error);
+        console.error("API request failed:", error);
       }
     },
     formatTime(seconds) {
@@ -67,6 +73,9 @@ export default {
       const m = Math.floor((seconds % 3600) / 60);
       const s = seconds % 60;
       return `${h}:${m < 10 ? "0" : ""}${m}:${s < 10 ? "0" : ""}${s}`;
+    },
+    calculatePercentage(focusTime, totalFocusTime) {
+      return ((focusTime / totalFocusTime) * 100).toFixed(2);
     },
     getImagePath(appName) {
       try {
@@ -87,7 +96,7 @@ export default {
 <style scoped>
 .box {
   height: 400px;
-  width: 483px;
+  width: 644px;
   padding-top: 20px;
 }
 
@@ -95,7 +104,7 @@ export default {
   height: 400px;
   left: 0;
   top: 0;
-  width: 483px;
+  width: 644px;
 }
 
 .box .overlap-group {
@@ -104,7 +113,7 @@ export default {
   box-shadow: 0px 3.5px 5.5px #00000005;
   height: 400px;
   position: relative;
-  width: 483px;
+  width: 644px;
   padding: 20px;
 }
 
@@ -157,6 +166,21 @@ export default {
   letter-spacing: 0;
   line-height: 25.2px;
   white-space: nowrap;
+  margin-right: 10px;
+}
+
+.box .progress-bar {
+  height: 10px;
+  width: 100px;
+  background-color: #c6d1ff; /* 연한 색상 */
+  border-radius: 5px;
+  overflow: hidden;
+  margin-left: 10px;
+}
+
+.box .progress {
+  height: 100%;
+  background-color: #5865f2;
 }
 
 .box .line {

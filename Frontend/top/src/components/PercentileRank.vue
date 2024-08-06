@@ -60,14 +60,15 @@ export default {
     const fetchPercentile = async () => {
       try {
         const response = await axios.get(
-          "https://i11a707.p.ssafy.io:8082/dash/stats/focus-time/percent"
+          "https://i11a707.p.ssafy.io/api/dash/stats/focus-time/percent"
         );
         console.log(response);
-        dailyPercentile.value = response.data.dayPercent;
-        weeklyPercentile.value = response.data.weekPercent;
-        monthlyPercentile.value = response.data.monthPercent;
+        console.log("PercentileRank");
+        dailyPercentile.value = response.data.data.dayPercent;
+        weeklyPercentile.value = response.data.data.weekPercent;
+        monthlyPercentile.value = response.data.data.monthPercent;
       } catch (error) {
-        console.error("데이터를 가져오는 중 오류 발생:", error);
+        console.error("PercentileRank 데이터를 가져오는 중 오류 발생:", error);
         return 0;
       }
     };
@@ -89,6 +90,9 @@ export default {
 .subbox4 {
   height: 300px;
   width: 322px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .box4 {

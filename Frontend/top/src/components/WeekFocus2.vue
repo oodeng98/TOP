@@ -1,8 +1,8 @@
 <template>
   <div class="box3">
-    <div class="element3">
-      <div class="overlap-group3">
-        <div class="text-wrapper3">이번주 집중 시간</div>
+    <div class="overlap-group3">
+      <div class="text-wrapper3">이번주 집중 시간</div>
+      <div class="text-and-icon-wrapper">
         <div class="overlap3">
           <div class="div3">{{ weeklyFocusTime }}</div>
           <div class="text-wrapper-3">{{ focusTimeDifference }}</div>
@@ -42,30 +42,30 @@ export default {
     const fetchFocusTime = async () => {
       try {
         const response = await axios.get(
-          "https://i11a707.p.ssafy.io:8082/dash/stats/focus-time",
+          "https://i11a707.p.ssafy.io/api/dash/stats/focus-time",
           {
             params: {
               period: "week",
             },
           }
         );
-        console.log(response);
 
-        const lastTotalFocusTime = timeStringToSeconds(
-          response.data.lastTotalFocusTime
-        );
-        const totalFocusTime = timeStringToSeconds(
-          response.data.totalFocusTime
-        );
-
-        weeklyFocusTime.value = response.data.totalFocusTime;
-        const timeDifferenceInSeconds = totalFocusTime - lastTotalFocusTime;
-        const sign = timeDifferenceInSeconds >= 0 ? "+" : "-";
-        focusTimeDifference.value = `${sign} ${secondsToTimeString(
-          timeDifferenceInSeconds
-        )}`;
+        if (response.data.data.lastTotalFocusTime) {
+          const lastTotalFocusTime = timeStringToSeconds(
+            response.data.data.lastTotalFocusTime
+          );
+          const totalFocusTime = timeStringToSeconds(
+            response.data.data.totalFocusTime
+          );
+          weeklyFocusTime.value = response.data.data.totalFocusTime;
+          const timeDifferenceInSeconds = totalFocusTime - lastTotalFocusTime;
+          const sign = timeDifferenceInSeconds >= 0 ? "+" : "-";
+          focusTimeDifference.value = `${sign} ${secondsToTimeString(
+            timeDifferenceInSeconds
+          )}`;
+        }
       } catch (error) {
-        console.error("데이터를 가져오는 중 오류 발생:", error);
+        console.error("WeekFocus2 데이터를 가져오는 중 오류 발생:", error);
       }
     };
 
@@ -83,89 +83,91 @@ export default {
 
 <style scoped>
 .box3 {
-  height: 100px;
-  width: 322px;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.box3 .element3 {
-  height: 100px;
-  left: 0;
-  top: 0;
-  width: 328px;
-}
-
-.box3 .overlap-group3 {
+.overlap-group3 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   background-color: #ffffff;
   border-radius: 15px;
   box-shadow: 0px 3.5px 5.5px #00000005;
-  height: 100px;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
   position: relative;
-  width: 322px;
+  box-sizing: border-box;
 }
 
-.box3 .text-wrapper3 {
+.text-wrapper3 {
   color: #a0aec0;
   font-family: "Helvetica-BoldOblique", Helvetica;
   font-size: 12px;
   font-weight: 700;
-  left: 20px;
-  letter-spacing: 0;
-  line-height: 18px;
-  position: absolute;
-  top: 21px;
-  width: 151px;
+  margin-bottom: 5px;
+  white-space: nowrap;
+  text-align: center;
+  width: 100%;
+  margin-right: 76px;
 }
 
-.box3 .overlap3 {
-  height: 31px;
-  left: 20px;
-  position: absolute;
-  top: 45px;
-  width: 192px;
+.text-and-icon-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }
 
-.box3 .div3 {
+.overlap3 {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-right: 76px;
+}
+
+.div3 {
   color: #2d3748;
   font-family: "Helvetica-BoldOblique", Helvetica;
   font-size: 18px;
   font-weight: 700;
-  left: 0;
-  letter-spacing: 0;
-  line-height: 25.2px;
-  position: absolute;
-  top: 0;
-  width: 149px;
+  white-space: nowrap;
+  text-align: center;
+  margin-right: 5px;
 }
 
-.box3 .text-wrapper-3 {
+.text-wrapper-3 {
   color: #48bb78;
   font-family: "Helvetica-BoldOblique", Helvetica;
   font-size: 14px;
   font-weight: 700;
-  left: 104px;
-  letter-spacing: 0;
-  line-height: 19.6px;
-  position: absolute;
-  top: 5px;
-  width: 88px;
+  white-space: nowrap;
+  text-align: center;
 }
 
-.box3 .icon3 {
+.icon3 {
   background-color: #5865f2;
   border-radius: 12px;
   box-shadow: 0px 3.5px 5.5px #00000005;
+  width: 56px;
   height: 56px;
-  left: 245px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: absolute;
-  top: 21px;
-  width: 59px;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
-.box3 .ionicon-w-wallet3 {
-  height: 29px !important;
-  left: 14px !important;
-  position: absolute !important;
-  top: 14px !important;
-  width: 31px !important;
+.ionicon-w-wallet3 {
+  width: 29px;
+  height: 29px;
 }
 </style>
