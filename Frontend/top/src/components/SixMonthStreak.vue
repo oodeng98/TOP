@@ -155,8 +155,10 @@ export default {
   position: absolute;
   top: 10px;
   left: 30px;
-  font-weight: bold;
-  font-size: large;
+  color: #a0aec0;
+  font-family: "Helvetica-BoldOblique", Helvetica;
+  font-weight: 700;
+  font-size: 18px;
 }
 
 .box {
@@ -172,6 +174,8 @@ export default {
   height: 16px;
   text-align: center;
   margin-bottom: 4px;
+  font-family: "Helvetica-BoldOblique", Helvetica;
+  font-weight: 700;
 }
 
 .calendar-grid {
