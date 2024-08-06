@@ -1,5 +1,6 @@
 <!-- <template>
   <div>
+    <BannedProgramList />
     <TodayFocus1 />
     <WeekFocus1 />
     <MonthFocus1 />
@@ -34,6 +35,7 @@
     <MonthStreakColumn />
     <MonthStreakRow />
     <HalfYearStreak />
+    <SixMonthStreak />
   </div>
   <div>
     <CalendarCheck />
@@ -53,6 +55,8 @@
 </template>
 
 <script>
+
+import BannedProgramList from "./components/BannedProgramList.vue";
 // 1
 import TodayFocus1 from "./components/TodayFocus1.vue";
 import WeekFocus1 from "./components/WeekFocus1.vue";
@@ -98,6 +102,7 @@ import MonthAchievementTime from "./components/MonthAchievementTime.vue";
 export default {
   name: "App",
   components: {
+    BannedProgramList,
     TodayFocus1,
     WeekFocus1,
     MonthFocus1,
@@ -120,6 +125,7 @@ export default {
     MonthStreakColumn,
     MonthStreakRow,
     HalfYearStreak,
+    SixMonthStreak,
     CalendarCheck,
     FocusTimeEachPrograms,
     FocusTimeEachProgramsPrecentage,

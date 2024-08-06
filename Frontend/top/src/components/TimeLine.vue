@@ -4,7 +4,7 @@
     <bar-chart ref="chart" class="chart" :data="chartData" :options="chartOptions"></bar-chart>
   </div>
   <div>
-    {{ chartData }}
+    <!-- {{ chartData }} -->
   </div>
 </template>
 

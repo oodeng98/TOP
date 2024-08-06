@@ -49,6 +49,8 @@ import TimeLine from "./TimeLine.vue";
 import TodayAchievementTime from "./TodayAchievementTime.vue";
 import WeekAchievementTime from "./WeekAchievementTime.vue";
 import MonthAchievementTime from "./MonthAchievementTime.vue";
+import SixMonthStreak from "./SixMonthStreak.vue";
+import BannedProgramList from "./BannedProgramList.vue";
 
 export default {
   name: "GridstackComponent",
@@ -147,7 +149,7 @@ export default {
           { component: MonthAchievement2, width: 2, height: 2 },
           { component: MonthStreakColumn, width: 2, height: 2 },
           { component: MonthStreakRow, width: 2, height: 2 },
-          { component: HalfYearStreak, width: 8, height: 2 },
+          // { component: HalfYearStreak, width: 8, height: 2 },
           { component: CalendarCheck, width: 6, height: 4 },
           { component: FocusTimeEachPrograms, width: 6, height: 4 },
           { component: FocusTimeEachProgramsPrecentage, width: 6, height: 4 },
@@ -155,6 +157,8 @@ export default {
           { component: TodayAchievementTime, width: 2, height: 1 },
           { component: WeekAchievementTime, width: 2, height: 1 },
           { component: MonthAchievementTime, width: 2, height: 1 },
+          { component: SixMonthStreak, width: 6, height: 2},
+          { component: BannedProgramList, width: 6, height: 6},
         ];
 
         components.forEach(({ component, width, height }) => {
