@@ -80,19 +80,17 @@ export default {
       this.banprogram = "";
       this.fetchProgramLists(); // 금지 프로그램 추가 후 목록 갱신
     }
-    console.log(this.targetUrls);
   },
 
     // 금지 프로그램 삭제
-    async removeprogram(index) {
-      try {
-        const program = this.bannedList[index];
-        await axios.delete(`https://i11a707.p.ssafy.io/api/focus-time/ban/${program.id}`); // 특정 프로그램 삭제하는 API 필요
-        this.fetchProgramLists();
-      } catch (error) {
-        console.log('Error removing program:', error);
-      }
-    },
+    removeprogram(url) {
+    // targetUrls 배열에서 URL을 찾아 제거
+    const index = this.targetUrls.findIndex(target => target.url === url);
+    if (index !== -1) {
+      this.targetUrls.splice(index, 1); // 배열에서 URL 제거
+      this.fetchProgramLists(); // 목록 갱신
+    }
+  },
 
     // 시간 형식 변환
     formatTime(seconds) {
@@ -102,9 +100,27 @@ export default {
       return `${hrs.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
     },
   },
+    // 주기적인 사용 시간 데이터 업데이트 시작
+    startPeriodicUpdates() {
+      this.interval = setInterval(() => {
+        this.fetchProgramLists(); // 10분(600000ms)마다 사용 시간 데이터 업데이트
+      }, 600000);
+    },
+
+    // 주기적인 업데이트 정지
+    stopPeriodicUpdates() {
+      if (this.interval) {
+        clearInterval(this.interval);
+      }
+    },
 
   created() {
     this.fetchProgramLists(); // 초기 상태 확인
+    this.startPeriodicUpdates(); // 주기적인 업데이트 시작
+  },
+
+  beforeDestroy() {
+    this.stopPeriodicUpdates(); // 컴포넌트가 파괴될 때 주기적인 업데이트 정지
   },
 }
 </script>
