@@ -2,7 +2,8 @@
   "manifest_version": 3,
   "name": "Native Messaging Example",
   "version": "1.0",
-  "permissions": ["nativeMessaging", "tabs"],
+  "permissions": ["nativeMessaging", "tabs", 
+                  "activeTab","desktopCapture"],
   "background": {
     "service_worker": "background.js"
   },
