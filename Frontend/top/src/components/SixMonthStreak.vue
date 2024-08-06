@@ -45,7 +45,7 @@ export default {
         const response = await axios.get('https://i11a707.p.ssafy.io/api/dash/streak', {
           params: { month: 6 }
         });
-        this.focusTimeList = response.data.data.focusTimeList;
+        this.focusTimeList = response.data.data;
       //   this.focusTimeList = [
 			// 	{
 			// 		"day" : "07-15",
@@ -91,16 +91,15 @@ export default {
         let colorClass;
         
         if (i < week) {
-          activity = 0;
           colorClass = this.getColorClass(activity);
         } else {
           // activity = Math.floor(Math.random() * 100); // 예시: 0에서 100까지의 랜덤 활동량
+          if (focusTimeEntry) {
+            activity = focusTimeEntry.focusTime;
+          }
           colorClass = this.getColorClass(activity);
         }
         
-        if (focusTimeEntry) {
-          activity = focusTimeEntry.focusTime;
-        }
 
         this.yearData.push({
           date: currentDate.toISOString().split('T')[0],
@@ -121,9 +120,10 @@ export default {
     },
     // 
     getColorClass(activity) {
-      if (activity > 75) return "high-activity";
-      if (activity > 50) return "medium-activity";
-      if (activity > 25) return "low-activity";
+      // if (activity > 75) return "high-activity";
+      // if (activity > 50) return "medium-activity";
+      // if (activity > 25) return "low-activity";
+      if (activity) return "yes-activity";
       return "no-activity";
     },
     getGridPosition(index) {
@@ -195,23 +195,22 @@ export default {
 .day {
   width: 16px;
   height: 16px;
-  /* border-radius: 2px; */
-  transition: background-color 0.3s;
+  /* transition: background-color 0.3s; */
 }
 
 .no-activity {
   background-color: #f0f0f0;
 }
 
-.low-activity {
-  background-color: rgba(88, 101, 242, 0.2);
+.yes-activity {
+  background-color: rgba(88, 101, 242, 1);
 }
 
-.medium-activity {
+/* .medium-activity {
   background-color: rgba(88, 101, 242, 0.6);
 }
 
 .high-activity {
-  background-color: rgba(88, 101, 242, 1);
-}
+  background-color: rgba(88, 101, 242, 0.2);
+} */
 </style>
