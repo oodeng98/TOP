@@ -1,5 +1,14 @@
 let port = null;
 
+chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+  if (request.type === 'startCapture') {
+    chrome.desktopCapture.chooseDesktopMedia(['screen', 'window'], sender.tab, function (streamId) {
+      sendResponse({ streamId: streamId });
+    });
+    return true; // Will respond asynchronously.
+  }
+});
+
 function connect() {
   const hostName = "com.google.chrome.example.echo";
   console.log("Connecting to native messaging host " + hostName);
