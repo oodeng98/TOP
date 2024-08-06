@@ -28,7 +28,7 @@ export default {
       datasets: [{
         label: '집중 시간',
         // data: usageData.value, // Directly bind usageData to chart data
-        data: [10, 20, 30, 40], // Directly bind usageData to chart data
+        data: usageData.value, // Directly bind usageData to chart data
         backgroundColor: usageData.value.map(() => '#c6d1ff'),
       }]
     });
@@ -101,7 +101,7 @@ export default {
         response.data.data.forEach(entry => {
           usageData.value[entry.startTime] = entry.focusTime / 60;
         });
-
+        console.log(usageData.value)
         updateChartData();
       } catch (error) {
         console.error('Error fetching focus time data:', error);
@@ -150,6 +150,7 @@ export default {
 h2 {
   color: #b0bec5;
   font-weight: 700;
+  /* font-size: 14px; */
   margin-bottom: 0px;
 }
 </style>

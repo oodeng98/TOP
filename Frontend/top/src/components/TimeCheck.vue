@@ -88,6 +88,9 @@ export default {
 
 <style scoped>
 .timer {
+  background-color: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0px 3.5px 5.5px #00000005;
   text-align: center;
   margin-top: 0px;
   font-family: Arial, sans-serif;
@@ -103,8 +106,11 @@ export default {
 
 .timer-header h2 {
   color: #b0bec5;
+  font-family: "Helvetica-BoldOblique", Helvetica;
+  font-size: 30px;
   font-weight: 700;
   margin-right: 10px; /* 여백 추가 */
+  margin-top: 20px;
 }
 
 .timer input {
@@ -114,6 +120,7 @@ export default {
   border-radius: 5px;
   width: 200px;
   text-align: center;
+  margin-top: 20px;
 }
 
 .timer input::placeholder {
@@ -131,7 +138,7 @@ export default {
 .timer p {
   font-size: 48px;
   font-weight: bold;
-  margin: 20px 0;
+  margin: 0 0;
 }
 
 .timer button {

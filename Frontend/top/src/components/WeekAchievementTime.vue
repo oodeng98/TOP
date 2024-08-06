@@ -60,7 +60,7 @@ export default {
   box-shadow: 0px 3.5px 5.5px #00000005;
   height: 100px;
   position: relative;
-  width: 161px;
+  width: 190px;
 }
 
 .box6 .text6 {
@@ -68,7 +68,7 @@ export default {
   font-family: "Helvetica-BoldOblique", Helvetica;
   font-size: 30px;
   font-weight: 700;
-  left: 30px;
+  left: 35px;
   letter-spacing: 0.38px;
   line-height: 24px;
   position: absolute;
@@ -82,10 +82,11 @@ export default {
   font-family: "Helvetica-BoldOblique", Helvetica;
   font-size: 14px;
   font-weight: 700;
-  left: 35px;
+  left: 45px;
   letter-spacing: 0.5px;
   line-height: 22px;
   position: absolute;
+  text-align: center;
   top: 8px;
   white-space: nowrap;
 }

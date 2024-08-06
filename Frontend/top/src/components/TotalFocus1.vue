@@ -66,7 +66,7 @@ export default {
 .box1 .text-wrapper1 {
   color: #a0aec0;
   font-family: "Helvetica-BoldOblique", Helvetica;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 700;
   left: 38px;
   letter-spacing: 0;

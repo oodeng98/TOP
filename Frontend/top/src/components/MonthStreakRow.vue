@@ -58,42 +58,55 @@ export default {
 
 <style scoped>
 .calendar-streak {
-  width: 161px;
-  height: 200px;
+  width: 190px;
+  height: 230px;
+  background-color: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0px 3.5px 5.5px #00000005;
   font-family: Arial, sans-serif;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .title {
-  font-size: 16px;
-  color: #a0a0a0;
+  color: #a0aec0;
+  font-family: "Helvetica-BoldOblique", Helvetica;
+  font-size: 14px;
+  font-weight: 700;
   margin-bottom: 10px;
-  padding-top: 20px;
 }
 
 .grid {
   display: grid;
-  margin-top: 10px;
-  padding-left: 3px;
   grid-template-columns: repeat(7, 1fr);
-  gap: 2px;
+  gap: 4px; /* 동일한 간격 설정 */
+  justify-content: center; /* 중앙 정렬 */
+  align-items: center; /* 중앙 정렬 */
 }
 
 .day-label {
   font-size: 14px;
   color: #4a4a4a;
+  display: flex;
+  justify-content: center; /* 중앙 정렬 */
+  align-items: center; /* 중앙 정렬 */
 }
 
 .week {
   display: contents;
-  gap: 5px;
 }
 
 .day {
-  width: 18px;
-  height: 18px;
+  width: 20px; /* 크기 설정 */
+  height: 20px; /* 크기 설정 */
   background-color: #e0e0e0;
   border-radius: 2px;
+  display: flex;
+  justify-content: center; /* 중앙 정렬 */
+  align-items: center; /* 중앙 정렬 */
 }
 
 .day.active {

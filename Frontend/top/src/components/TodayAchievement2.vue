@@ -1,5 +1,6 @@
 <template>
   <div class="goal-container">
+    <div class="goal-label">일간 목표 달성률</div>
     <div class="goal-chart">
       <svg viewBox="0 0 36 36" class="circular-chart">
         <path
@@ -18,7 +19,6 @@
         <text x="18" y="20.35" class="percentage">{{ dailyAchievement }}</text>
       </svg>
     </div>
-    <div class="goal-label">일간 목표 달성률</div>
   </div>
 </template>
 
@@ -112,6 +112,9 @@ export default {
 
 <style scoped>
 .goal-container {
+  background-color: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0px 3.5px 5.5px #00000005;
   text-align: center;
   height: 100%; /* 부모 요소의 높이를 100%로 설정 */
   display: flex;
@@ -148,16 +151,19 @@ export default {
 }
 
 .percentage {
-  fill: #000;
-  font-family: Arial, sans-serif;
+  color: #1d1a1a;
+  font-family: "Helvetica-BoldOblique", Helvetica;
+  font-weight: 700;
   font-size: 0.5em;
   text-anchor: middle;
 }
 
 .goal-label {
   margin-top: 10px;
-  font-family: Arial, sans-serif;
-  font-size: 1em;
-  color: #888;
+  font-family: "Helvetica-BoldOblique", Helvetica;
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: #a0aec0;
 }
 </style>

@@ -79,7 +79,7 @@ export default {
 .text-wrapper3 {
   color: #a0aec0;
   font-family: "Helvetica-BoldOblique", Helvetica;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 700;
   margin-bottom: 5px;
   white-space: nowrap;

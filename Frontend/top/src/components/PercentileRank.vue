@@ -1,6 +1,7 @@
-<template>
+`<template>
   <div class="subbox4">
     <div class="box4">
+      <div class="title">나의 백분위</div>
       <div class="group4">
         <div class="overlap4">
           <div class="overlap-group4">
@@ -88,11 +89,23 @@ export default {
 
 <style scoped>
 .subbox4 {
-  height: 300px;
-  width: 322px;
+  background-color: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0px 3.5px 5.5px #00000005;
+  height: 354px;
+  width: 403px;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.title {
+  margin-top: -60px;
+  margin-bottom: 20px;
+  color: #a0aec0;
+  font-family: "Helvetica-BoldOblique", Helvetica;
+  font-size: 20px;
+  font-weight: 700;
 }
 
 .box4 {
@@ -307,3 +320,4 @@ export default {
   width: 123px;
 }
 </style>
+`
