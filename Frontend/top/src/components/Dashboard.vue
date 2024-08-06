@@ -41,7 +41,6 @@ import WeekAchievement2 from "./WeekAchievement2.vue";
 import MonthAchievement2 from "./MonthAchievement2.vue";
 import MonthStreakColumn from "./MonthStreakColumn.vue";
 import MonthStreakRow from "./MonthStreakRow.vue";
-import HalfYearStreak from "./HalfYearStreak.vue";
 import CalendarCheck from "./CalendarCheck.vue";
 import FocusTimeEachPrograms from "./FocusTimeEachPrograms.vue";
 import FocusTimeEachProgramsPrecentage from "./FocusTimeEachProgramsPrecentage.vue";
@@ -73,7 +72,7 @@ export default {
           <div class="grid-stack-item-content">
             <div class="widget-delete">✖</div>
           </div>`;
-      grid.addWidget(widgetElement, { w: width, h: height });
+      grid.addWidget(widgetElement, { w: width, h: height, disableResize : true });
 
       const contentElement = widgetElement.querySelector(
         ".grid-stack-item-content"
@@ -129,6 +128,7 @@ export default {
 
         // 모든 컴포넌트를 초기 상태로 추가
         const components = [
+          // figma기준 width 2, height1 당 1칸
           { component: TodayFocus1, width: 2, height: 1 },
           { component: WeekFocus1, width: 2, height: 1 },
           { component: MonthFocus1, width: 2, height: 1 },
@@ -149,7 +149,6 @@ export default {
           { component: MonthAchievement2, width: 2, height: 2 },
           { component: MonthStreakColumn, width: 2, height: 2 },
           { component: MonthStreakRow, width: 2, height: 2 },
-          // { component: HalfYearStreak, width: 8, height: 2 },
           { component: CalendarCheck, width: 6, height: 4 },
           { component: FocusTimeEachPrograms, width: 6, height: 4 },
           { component: FocusTimeEachProgramsPrecentage, width: 6, height: 4 },

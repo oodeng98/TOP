@@ -101,16 +101,16 @@ export default {
 }
 
 .box .element {
-  height: 400px;
+  background-color: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0px 3.5px 5.5px #00000005;
+  height: 335px;
   left: 0;
   top: 0;
   width: 644px;
 }
 
 .box .overlap-group {
-  background-color: #ffffff;
-  border-radius: 15px;
-  box-shadow: 0px 3.5px 5.5px #00000005;
   height: 400px;
   position: relative;
   width: 644px;
