@@ -1,5 +1,5 @@
 <template>
-  <div class="no-check">
+  <div class="banned-program">
     <div class="header">
       <div class="top-font">금지 프로그램 목록</div>
       <form @submit.prevent="addprogram">
@@ -9,8 +9,7 @@
         placeholder="프로그램/URL 입력"
         v-model="banprogram"
         />
-        <!-- <button type="submit" class="image-button image-button-plus"><img src="../../static/img/PlusCircle.svg" alt="추가"></button> -->
-        <button type="submit" class="image-button image-button-plus"><img src=# alt="#"></button>
+        <button type="submit" class="image-button image-button-plus"><img src="../../static/img/PlusCircle.svg" alt="추가"></button>
       </form>
       <div class="kebob-icon">
         <button type="submit" class="image-button">
@@ -31,8 +30,7 @@
             <div class="focus-time">{{ formatTime(program.sessionTime) }}</div>
           </div>
           <form @submit.prevent="removeprogram(index)">
-            <!-- <button type="submit" class="image-button image-button-minus"><img src="../../static/img/DeleteCircle.svg" alt="삭제"></button> -->
-            <button type="submit" class="image-button image-button-minus"><img src="#" alt="#"></button>
+            <button type="submit" class="image-button image-button-minus"><img src="../../static/img/DeleteCircle.svg" alt="삭제"></button>
           </form>
           <hr/>
         </li>
@@ -43,7 +41,7 @@
 
 <script>
 import MoreVert1 from "../icons/MoreVert1/MoreVert1.vue"; // 땡땡땡 아이콘
-import { axios } from 'axios';
+import axios from 'axios';
 
 export default {
   name: "App",
@@ -54,122 +52,49 @@ export default {
     return {
       banprogram: "",
       bannedList: [],
-      interval: null,
-      isActive: true,
-      targetUrls: [],
+      targetUrls: [], // 사용자가 추가한 금지 프로그램 목록
     };
   },
   
   methods: {
     // 금지 프로그램 목록 불러오기
-    // async fetchProgramLists() {
-    //   try {
-    //     const response = await axios.get('https://i11a707.p.ssafy.io/api/focus-time/ban');
-    //     this.bannedList = response.data.map(program => ({
-    //       ...program,
-    //       startTime: null,
-    //       sessionTime: 0
-    //     }));
-    //   } catch (error) {
-    //     console.log('Error to fetch data:', error);
-    //   }
-    // },
-          
-    // 금지프로그램 저장
-    // async addprogram() {
-    //   if (this.banprogram.trim() !== '') {
-    //     try {
-    //       await axios.post('https://i11a707.p.ssafy.io/api/focus-time/ban', {
-    //         url: this.banprogram.trim(),
-    //         sessionTime: 0,
-    //       });
-    //       this.banprogram = '';
-    //       this.fetchProgramLists();
-    //     } catch (error) {
-    //       console.log('Error adding program:', error);
-    //     }
-    //   }
-    // },
-
-    // 금지 프로그램 저장(axios 안쓰는거)
-    addprogram() {
-      if (this.banprogram.trim() !== "") {
-        this.bannedList.push ({ // bannedList: []
-          url:this.banprogram.trim(),
-          sessionTime: 0
-        });
-        this.targetUrls.push(this.banprogram.trim()); // targetUrls: []
-        this.banprogram = "";
+    async fetchProgramLists() {
+      try {
+        const response = await axios.get('https://i11a707.p.ssafy.io/api/focus-time/ban');
+        const allBannedPrograms = response.data;
+        // targetUrls에 있는 URL만 필터링
+        this.bannedList = allBannedPrograms.filter(program => 
+          this.targetUrls.some(target => program.url.includes(target.url))
+        );
+      } catch (error) {
+        console.log('Error to fetch data:', error);
       }
     },
+          
+    // 금지 프로그램 추가
+    addprogram() {
+    const trimmedUrl = this.banprogram.trim();
+    // URL이 빈 문자열이거나 targetUrls에 이미 존재하는 경우 추가하지 않음
+    if (trimmedUrl !== "" && !this.targetUrls.some(target => target.url === trimmedUrl)) {
+      this.targetUrls.push({ url: trimmedUrl });
+      this.banprogram = "";
+      this.fetchProgramLists(); // 금지 프로그램 추가 후 목록 갱신
+    }
+    console.log(this.targetUrls);
+  },
 
-    // 금지프로그램 삭제
+    // 금지 프로그램 삭제
     async removeprogram(index) {
-      const program = this.bannedList[index];
       try {
-        await axios.delete('https://i11a707.p.ssafy.io/api/focus-time/ban');
-        this.bannedList.splice(index, 1);
+        const program = this.bannedList[index];
+        await axios.delete(`https://i11a707.p.ssafy.io/api/focus-time/ban/${program.id}`); // 특정 프로그램 삭제하는 API 필요
+        this.fetchProgramLists();
       } catch (error) {
         console.log('Error removing program:', error);
       }
     },
-    // 금지프로그램 삭제 (non axios)
-    // removeprogram(index) {
-    //   this.bannedList.splice(index, 1);
-    //   this.targetUrls.splice(index, 1);
-    // },
 
-    // 창 열리면 시간측정함
-    startSession(url) {
-      const program = this.bannedList.find(prog => prog.url === url);
-      if (program) {
-        program.startTime = new Date();
-        this.interval = setInterval(() => {
-          if (this.isActive && program.startTime) {
-            const now = new Date();
-            program.sessionTime = Math.floor((now - program.startTime) / 1000); // 시간(초)
-          }
-        }, 1000);
-      }
-    },
-
-    endSession(url) {
-      const program = this.bannedList.find(prog => prog.url === url);
-      if (program && this.interval) {
-        clearInterval(this.interval);
-        this.interval = null;
-        this.sendSessionTime(program);
-      }
-    },
-
-    handleVisibilityChange() {
-      const currentUrl = window.location.href;
-      this.isActive = this.bannedList.some(program => currentUrl.includes(program.url));
-      const activeProgram = this.bannedList.find(program => currentUrl.includes(program.url));
-
-      if (this.isActive && activeProgram && !activeProgram.startTime) {
-        this.startSession(activeProgram.url);
-      } else if (!this.isActive && activeProgram && activeProgram.startTime) {
-        this.endSession(activeProgram.url);
-      }
-    },
-
-    async sendSessionTime(program) {
-      if (program.startTime) {
-        const sessionDuration = Math.floor((new Date() - program.startTime) / 1000); // 시간(초)
-        try {
-          await axios.put('https://i11a707.p.ssafy.io/api/focus-time/ban', {
-            url: program.url,
-            sessionTime: sessionDuration,
-          });
-          program.startTime = null;
-          program.sessionTime = 0;
-        } catch (error) {
-          console.error('Error logging session:', error);
-        }
-      }
-    },
-
+    // 시간 형식 변환
     formatTime(seconds) {
       const hrs = Math.floor(seconds / 3600);
       const mins = Math.floor((seconds % 3600) / 60);
@@ -179,19 +104,14 @@ export default {
   },
 
   created() {
-    document.addEventListener('visibilitychange', this.handleVisibilityChange);
-    // this.fetchProgramLists(); // 초기 상태 확인
+    this.fetchProgramLists(); // 초기 상태 확인
   },
-
-  beforeUnmount() {
-    document.removeEventListener('visibilitychange', this.handleVisibilityChange);
-    this.bannedList.forEach(program => this.endSession(program.url)); // 컴포넌트가 파괴될 때 모든 세션 종료
-  }
 }
 </script>
 
+
 <style scoped>
-.no-check {
+.banned-program {
   height: 400px;
   width: 483px;
   border-radius: 15px;
@@ -210,16 +130,6 @@ ul {
       padding: 0; /* 기본 패딩 제거 */
       margin: 0; /* 기본 여백 제거 */
     }
-
-.box .banned-programs {
-  left: 22px;
-  letter-spacing: 0;
-  line-height: 25.2px;
-  position: absolute;
-  top: 11px;
-  white-space: nowrap;
-  width: 144px;
-}
 
 .kebob-icon {
   position: absolute;
@@ -252,6 +162,7 @@ ul {
   font-size: 20px;
   padding-top: 10px;
   margin-bottom: 50px;
+  text-align: left;
 }
 
 .image-button {
