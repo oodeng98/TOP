@@ -24,7 +24,7 @@
 </template>
 
 <script>
-// import axios from "axios";
+import axios from "axios";
 
 export default {
   data() {
@@ -32,8 +32,6 @@ export default {
       weekData: ["S", "M", "T", "W", "T", "F", "S"],
       yearData: [],
       focusTimeList: [],
-      // currentYear: new Date().getFullYear(),
-      // centerDate: new Date(), // 기준이 되는 현재 날짜
     };
   },
   mounted() {
@@ -44,7 +42,9 @@ export default {
     // axios로 데이터 받기, 데이터 채워지면 focusTimeList 주석처리하고 위에 3줄 주석지우기
     async fetchFocusTimeData() {
       try {
-        const response = await axios.get('https://i11a707.p.ssafy.io/api/dash/streak?month=6');
+        const response = await axios.get('https://i11a707.p.ssafy.io/api/dash/streak', {
+          params: { month: 6 }
+        });
         this.focusTimeList = response.data.data.focusTimeList;
       //   this.focusTimeList = [
 			// 	{
