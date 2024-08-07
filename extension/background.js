@@ -3,7 +3,7 @@ let previousUrl = null;
 
 function connect() {
   const hostName = "com.google.chrome.top";
-  console.log("Connecting to native messaging host " + hostName);
+  console.log("Connecting to native messaging host" + hostName);
   port = chrome.runtime.connectNative(hostName);
   port.onMessage.addListener(onNativeMessage);
   port.onDisconnect.addListener(onDisconnected);
