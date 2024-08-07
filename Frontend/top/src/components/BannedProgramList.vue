@@ -177,8 +177,8 @@ input::placeholder {
 
 .pass-list {
   width: 100%;
-  height: 100%;
-  padding-left: 30px;
+  height: 80%;
+  padding-left: 0px;
 }
 
 .top-font {

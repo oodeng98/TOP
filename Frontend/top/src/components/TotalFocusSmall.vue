@@ -47,20 +47,16 @@ export default {
   width: 100%;
 }
 
-.box1 .element1 {
-  height: 100px;
-  left: 0;
-  top: 0; /* Adjust this if needed */
-  width: 165px;
-}
-
 .box1 .overlap-group1 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   background-color: #ffffff;
   border-radius: 15px;
   box-shadow: 0px 3.5px 5.5px #00000005;
   height: 100px;
-  position: relative;
-  width: 161px;
+  width: 100%;
 }
 
 .box1 .text-wrapper1 {
@@ -68,13 +64,10 @@ export default {
   font-family: "Helvetica-BoldOblique", Helvetica;
   font-size: 14px;
   font-weight: 700;
-  left: 38px;
   letter-spacing: 0;
   line-height: 18px;
-  position: absolute;
-  top: 25px;
+  margin-bottom: 5px;
   white-space: nowrap;
-  width: 84px;
 }
 
 .box1 .div1 {
@@ -82,12 +75,8 @@ export default {
   font-family: "Helvetica-BoldOblique", Helvetica;
   font-size: 18px;
   font-weight: 700;
-  left: 38px;
   letter-spacing: 0;
   line-height: 25.2px;
-  position: absolute;
-  top: 47px;
   white-space: nowrap;
-  width: 83px;
 }
 </style>

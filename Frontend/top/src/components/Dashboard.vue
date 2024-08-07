@@ -21,33 +21,34 @@
 import { createApp, onMounted, ref, nextTick } from "vue";
 import { GridStack } from "gridstack";
 import "gridstack/dist/gridstack.min.css";
-import TodayFocus1 from "./TodayFocus1.vue";
-import WeekFocus1 from "./WeekFocus1.vue";
-import MonthFocus1 from "./MonthFocus1.vue";
-import TodayFocus2 from "./TodayFocus2.vue";
-import WeekFocus2 from "./WeekFocus2.vue";
-import MonthFocus2 from "./MonthFocus2.vue";
-import TodayFocus2WithoutID from "./TodayFocus2WithoutID.vue";
-import WeekFocus2WithoutID from "./WeekFocus2WithoutID.vue";
-import MonthFocus2WithoutID from "./MonthFocus2WithoutID.vue";
-import TotalFocus2WithoutID from "./TotalFocus2WithoutID.vue";
+import TodayFocusSmall from "./TodayFocusSmall.vue";
+import WeekFocusSmall from "./WeekFocusSmall.vue";
+import MonthFocusSmall from "./MonthFocusSmall.vue";
+import TotalFocusSmall from "./TotalFocusSmall.vue";
+import TodayFocusBig from "./TodayFocusBig.vue";
+import WeekFocusBig from "./WeekFocusBig.vue";
+import MonthFocusBig from "./MonthFocusBig.vue";
+import TodayFocusBigWithoutComparison from "./TodayFocusBigWithoutComparison.vue";
+import WeekFocusBigWithoutComparison from "./WeekFocusBigWithoutComparison.vue";
+import MonthFocusBigWithoutComparison from "./MonthFocusBigWithoutComparison.vue";
+import TotalFocusBig from "./TotalFocusBig.vue";
 import PercentileRank from "./PercentileRank.vue";
-import TimeCheck from "./TimeCheck.vue";
-import TodayAchievement1 from "./TodayAchievement1.vue";
-import WeekAchievement1 from "./WeekAchievement1.vue";
-import MonthAchievement1 from "./MonthAchievement1.vue";
-import TodayAchievement2 from "./TodayAchievement2.vue";
-import WeekAchievement2 from "./WeekAchievement2.vue";
-import MonthAchievement2 from "./MonthAchievement2.vue";
+import TimerCheck from "./TimerCheck.vue";
+import TodayAchievementSmall from "./TodayAchievementSmall.vue";
+import WeekAchievementSmall from "./WeekAchievementSmall.vue";
+import MonthAchievementSmall from "./MonthAchievementSmall.vue";
+import TodayAchievementBig from "./TodayAchievementBig.vue";
+import WeekAchievementBig from "./WeekAchievementBig.vue";
+import MonthAchievementBig from "./MonthAchievementBig.vue";
 import MonthStreakColumn from "./MonthStreakColumn.vue";
 import MonthStreakRow from "./MonthStreakRow.vue";
 import CalendarCheck from "./CalendarCheck.vue";
 import FocusTimeEachPrograms from "./FocusTimeEachPrograms.vue";
 import FocusTimeEachProgramsPrecentage from "./FocusTimeEachProgramsPrecentage.vue";
 import TimeLine from "./TimeLine.vue";
-import TodayAchievementTime from "./TodayAchievementTime.vue";
-import WeekAchievementTime from "./WeekAchievementTime.vue";
-import MonthAchievementTime from "./MonthAchievementTime.vue";
+import TodayTargetTime from "./TodayTargetTime.vue";
+import WeekTargetTime from "./WeekTargetTime.vue";
+import MonthTargetTime from "./MonthTargetTime.vue";
 import SixMonthStreak from "./SixMonthStreak.vue";
 import BannedProgramList from "./BannedProgramList.vue";
 
@@ -129,33 +130,34 @@ export default {
         // 모든 컴포넌트를 초기 상태로 추가
         const components = [
           // figma기준 width 2, height1 당 1칸
-          { component: TodayFocus1, width: 2, height: 1 },
-          { component: WeekFocus1, width: 2, height: 1 },
-          { component: MonthFocus1, width: 2, height: 1 },
-          { component: TodayFocus2, width: 3, height: 1 },
-          { component: WeekFocus2, width: 3, height: 1 },
-          { component: MonthFocus2, width: 3, height: 1 },
-          { component: TodayFocus2WithoutID, width: 3, height: 1 },
-          { component: WeekFocus2WithoutID, width: 3, height: 1 },
-          { component: MonthFocus2WithoutID, width: 3, height: 1 },
-          { component: TotalFocus2WithoutID, width: 3, height: 1 },
+          { component: TodayFocusSmall, width: 2, height: 1 },
+          { component: WeekFocusSmall, width: 2, height: 1 },
+          { component: MonthFocusSmall, width: 2, height: 1 },
+          { component: TotalFocusSmall, width: 2, height: 1 },
+          { component: TodayFocusBig, width: 3, height: 1 },
+          { component: WeekFocusBig, width: 3, height: 1 },
+          { component: MonthFocusBig, width: 3, height: 1 },
+          { component: TodayFocusBigWithoutComparison, width: 3, height: 1 },
+          { component: WeekFocusBigWithoutComparison, width: 3, height: 1 },
+          { component: MonthFocusBigWithoutComparison, width: 3, height: 1 },
+          { component: TotalFocusBig, width: 3, height: 1 },
           { component: PercentileRank, width: 4, height: 3 },
-          { component: TimeCheck, width: 4, height: 2 },
-          { component: TodayAchievement1, width: 2, height: 1 },
-          { component: WeekAchievement1, width: 2, height: 1 },
-          { component: MonthAchievement1, width: 2, height: 1 },
-          { component: TodayAchievement2, width: 2, height: 2 },
-          { component: WeekAchievement2, width: 2, height: 2 },
-          { component: MonthAchievement2, width: 2, height: 2 },
+          { component: TimerCheck, width: 4, height: 2 },
+          { component: TodayAchievementSmall, width: 2, height: 1 },
+          { component: WeekAchievementSmall, width: 2, height: 1 },
+          { component: MonthAchievementSmall, width: 2, height: 1 },
+          { component: TodayAchievementBig, width: 2, height: 2 },
+          { component: WeekAchievementBig, width: 2, height: 2 },
+          { component: MonthAchievementBig, width: 2, height: 2 },
           { component: MonthStreakColumn, width: 2, height: 2 },
           { component: MonthStreakRow, width: 2, height: 2 },
           { component: CalendarCheck, width: 5, height: 4 },
           { component: FocusTimeEachPrograms, width: 6, height: 4 },
           { component: FocusTimeEachProgramsPrecentage, width: 7, height: 4 },
           { component: TimeLine, width: 7, height: 4 },
-          { component: TodayAchievementTime, width: 2, height: 1 },
-          { component: WeekAchievementTime, width: 2, height: 1 },
-          { component: MonthAchievementTime, width: 2, height: 1 },
+          { component: TodayTargetTime, width: 2, height: 1 },
+          { component: WeekTargetTime, width: 2, height: 1 },
+          { component: MonthTargetTime, width: 2, height: 1 },
           { component: SixMonthStreak, width: 6, height: 2},
           { component: BannedProgramList, width: 5, height: 4},
         ];
