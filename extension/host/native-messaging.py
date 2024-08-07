@@ -16,8 +16,8 @@ def read_thread_func():
 
         text = sys.stdin.buffer.read(text_length).decode('utf-8')
 
-def send_message(process_name):
-    text = '{"info": "' + str(process_name) + '"}'
+def send_message(prevAppName, nowAppName):
+    text = '{"prevAppName": "' + str(prevAppName) + '", "nowAppName": "' + str(nowAppName) + '"}'
     sys.stdout.buffer.write(struct.pack('I', len(text)))
     sys.stdout.buffer.write(text.encode('utf-8'))
     sys.stdout.flush()
@@ -42,7 +42,7 @@ def main():
     while True:
         current_process_name = get_active_window_process_info()
         if current_process_name != last_process_name:
-            send_message(current_process_name)
+            send_message(last_process_name, current_process_name)
             last_process_name = current_process_name
         time.sleep(1)
 

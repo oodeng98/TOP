@@ -1,4 +1,5 @@
 let port = null;
+let previousUrl = null;
 
 function connect() {
   const hostName = "com.google.chrome.top";
@@ -6,10 +7,28 @@ function connect() {
   port = chrome.runtime.connectNative(hostName);
   port.onMessage.addListener(onNativeMessage);
   port.onDisconnect.addListener(onDisconnected);
+
+  // 현재 활성 탭의 URL을 previousUrl에 저장
+  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+    if (tabs.length > 0) {
+      previousUrl = tabs[0].url;
+    }
+  });
 }
 
 function onNativeMessage(message) {
-  console.log("최상단 프로그램: " + message["info"]);
+  let prevAppName = message["prevAppName"];
+  let nowAppName = message["nowAppName"];
+  if (nowAppName === "chrome.exe") {
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+      if (tabs.length > 0) {
+        nowAppName = tabs[0].url;
+      }
+    });
+  } else if (prevAppName === "chrome.exe") {
+    prevAppName = previousUrl;
+  }
+  sendLog(prevAppName, nowAppName);
 }
 
 function onDisconnected() {
@@ -19,11 +38,44 @@ function onDisconnected() {
 
 function logTabUrl(tabId, changeInfo, tab) {
   if (changeInfo.url) {
-    console.log("URL: ", changeInfo.url);
+    sendLog(previousUrl, changeInfo.url);
+    previousUrl = changeInfo.url;
   }
 }
 
-chrome.tabs.onUpdated.addListener(logTabUrl);
+function onTabActivated(activeInfo) {
+  chrome.tabs.get(activeInfo.tabId, function (tab) {
+    if (tab.url) {
+      sendLog(previousUrl, tab.url);
+      previousUrl = tab.url;
+    }
+  });
+}
 
+function sendLog(prevUrl, currentUrl) {
+  console.log("이전 최상단 프로그램: ", prevUrl);
+  console.log("현재 최상단 프로그램: ", currentUrl);
+
+  fetch("https://i11a707.p.ssafy.io/api/focus-time/app", {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      prevAppName: prevUrl,
+      nowAppName: currentUrl,
+    }),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log("Data sent successfully:", data);
+    })
+    .catch((error) => {
+      console.error("Error sending data:", error);
+    });
+}
+
+chrome.tabs.onUpdated.addListener(logTabUrl);
+chrome.tabs.onActivated.addListener(onTabActivated);
 chrome.runtime.onStartup.addListener(connect);
 chrome.runtime.onInstalled.addListener(connect);
