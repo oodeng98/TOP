@@ -61,7 +61,7 @@ export default {
     async fetchProgramLists() {
       try {
         const response = await axios.get('https://i11a707.p.ssafy.io/api/focus-time/ban');
-        const allBannedPrograms = response.data;
+        const allBannedPrograms = response.data.data;
         // targetUrls에 있는 URL만 필터링
         this.bannedList = allBannedPrograms.filter(program => 
           this.targetUrls.some(target => program.url.includes(target.url))

@@ -22,7 +22,7 @@ export default {
   data() {
     return {
       days: ["S", "M", "T", "W", "T", "F", "S"],
-      weeks: Array(5).fill(Array(7).fill({ active: false })),
+      weeks: Array(5).fill(Array(7).fill({ day: "", focusTime: 0, active: false })),
     };
   },
   methods: {
@@ -32,7 +32,6 @@ export default {
           params: { month: 1 }
         });
         const focusTimeList = response.data.data;
-        console.log(focusTimeList);
         const updatedWeeks = this.weeks.map((week, weekIndex) => 
           week.map((day, dayIndex) => {
             const dateString = new Date(2023, 6, weekIndex * 7 + dayIndex + 1)
@@ -41,6 +40,7 @@ export default {
             const focusTimeEntry = focusTimeList.find(
               (entry) => entry.day === dateString
             );
+              day.focusTime = focusTimeEntry
             return { active: focusTimeEntry ? focusTimeEntry.focusTime > 0 : false };
           })
         );
