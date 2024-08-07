@@ -2,10 +2,10 @@
   "manifest_version": 3,
   "name": "Native Messaging Example",
   "version": "1.0",
-  "permissions": ["nativeMessaging", "tabs", 
-                  "activeTab","desktopCapture"],
+  "permissions": ["nativeMessaging", "tabs"],
   "background": {
-    "service_worker": "background.js"
+    "service_worker": "background.js",
+    "type": "module"
   },
   "action": {
     "default_popup": "popup.html"

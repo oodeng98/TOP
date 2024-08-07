@@ -1,47 +1,45 @@
 let message;
 let port = null;
 
-function appendMessage(text) {
-  document.getElementById("response").innerHTML += "<p>" + text + "</p>";
-}
+// function appendMessage(text) {
+//   document.getElementById("response").innerHTML += "<p>" + text + "</p>";
+// }
 
-function updateUiState() { // 3
-  if (port) {
-    document.getElementById("response").innerHTML += "<p>Connected</p>";
-  } else {
-    document.getElementById("response").innerHTML += "<p>Disconnected</p>";
-  }
-}
+// function updateUiState() { // 3
+//   if (port) {
+//     document.getElementById("response").innerHTML += "<p>Connected</p>";
+//   } else {
+//     document.getElementById("response").innerHTML += "<p>Disconnected</p>";
+//   }
+// }
 
-function onDisconnected() { // 4
-  appendMessage("Failed to connect: " + chrome.runtime.lastError.message);
-  port = null;
-  updateUiState();
-}
+// function onDisconnected() { // 4
+//   appendMessage("Failed to connect: " + chrome.runtime.lastError.message);
+//   port = null;
+//   updateUiState();
+// }
 
-function connect() { // 2
-  const hostName = "com.google.chrome.example.echo";
-  appendMessage("Connecting to native messaging host <b>" + hostName + "</b>");
-  port = chrome.runtime.connectNative(hostName);
-  port.onDisconnect.addListener(onDisconnected);
-  updateUiState();
-}
+// function connect() { // 2
+//   const hostName = "com.google.chrome.example.echo";
+//   appendMessage("Connecting to native messaging host <b>" + hostName + "</b>");
+//   port = chrome.runtime.connectNative(hostName);
+//   port.onDisconnect.addListener(onDisconnected);
+//   updateUiState();
+// }
 
-document.addEventListener("DOMContentLoaded", function () { // 1
-  connect();
-});
+// document.addEventListener("DOMContentLoaded", function () { // 1
+//   connect();
+// });
 
-
-
-document.getElementById('start').addEventListener('click', function () {
-  chrome.runtime.sendMessage({ type: 'startCapture' }, function (response) {
-    if (response.streamId) {
-      startOpenViduSession(response.streamId);
-    } else {
-      console.error('Failed to get stream ID');
-    }
-  });
-});
+// document.getElementById('start').addEventListener('click', function () {
+//   chrome.runtime.sendMessage({ type: 'startCapture' }, function (response) {
+//     if (response.streamId) {
+//       startOpenViduSession(response.streamId);
+//     } else {
+//       console.error('Failed to get stream ID');
+//     }
+//   });
+// });
 
 function startOpenViduSession(streamId) {
   const OV = new OpenVidu();
@@ -52,8 +50,8 @@ function startOpenViduSession(streamId) {
   });
 
   // Replace with your OpenVidu server URL and credentials
-  const OPENVIDU_SERVER_URL = 'https://YOUR_OPENVIDU_SERVER';
-  const OPENVIDU_SERVER_SECRET = 'YOUR_SECRET';
+  const OPENVIDU_SERVER_URL = 'https://i11a707.p.ssafy.io/ov-server';
+  const OPENVIDU_SERVER_SECRET = 'ssafy';
 
   getToken().then(token => {
     session.connect(token)
