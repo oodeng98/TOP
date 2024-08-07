@@ -70,9 +70,13 @@ export default {
       return `${h}:${m < 10 ? "0" : ""}${m}:${s < 10 ? "0" : ""}${s}`;
     },
     getImagePath(appName) {
-      return require(`../static/img/application_icon/${appName
-        .toLowerCase()
-        .replace(/\s+/g, "")}.png`).default;
+      try {
+        return require(`../static/img/application_icon/${appName
+          .toLowerCase()
+          .replace(/\s+/g, "")}.png`);
+      } catch (e) {
+        return require("../static/img/application_icon/default.png"); // 기본 이미지 경로
+      }
     },
     handleImageError(event) {
       event.target.src = require("../static/img/application_icon/default.png").default;
@@ -89,20 +93,21 @@ export default {
   border-radius: 15px;
   box-shadow: 0px 3.5px 5.5px #00000005;
   padding-top: 20px;
+  overflow: hidden; /* 박스 자체에 스크롤이 생기지 않도록 설정 */
 }
 
 .box .element {
-  height: 400px;
-  left: 0;
-  top: 0;
-  width: 483px;
+  height: 100%; /* 요소 높이 100%로 설정 */
+  width: 100%;
+  overflow: hidden; /* 요소 내부에 스크롤이 생기지 않도록 설정 */
 }
 
 .box .overlap-group {
-  height: 400px;
-  position: relative;
-  width: 483px;
+  height: 100%; /* 요소 높이 100%로 설정 */
+  overflow-y: auto; /* 세로 스크롤이 생기도록 설정 */
+  width: 100%;
   padding: 20px;
+  background-color: #ffffff; /* 백그라운드 색상 설정 */
 }
 
 .box .list {
@@ -124,6 +129,7 @@ export default {
 .box .item-content {
   display: flex;
   align-items: center;
+  justify-content: space-between; /* x축 중앙 정렬을 위해 추가 */
   margin-bottom: 10px;
 }
 

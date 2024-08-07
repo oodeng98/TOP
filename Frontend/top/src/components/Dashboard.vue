@@ -149,14 +149,14 @@ export default {
           { component: MonthAchievement2, width: 2, height: 2 },
           { component: MonthStreakColumn, width: 2, height: 2 },
           { component: MonthStreakRow, width: 2, height: 2 },
-          { component: CalendarCheck, width: 4, height: 4 },
+          { component: CalendarCheck, width: 5, height: 4 },
           { component: FocusTimeEachPrograms, width: 6, height: 4 },
           { component: FocusTimeEachProgramsPrecentage, width: 7, height: 4 },
           { component: TimeLine, width: 7, height: 4 },
           { component: TodayAchievementTime, width: 2, height: 1 },
           { component: WeekAchievementTime, width: 2, height: 1 },
           { component: MonthAchievementTime, width: 2, height: 1 },
-          { component: SixMonthStreak, width: 7, height: 2},
+          { component: SixMonthStreak, width: 6, height: 2},
           { component: BannedProgramList, width: 5, height: 4},
         ];
 

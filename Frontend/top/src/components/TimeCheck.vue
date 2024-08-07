@@ -62,15 +62,16 @@ export default {
         return;
       }
       try {
-        await axios.post("임시 url", {
-          category: this.category,
-          time: this.time,
+        await axios.post("https://i11a707.p.ssafy.io/api/focus-time/app/custom", {
+          appName: this.category,
+          focusTime: this.time,
         });
         this.warningMessage = "집중 시간이 저장되었습니다.";
         this.resetTimer();
       } catch (error) {
         this.warningMessage =
           "집중 시간 저장에 실패했습니다. 다시 시도해주세요.";
+        console.log(this.category, this.time)
       }
     },
     resetTimer() {

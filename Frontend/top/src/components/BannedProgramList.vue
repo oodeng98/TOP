@@ -4,18 +4,15 @@
       <div class="top-font">금지 프로그램 목록</div>
       <form @submit.prevent="addprogram">
         <input
-        class="form-program"
-        type="text"
-        placeholder="프로그램/URL 입력"
-        v-model="banprogram"
+          class="form-program"
+          type="text"
+          placeholder="프로그램/URL 입력"
+          v-model="banprogram"
         />
-        <button type="submit" class="image-button image-button-plus"><img src="../../static/img/PlusCircle.svg" alt="추가"></button>
-      </form>
-      <div class="kebob-icon">
-        <button type="submit" class="image-button">
-          <MoreVert1 style="width: 25px;height: 25px;"/>
+        <button type="submit" class="image-button image-button-plus">
+          <img src="../../static/img/PlusCircle.svg" alt="추가" />
         </button>
-      </div>
+      </form>
     </div>
     <div class="pass-list">
       <div class="between">
@@ -26,13 +23,13 @@
       <ul>
         <li v-for="(program, index) in bannedList" :key="index" class="li-relative">
           <div class="between">
-            <div style="font-weight: 700;">{{ program.url }}</div>
-            <div class="focus-time">{{ formatTime(program.sessionTime) }}</div>
+            <div style="font-weight: 700;">{{ program.name }}</div>
+            <div class="focus-time">{{ formatTime(program.focusTime) }}</div>
           </div>
-          <form @submit.prevent="removeprogram(index)">
-            <button type="submit" class="image-button image-button-minus"><img src="../../static/img/DeleteCircle.svg" alt="삭제"></button>
-          </form>
-          <hr/>
+          <button @click="removeprogram(index, program.name)" class="image-button image-button-minus">
+            <img src="../../static/img/DeleteCircle.svg" alt="삭제" />
+          </button>
+          <hr />
         </li>
       </ul>
     </div>
@@ -40,19 +37,14 @@
 </template>
 
 <script>
-import MoreVert1 from "../icons/MoreVert1/MoreVert1.vue"; // 땡땡땡 아이콘
 import axios from 'axios';
 
 export default {
   name: "App",
-  components: {
-    MoreVert1,
-  },
   data() {
     return {
       banprogram: "",
       bannedList: [],
-      targetUrls: [], // 사용자가 추가한 금지 프로그램 목록
     };
   },
   
@@ -61,34 +53,39 @@ export default {
     async fetchProgramLists() {
       try {
         const response = await axios.get('https://i11a707.p.ssafy.io/api/focus-time/ban');
-        const allBannedPrograms = response.data;
-        // targetUrls에 있는 URL만 필터링
-        this.bannedList = allBannedPrograms.filter(program => 
-          this.targetUrls.some(target => program.url.includes(target.url))
-        );
+        this.bannedList = response.data.data;
       } catch (error) {
         console.log('Error to fetch data:', error);
       }
     },
           
     // 금지 프로그램 추가
-    addprogram() {
-    const trimmedUrl = this.banprogram.trim();
-    // URL이 빈 문자열이거나 targetUrls에 이미 존재하는 경우 추가하지 않음
-      if (trimmedUrl !== "" && !this.targetUrls.some(target => target.url === trimmedUrl)) {
-        this.targetUrls.push({ url: trimmedUrl });
-        this.banprogram = "";
-        this.fetchProgramLists(); // 금지 프로그램 추가 후 목록 갱신
+    async addprogram() {
+      const trimmedUrl = this.banprogram.trim();
+      // URL이 빈 문자열이거나 bannedList에 이미 존재하는 경우 추가하지 않음
+      if (trimmedUrl !== "" && !this.bannedList.some(program => program.name === trimmedUrl)) {
+        try {
+          await axios.post('https://i11a707.p.ssafy.io/api/focus-time/ban', { name: trimmedUrl });
+          // 새로운 프로그램을 bannedList에 추가
+          this.bannedList.push({ name: trimmedUrl, focusTime: 0 });
+          this.banprogram = "";
+        } catch (error) {
+          console.log('Error adding program:', error);
         }
+      }
     },
 
     // 금지 프로그램 삭제
-    removeprogram(url) {
-    // targetUrls 배열에서 URL을 찾아 제거
-      const index = this.targetUrls.findIndex(target => target.url === url);
-      if (index !== -1) {
-        this.targetUrls.splice(index, 1); // 배열에서 URL 제거
-        this.fetchProgramLists(); // 목록 갱신
+    async removeprogram(index, programName) {
+      try {
+        await axios.delete(`https://i11a707.p.ssafy.io/api/focus-time/ban`, {
+          data : {
+            name : `${programName}`
+          }
+        });
+        this.bannedList.splice(index, 1); // 배열에서 프로그램 제거
+      } catch (error) {
+        console.log('Error removing program:', error);
       }
     },
 
@@ -99,6 +96,7 @@ export default {
       const secs = seconds % 60;
       return `${hrs.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
     },
+
     // 주기적인 사용 시간 데이터 업데이트 시작
     startPeriodicUpdates() {
       this.interval = setInterval(() => {
@@ -112,7 +110,6 @@ export default {
         clearInterval(this.interval);
       }
     },
-
   },
 
   created() {
@@ -126,8 +123,16 @@ export default {
 }
 </script>
 
-
 <style scoped>
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+#app {
+  height: 100%;
+}
+
 .banned-program {
   height: 100%;
   width: 100%;
@@ -135,6 +140,7 @@ export default {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   background-color: #ffffff;
   padding: 20px;
+  overflow: auto;
 }
 
 .header {
@@ -142,10 +148,10 @@ export default {
 }
 
 ul {
-      list-style-type: none; /* 기본 점을 제거합니다 */
-      padding: 0; /* 기본 패딩 제거 */
-      margin: 0; /* 기본 여백 제거 */
-    }
+  list-style-type: none; /* 기본 점을 제거합니다 */
+  padding: 0; /* 기본 패딩 제거 */
+  margin: 0; /* 기본 여백 제거 */
+}
 
 hr {
   margin-top: 5px;
@@ -156,11 +162,6 @@ input::placeholder {
   font-family: "Helvetica-BoldOblique", Helvetica;
   opacity: 0.8; /* placeholder의 불투명도 */
   font-size: 14px;
-    }
-.kebob-icon {
-  position: absolute;
-  top: -10px;
-  right: -10px;
 }
 
 .form-program {
@@ -175,10 +176,9 @@ input::placeholder {
 }
 
 .pass-list {
-  width: 431px;
-  height: 310px;
+  width: 100%;
+  height: 100%;
   padding-left: 30px;
-  overflow: auto;
 }
 
 .top-font {
@@ -210,8 +210,8 @@ input::placeholder {
   position: absolute;
   right: 0px;
   top: 0px;
-  
 }
+
 .image-button img {
   display: block; /* 이미지 주위의 여백 제거 */
 }
