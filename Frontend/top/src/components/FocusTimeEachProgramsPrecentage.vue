@@ -229,7 +229,7 @@ export default {
   letter-spacing: 0;
   line-height: 25.2px;
   margin-bottom: 10px;
-  text-align: left;
+  text-align: center;
   margin-left: 20px;
 }
 </style>

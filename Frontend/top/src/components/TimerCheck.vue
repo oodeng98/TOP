@@ -1,7 +1,7 @@
 <template>
   <div class="timer">
     <div class="timer-header">
-      <h2>Timer</h2>
+      <h2>타이머</h2>
       <input
         type="text"
         v-model="category"
@@ -62,16 +62,19 @@ export default {
         return;
       }
       try {
-        await axios.post("https://i11a707.p.ssafy.io/api/focus-time/app/custom", {
-          appName: this.category,
-          focusTime: this.time,
-        });
+        await axios.post(
+          "https://i11a707.p.ssafy.io/api/focus-time/app/custom",
+          {
+            appName: this.category,
+            focusTime: this.time,
+          }
+        );
         this.warningMessage = "집중 시간이 저장되었습니다.";
         this.resetTimer();
       } catch (error) {
         this.warningMessage =
           "집중 시간 저장에 실패했습니다. 다시 시도해주세요.";
-        console.log(this.category, this.time)
+        console.log(this.category, this.time);
       }
     },
     resetTimer() {
@@ -102,13 +105,15 @@ export default {
 .timer-header {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  margin-left: 30px;
+  margin-right: 30px;
 }
 
 .timer-header h2 {
   color: #b0bec5;
   font-family: "Helvetica-BoldOblique", Helvetica;
-  font-size: 30px;
+  font-size: 18px;
   font-weight: 700;
   margin-right: 10px; /* 여백 추가 */
   margin-top: 20px;
