@@ -1,6 +1,5 @@
 var APPLICATION_SERVER_URL = "https://i11a707.p.ssafy.io/ov-server/";
 var LIVEKIT_URL = "wss://i11a707.p.ssafy.io:4443";
-configureUrls();
 
 const LivekitClient = window.LivekitClient;
 var room;
