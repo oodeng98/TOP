@@ -1,10 +1,13 @@
 <template>
   <div class="sidebar" :class="{ open: isOpen }">
     <div class="sidebar-content">
-      <h2>Available Components</h2>
+      <h2>전체 위젯</h2>
       <div v-for="(component, index) in availableComponents" :key="index">
-        <button @click="addComponent(component.name)">
-          Add {{ component.name }}
+        <button
+          :class="{ active: component.isActive }"
+          @click="toggleComponent(component.name)"
+        >
+          {{ component.name }}
         </button>
       </div>
     </div>
@@ -13,21 +16,15 @@
 
 <script>
 export default {
+  name: "Sidebar",
   props: {
     availableComponents: Array,
-  },
-  data() {
-    return {
-      isOpen: false,
-    };
+    isOpen: Boolean,
   },
   methods: {
-    addComponent(name) {
-      this.$emit('addComponent', name);
+    toggleComponent(name) {
+      this.$emit("toggleComponent", name);
     },
-  },
-  mounted() {
-    this.isOpen = true;
   },
 };
 </script>
@@ -38,7 +35,7 @@ export default {
   top: 0;
   right: 0;
   height: 100%;
-  width: 250px;
+  width: 100%;
   background-color: #f8f9fa;
   box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
   transform: translateX(100%);
@@ -68,6 +65,10 @@ export default {
   border: none;
   border-radius: 5px;
   cursor: pointer;
+}
+
+.sidebar-content button.active {
+  background-color: gray;
 }
 
 .sidebar-content button:hover {

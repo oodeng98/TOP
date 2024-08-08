@@ -6,6 +6,11 @@
         <a class="edit-button" @click="toggleEditMode">/EDIT</a>
       </div>
       <div ref="gridstack" class="grid-stack"></div>
+      <Sidebar
+        :availableComponents="availableComponents"
+        :isOpen="isSidebarOpen"
+        @toggleComponent="toggleComponent"
+      />
       <button
         class="toggle-button"
         :class="{ open: isSidebarOpen }"
@@ -21,6 +26,7 @@
 import { createApp, onMounted, ref, nextTick } from "vue";
 import { GridStack } from "gridstack";
 import "gridstack/dist/gridstack.min.css";
+import Sidebar from "./Sidebar.vue";
 import TodayFocusSmall from "./TodayFocusSmall.vue";
 import WeekFocusSmall from "./WeekFocusSmall.vue";
 import MonthFocusSmall from "./MonthFocusSmall.vue";
@@ -54,14 +60,49 @@ import BannedProgramList from "./BannedProgramList.vue";
 
 export default {
   name: "GridstackComponent",
-  components: {},
+  components: { Sidebar },
   setup() {
     const gridstack = ref(null);
     const isSidebarOpen = ref(false);
     const isEditMode = ref(false);
     let grid;
 
-    const addWidget = (component, width = 2, height = 2) => {
+    const components = [
+      { name: "TodayFocusSmall", component: TodayFocusSmall, width: 2, height: 1 },
+      { name: "WeekFocusSmall", component: WeekFocusSmall, width: 2, height: 1 },
+      { name: "MonthFocusSmall", component: MonthFocusSmall, width: 2, height: 1 },
+      { name: "TotalFocusSmall", component: TotalFocusSmall, width: 2, height: 1 },
+      { name: "TodayFocusBig", component: TodayFocusBig, width: 3, height: 1 },
+      { name: "WeekFocusBig", component: WeekFocusBig, width: 3, height: 1 },
+      { name: "MonthFocusBig", component: MonthFocusBig, width: 3, height: 1 },
+      { name: "TodayFocusBigWithoutComparison", component: TodayFocusBigWithoutComparison, width: 3, height: 1 },
+      { name: "WeekFocusBigWithoutComparison", component: WeekFocusBigWithoutComparison, width: 3, height: 1 },
+      { name: "MonthFocusBigWithoutComparison", component: MonthFocusBigWithoutComparison, width: 3, height: 1 },
+      { name: "TotalFocusBig", component: TotalFocusBig, width: 3, height: 1 },
+      { name: "PercentileRank", component: PercentileRank, width: 4, height: 3 },
+      { name: "TimerCheck", component: TimerCheck, width: 4, height: 2 },
+      { name: "TodayAchievementSmall", component: TodayAchievementSmall, width: 2, height: 1 },
+      { name: "WeekAchievementSmall", component: WeekAchievementSmall, width: 2, height: 1 },
+      { name: "MonthAchievementSmall", component: MonthAchievementSmall, width: 2, height: 1 },
+      { name: "TodayAchievementBig", component: TodayAchievementBig, width: 2, height: 2 },
+      { name: "WeekAchievementBig", component: WeekAchievementBig, width: 2, height: 2 },
+      { name: "MonthAchievementBig", component: MonthAchievementBig, width: 2, height: 2 },
+      { name: "MonthStreakColumn", component: MonthStreakColumn, width: 2, height: 2 },
+      { name: "MonthStreakRow", component: MonthStreakRow, width: 2, height: 2 },
+      { name: "CalendarCheck", component: CalendarCheck, width: 5, height: 4 },
+      { name: "FocusTimeEachPrograms", component: FocusTimeEachPrograms, width: 6, height: 4 },
+      { name: "FocusTimeEachProgramsPrecentage", component: FocusTimeEachProgramsPrecentage, width: 7, height: 4 },
+      { name: "TimeLine", component: TimeLine, width: 7, height: 4 },
+      { name: "TodayTargetTime", component: TodayTargetTime, width: 2, height: 1 },
+      { name: "WeekTargetTime", component: WeekTargetTime, width: 2, height: 1 },
+      { name: "MonthTargetTime", component: MonthTargetTime, width: 2, height: 1 },
+      { name: "SixMonthStreak", component: SixMonthStreak, width: 6, height: 2 },
+      { name: "BannedProgramList", component: BannedProgramList, width: 5, height: 4 },
+    ];
+
+    const availableComponents = ref(components.map((c) => ({ ...c, isActive: false })));
+
+    const addWidget = (componentConfig, width, height, pos = {}) => {
       if (!grid) {
         console.error("GridStack is not initialized yet.");
         return;
@@ -69,17 +110,16 @@ export default {
 
       const widgetElement = document.createElement("div");
       widgetElement.className = "grid-stack-item";
+      widgetElement.dataset.componentName = componentConfig.name;
       widgetElement.innerHTML = `
-          <div class="grid-stack-item-content">
-            <div class="widget-delete">✖</div>
-          </div>`;
-      grid.addWidget(widgetElement, { w: width, h: height, noResize : true });
+        <div class="grid-stack-item-content">
+          <div class="widget-delete">✖</div>
+        </div>`;
+      grid.addWidget(widgetElement, { w: width, h: height, ...pos, noResize: true });
 
-      const contentElement = widgetElement.querySelector(
-        ".grid-stack-item-content"
-      );
+      const contentElement = widgetElement.querySelector(".grid-stack-item-content");
       if (contentElement) {
-        const app = createApp(component);
+        const app = createApp(componentConfig.component);
         app.mount(contentElement);
       } else {
         console.error("Failed to find .grid-stack-item-content element.");
@@ -88,7 +128,26 @@ export default {
 
     const removeWidget = (event) => {
       const widgetElement = event.target.closest(".grid-stack-item");
+      const componentName = widgetElement.dataset.componentName;
       grid.removeWidget(widgetElement);
+      const componentConfig = availableComponents.value.find((c) => c.name === componentName);
+      if (componentConfig) {
+        componentConfig.isActive = false;
+      }
+    };
+
+    const toggleComponent = (name) => {
+      const componentConfig = availableComponents.value.find((c) => c.name === name);
+      if (!componentConfig) return;
+
+      const existingWidget = grid.engine.nodes.find((n) => n.el.dataset.componentName === name);
+      if (existingWidget) {
+        grid.removeWidget(existingWidget.el);
+        componentConfig.isActive = false;
+      } else {
+        addWidget(componentConfig, componentConfig.width, componentConfig.height);
+        componentConfig.isActive = true;
+      }
     };
 
     const toggleEditMode = () => {
@@ -127,43 +186,24 @@ export default {
           }
         });
 
-        // 모든 컴포넌트를 초기 상태로 추가
-        const components = [
-          // figma기준 width 2, height1 당 1칸
-          { component: TodayFocusSmall, width: 2, height: 1 },
-          { component: WeekFocusSmall, width: 2, height: 1 },
-          { component: MonthFocusSmall, width: 2, height: 1 },
-          { component: TotalFocusSmall, width: 2, height: 1 },
-          { component: TodayFocusBig, width: 3, height: 1 },
-          { component: WeekFocusBig, width: 3, height: 1 },
-          { component: MonthFocusBig, width: 3, height: 1 },
-          { component: TodayFocusBigWithoutComparison, width: 3, height: 1 },
-          { component: WeekFocusBigWithoutComparison, width: 3, height: 1 },
-          { component: MonthFocusBigWithoutComparison, width: 3, height: 1 },
-          { component: TotalFocusBig, width: 3, height: 1 },
-          { component: PercentileRank, width: 4, height: 3 },
-          { component: TimerCheck, width: 4, height: 2 },
-          { component: TodayAchievementSmall, width: 2, height: 1 },
-          { component: WeekAchievementSmall, width: 2, height: 1 },
-          { component: MonthAchievementSmall, width: 2, height: 1 },
-          { component: TodayAchievementBig, width: 2, height: 2 },
-          { component: WeekAchievementBig, width: 2, height: 2 },
-          { component: MonthAchievementBig, width: 2, height: 2 },
-          { component: MonthStreakColumn, width: 2, height: 2 },
-          { component: MonthStreakRow, width: 2, height: 2 },
-          { component: CalendarCheck, width: 5, height: 4 },
-          { component: FocusTimeEachPrograms, width: 6, height: 4 },
-          { component: FocusTimeEachProgramsPrecentage, width: 7, height: 4 },
-          { component: TimeLine, width: 7, height: 4 },
-          { component: TodayTargetTime, width: 2, height: 1 },
-          { component: WeekTargetTime, width: 2, height: 1 },
-          { component: MonthTargetTime, width: 2, height: 1 },
-          { component: SixMonthStreak, width: 6, height: 2},
-          { component: BannedProgramList, width: 5, height: 4},
+        // 기본 제공 컴포넌트 추가
+        const defaultComponents = [
+          { name: "TodayFocusBig", component: TodayFocusBig, width: 3, height: 1 },
+          { name: "WeekFocusBig", component: WeekFocusBig, width: 3, height: 1 },
+          { name: "MonthFocusBig", component: MonthFocusBig, width: 3, height: 1 },
+          { name: "TotalFocusBig", component: TotalFocusBig, width: 3, height: 1 },
+          { name: "TimeLine", component: TimeLine, width: 7, height: 4 },
+          { name: "BannedProgramList", component: BannedProgramList, width: 5, height: 4 },
+          { name: "FocusTimeEachProgramsPrecentage", component: FocusTimeEachProgramsPrecentage, width: 7, height: 4 },
+          { name: "CalendarCheck", component: CalendarCheck, width: 5, height: 4 },
         ];
 
-        components.forEach(({ component, width, height }) => {
-          addWidget(component, width, height);
+        defaultComponents.forEach(({ name, component, width, height }) => {
+          addWidget({ name, component }, width, height);
+          const componentConfig = availableComponents.value.find((c) => c.name === name);
+          if (componentConfig) {
+            componentConfig.isActive = true;
+          }
         });
       });
     });
@@ -172,9 +212,11 @@ export default {
       gridstack,
       isSidebarOpen,
       isEditMode,
+      availableComponents,
       toggleSidebar,
       toggleEditMode,
       addWidget,
+      toggleComponent,
     };
   },
 };
@@ -186,7 +228,7 @@ export default {
   height: 100vh;
   overflow: hidden;
   background-color: #f8f9fa;
-  border-radius: 10px; /* 대시보드 모서리를 둥글게 */
+  border-radius: 10px;
 }
 
 .header {
@@ -196,8 +238,8 @@ export default {
   padding: 20px;
   background-color: #f8f9fa;
   width: 100%;
-  border-radius: 10px 10px 0 0; /* 상단 모서리 둥글게 */
-  margin-bottom: 20px; /* 내용과의 간격 추가 */
+  border-radius: 10px 10px 0 0;
+  margin-bottom: 20px;
 }
 
 .header h1 {
@@ -214,15 +256,15 @@ export default {
   top: 0;
   right: 0;
   height: 100%;
-  width: 250px;
+  width: 350px;
   background-color: #f8f9fa;
   box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
   transform: translateX(100%);
   transition: transform 0.3s ease;
   z-index: 1000;
-  overflow-y: auto; /* 사이드바 내부 스크롤 설정 */
-  border-top-left-radius: 10px; /* 사이드바 모서리를 둥글게 */
-  border-bottom-left-radius: 10px; /* 사이드바 모서리를 둥글게 */
+  overflow-y: auto;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
 }
 
 .sidebar.open {
@@ -245,7 +287,7 @@ export default {
 }
 
 .toggle-button.open {
-  right: 270px; /* 사이드바 너비 + 여백 */
+  right: 350px;
 }
 
 .toggle-button:hover {
@@ -254,9 +296,7 @@ export default {
 
 .sidebar-content {
   padding: 20px;
-  height: calc(
-    100% - 40px
-  ); /* 높이를 계산하여 상단 버튼을 포함하지 않도록 설정 */
+  height: calc(100% - 40px);
 }
 
 .sidebar-content button {
@@ -271,6 +311,10 @@ export default {
   cursor: pointer;
 }
 
+.sidebar-content button.active {
+  background-color: gray;
+}
+
 .sidebar-content button:hover {
   background-color: #2980b9;
 }
@@ -280,35 +324,35 @@ export default {
   overflow: auto;
   transition: margin-right 0.3s ease, width 0.3s ease;
   background-color: #f8f9fa;
-  border-radius: 10px; /* 대시보드 모서리를 둥글게 */
+  border-radius: 10px;
 }
 
 .layout.sidebar-open .content {
-  margin-right: 250px; /* 사이드바의 너비만큼 오른쪽으로 이동 */
+  margin-right: 250px;
 }
 
 .grid-stack {
   width: 100%;
-  padding: 20px; /* 사이드바와 대시보드 간의 여백을 추가 */
-  flex-shrink: 0; /* 대시보드가 사이드바에 밀리지 않도록 고정 */
+  padding: 20px;
+  flex-shrink: 0;
 }
 
 .grid-stack-item {
-  width: calc(100% / 12); /* 12열 그리드에 맞게 셀 너비를 설정 */
+  width: calc(100% / 12);
 }
 
 .grid-stack-item-content {
-  background-color: #ffffff !important; /* 위젯 배경색을 하얀색으로 설정 */
+  background-color: #ffffff !important;
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #333; /* 텍스트 색상 변경 */
+  color: #333;
   height: 100%;
-  border-radius: 10px; /* 위젯 모서리를 둥글게 설정 */
-  white-space: nowrap; /* 줄넘김 방지 */
+  border-radius: 10px;
+  white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis; /* 글자 길어질 경우 생략표시 */
-  position: relative; /* 삭제 버튼 위치를 위해 필요 */
+  text-overflow: ellipsis;
+  position: relative;
 }
 
 .widget-delete {
@@ -323,7 +367,7 @@ export default {
   height: 20px;
   text-align: center;
   cursor: pointer;
-  display: none; /* 초기에는 숨김 */
+  display: none;
 }
 
 button {
