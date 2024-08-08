@@ -2,9 +2,13 @@
   "manifest_version": 3,
   "name": "TOP",
   "version": "1.0",
-  "permissions": ["nativeMessaging", "tabs",
-                  "storage", "activeTab",
-                  "scripting"],
+  "permissions": [
+    "nativeMessaging",
+    "tabs",
+    "storage",
+    "activeTab",
+    "scripting"
+  ],
   "background": {
     "service_worker": "background.js"
   },
@@ -14,6 +18,7 @@
   "icons": {
     "128": "icon.png"
   },
+
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
@@ -27,7 +32,8 @@
         "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
         "node_modules/bootstrap/dist/css/bootstrap.min.css",
         "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
-        "node_modules/livekit-client/dist/livekit-client.umd.js"
+        "node_modules/livekit-client/dist/livekit-client.umd.js",
+        "host/install_host.bat"
       ],
       "matches": ["<all_urls>"]
     }
