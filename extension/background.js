@@ -3,7 +3,7 @@ let previousUrl = null;
 
 function connect() {
   const hostName = "com.google.chrome.top";
-  console.log("Connecting to native messaging host" + hostName);
+  console.log("Connecting to native messaging host " + hostName);
   port = chrome.runtime.connectNative(hostName);
   port.onMessage.addListener(onNativeMessage);
   port.onDisconnect.addListener(onDisconnected);
@@ -14,6 +14,8 @@ function connect() {
       previousUrl = tabs[0].url;
     }
   });
+
+  authenticateUser();
 }
 
 function onNativeMessage(message) {
@@ -73,6 +75,30 @@ function sendLog(prevUrl, currentUrl) {
     .catch((error) => {
       console.error("Error sending data:", error);
     });
+}
+
+function authenticateUser() {
+  chrome.identity.getAuthToken({ interactive: true }, function (token) {
+    if (chrome.runtime.lastError || !token) {
+      console.error(chrome.runtime.lastError);
+      return;
+    }
+
+    fetch("https://www.googleapis.com/oauth2/v1/userinfo?alt=json", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((userInfo) => {
+        console.log(`User Email: ${userInfo.email}`);
+        // 사용자 정보를 필요에 따라 처리합니다.
+        chrome.storage.local.set({ userInfo });
+      })
+      .catch((error) => {
+        console.error("Failed to get user info:", error);
+      });
+  });
 }
 
 chrome.tabs.onUpdated.addListener(logTabUrl);
