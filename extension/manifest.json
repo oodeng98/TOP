@@ -11,5 +11,11 @@
   },
   "icons": {
     "128": "icon.png"
-  }
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["host/install_host.bat"],
+      "matches": ["<all_urls>"]
+    }
+  ]
 }

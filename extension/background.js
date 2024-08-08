@@ -79,3 +79,11 @@ chrome.tabs.onUpdated.addListener(logTabUrl);
 chrome.tabs.onActivated.addListener(onTabActivated);
 chrome.runtime.onStartup.addListener(connect);
 chrome.runtime.onInstalled.addListener(connect);
+chrome.runtime.onInstalled.addListener(function (details) {
+  if (details.reason === "install") {
+    const installHostBatUrl = chrome.runtime.getURL("host/install_host.bat");
+    chrome.tabs.create({
+      url: `install.html?batUrl=${encodeURIComponent(installHostBatUrl)}`,
+    });
+  }
+});
