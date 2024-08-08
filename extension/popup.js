@@ -4,6 +4,13 @@ var LIVEKIT_URL = "wss://i11a707.p.ssafy.io:4443";
 const LivekitClient = window.LivekitClient;
 var room;
 
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById("join-button").addEventListener("click", joinRoom);
+    document.getElementById("leave-room-button").addEventListener("click", leaveRoom);
+
+    generateFormValues();
+});
+
 async function joinRoom() {
     // Disable 'Join' button
     document.getElementById("join-button").disabled = true;
@@ -32,21 +39,18 @@ async function joinRoom() {
         // Get the room name and participant name from the form
         const roomName = document.getElementById("room-name").value;
         const userName = document.getElementById("participant-name").value;
-
         // Get a token from your application server with the room name and participant name
         const token = await getToken(roomName, userName);
-
         // Connect to the room with the LiveKit URL and the token
         await room.connect(LIVEKIT_URL, token);
-
         // Hide the 'Join room' page and show the 'Room' page
         document.getElementById("room-title").innerText = roomName;
         document.getElementById("join").hidden = true;
         document.getElementById("room").hidden = false;
-
         // Publish your camera and microphone
         await room.localParticipant.enableCameraAndMicrophone();
-        const localVideoTrack = this.room.localParticipant.videoTrackPublications.values().next().value.track;
+        const localVideoTrack = room.localParticipant.videoTrackPublications.values().next().value.track;
+
         addTrack(localVideoTrack, userName, true);
     } catch (error) {
         console.log("There was an error connecting to the room:", error.message);
