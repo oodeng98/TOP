@@ -60,7 +60,7 @@ export default {
   width: 100%;
   margin-bottom: 10px;
   padding: 10px;
-  background-color: #3498db;
+  background-color: #8793F5;
   color: white;
   border: none;
   border-radius: 5px;
@@ -68,10 +68,10 @@ export default {
 }
 
 .sidebar-content button.active {
-  background-color: gray;
+  background-color: #A9A9A9;
 }
 
 .sidebar-content button:hover {
-  background-color: #2980b9;
+  background-color: #7A84DC;
 }
 </style>

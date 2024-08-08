@@ -3,7 +3,7 @@
     <div class="content">
       <div class="header">
         <h1>Dashboard</h1>
-        <a class="edit-button" @click="toggleEditMode">/EDIT</a>
+        <a class="edit-button" @click="toggleEditMode">저장</a>
       </div>
       <div ref="gridstack" class="grid-stack"></div>
       <Sidebar
