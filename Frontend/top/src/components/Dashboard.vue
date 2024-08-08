@@ -3,9 +3,14 @@
     <div class="content">
       <div class="header">
         <h1>Dashboard</h1>
-        <a class="edit-button" @click="toggleEditMode">/EDIT</a>
+        <a class="edit-button" @click="toggleEditMode">저장</a>
       </div>
       <div ref="gridstack" class="grid-stack"></div>
+      <Sidebar
+        :availableComponents="availableComponents"
+        :isOpen="isSidebarOpen"
+        @toggleComponent="toggleComponent"
+      />
       <button
         class="toggle-button"
         :class="{ open: isSidebarOpen }"
@@ -21,47 +26,83 @@
 import { createApp, onMounted, ref, nextTick } from "vue";
 import { GridStack } from "gridstack";
 import "gridstack/dist/gridstack.min.css";
-import TodayFocus1 from "./TodayFocus1.vue";
-import WeekFocus1 from "./WeekFocus1.vue";
-import MonthFocus1 from "./MonthFocus1.vue";
-import TodayFocus2 from "./TodayFocus2.vue";
-import WeekFocus2 from "./WeekFocus2.vue";
-import MonthFocus2 from "./MonthFocus2.vue";
-import TodayFocus2WithoutID from "./TodayFocus2WithoutID.vue";
-import WeekFocus2WithoutID from "./WeekFocus2WithoutID.vue";
-import MonthFocus2WithoutID from "./MonthFocus2WithoutID.vue";
-import TotalFocus2WithoutID from "./TotalFocus2WithoutID.vue";
+import Sidebar from "./Sidebar.vue";
+import TodayFocusSmall from "./TodayFocusSmall.vue";
+import WeekFocusSmall from "./WeekFocusSmall.vue";
+import MonthFocusSmall from "./MonthFocusSmall.vue";
+import TotalFocusSmall from "./TotalFocusSmall.vue";
+import TodayFocusBig from "./TodayFocusBig.vue";
+import WeekFocusBig from "./WeekFocusBig.vue";
+import MonthFocusBig from "./MonthFocusBig.vue";
+import TodayFocusBigWithoutComparison from "./TodayFocusBigWithoutComparison.vue";
+import WeekFocusBigWithoutComparison from "./WeekFocusBigWithoutComparison.vue";
+import MonthFocusBigWithoutComparison from "./MonthFocusBigWithoutComparison.vue";
+import TotalFocusBig from "./TotalFocusBig.vue";
 import PercentileRank from "./PercentileRank.vue";
-import TimeCheck from "./TimeCheck.vue";
-import TodayAchievement1 from "./TodayAchievement1.vue";
-import WeekAchievement1 from "./WeekAchievement1.vue";
-import MonthAchievement1 from "./MonthAchievement1.vue";
-import TodayAchievement2 from "./TodayAchievement2.vue";
-import WeekAchievement2 from "./WeekAchievement2.vue";
-import MonthAchievement2 from "./MonthAchievement2.vue";
+import TimerCheck from "./TimerCheck.vue";
+import TodayAchievementSmall from "./TodayAchievementSmall.vue";
+import WeekAchievementSmall from "./WeekAchievementSmall.vue";
+import MonthAchievementSmall from "./MonthAchievementSmall.vue";
+import TodayAchievementBig from "./TodayAchievementBig.vue";
+import WeekAchievementBig from "./WeekAchievementBig.vue";
+import MonthAchievementBig from "./MonthAchievementBig.vue";
 import MonthStreakColumn from "./MonthStreakColumn.vue";
 import MonthStreakRow from "./MonthStreakRow.vue";
-import HalfYearStreak from "./HalfYearStreak.vue";
 import CalendarCheck from "./CalendarCheck.vue";
 import FocusTimeEachPrograms from "./FocusTimeEachPrograms.vue";
 import FocusTimeEachProgramsPrecentage from "./FocusTimeEachProgramsPrecentage.vue";
 import TimeLine from "./TimeLine.vue";
-import TodayAchievementTime from "./TodayAchievementTime.vue";
-import WeekAchievementTime from "./WeekAchievementTime.vue";
-import MonthAchievementTime from "./MonthAchievementTime.vue";
+import TodayTargetTime from "./TodayTargetTime.vue";
+import WeekTargetTime from "./WeekTargetTime.vue";
+import MonthTargetTime from "./MonthTargetTime.vue";
 import SixMonthStreak from "./SixMonthStreak.vue";
 import BannedProgramList from "./BannedProgramList.vue";
 
 export default {
   name: "GridstackComponent",
-  components: {},
+  components: { Sidebar },
   setup() {
     const gridstack = ref(null);
     const isSidebarOpen = ref(false);
     const isEditMode = ref(false);
     let grid;
 
-    const addWidget = (component, width = 2, height = 2) => {
+    const components = [
+      { name: "오늘 집중 시간 2x1", component: TodayFocusSmall, width: 2, height: 1 },
+      { name: "오늘 집중 시간(비교X) 3x1", component: TodayFocusBigWithoutComparison, width: 3, height: 1 },
+      { name: "오늘 집중 시간(비교O) 3x1", component: TodayFocusBig, width: 3, height: 1 },
+      { name: "이번주 집중 시간 2x1", component: WeekFocusSmall, width: 2, height: 1 },
+      { name: "이번주 집중 시간(비교X) 3x1", component: WeekFocusBigWithoutComparison, width: 3, height: 1 },
+      { name: "이번주 집중 시간(비교O) 3x1", component: WeekFocusBig, width: 3, height: 1 },
+      { name: "이번달 집중 시간 2x1", component: MonthFocusSmall, width: 2, height: 1 },
+      { name: "이번달 집중 시간(비교X) 3x1", component: MonthFocusBigWithoutComparison, width: 3, height: 1 },
+      { name: "이번달 집중 시간(비교O) 3x1", component: MonthFocusBig, width: 3, height: 1 },
+      { name: "총 집중 시간 2x1", component: TotalFocusSmall, width: 2, height: 1 },
+      { name: "총 집중 시간 3x1", component: TotalFocusBig, width: 3, height: 1 },
+      { name: "오늘 목표 달성률 2x1", component: TodayAchievementSmall, width: 2, height: 1 },
+      { name: "오늘 목표 달성률 2x2", component: TodayAchievementBig, width: 2, height: 2 },
+      { name: "이번주 목표 달성률 2x1", component: WeekAchievementSmall, width: 2, height: 1 },
+      { name: "이번주 목표 달성률 2x2", component: WeekAchievementBig, width: 2, height: 2 },
+      { name: "이번달 목표 달성률 2x1", component: MonthAchievementSmall, width: 2, height: 1 },
+      { name: "이번달 목표 달성률 2x2", component: MonthAchievementBig, width: 2, height: 2 },
+      { name: "오늘 목표 집중 시간 2x1", component: TodayTargetTime, width: 2, height: 1 },
+      { name: "이번주 목표 집중 시간 2x1", component: WeekTargetTime, width: 2, height: 1 },
+      { name: "이번달 목표 집중 시간 2x1", component: MonthTargetTime, width: 2, height: 1 },
+      { name: "이번달 스트릭(세로) 2x2", component: MonthStreakColumn, width: 2, height: 2 },
+      { name: "이번달 스트릭(가로) 2x2", component: MonthStreakRow, width: 2, height: 2 },
+      { name: "스트릭 6x2", component: SixMonthStreak, width: 6, height: 2 },
+      { name: "집중 백분율 4x3", component: PercentileRank, width: 4, height: 3 },
+      { name: "타이머 4x2", component: TimerCheck, width: 4, height: 2 },
+      { name: "달력 5x4", component: CalendarCheck, width: 5, height: 4 },
+      { name: "항목별 집중 시간 6x4", component: FocusTimeEachPrograms, width: 6, height: 4 },
+      { name: "항목별 집중 시간과 백분율 7x4", component: FocusTimeEachProgramsPrecentage, width: 7, height: 4 },
+      { name: "오늘 시각별 집중 타임라인 7x4", component: TimeLine, width: 7, height: 4 },
+      { name: "금지 목록 5x4", component: BannedProgramList, width: 5, height: 4 },
+    ];
+
+    const availableComponents = ref(components.map((c) => ({ ...c, isActive: false })));
+
+    const addWidget = (componentConfig, width, height, pos = {}) => {
       if (!grid) {
         console.error("GridStack is not initialized yet.");
         return;
@@ -69,17 +110,16 @@ export default {
 
       const widgetElement = document.createElement("div");
       widgetElement.className = "grid-stack-item";
+      widgetElement.dataset.componentName = componentConfig.name;
       widgetElement.innerHTML = `
-          <div class="grid-stack-item-content">
-            <div class="widget-delete">✖</div>
-          </div>`;
-      grid.addWidget(widgetElement, { w: width, h: height });
+        <div class="grid-stack-item-content">
+          <div class="widget-delete">✖</div>
+        </div>`;
+      grid.addWidget(widgetElement, { w: width, h: height, ...pos, noResize: true });
 
-      const contentElement = widgetElement.querySelector(
-        ".grid-stack-item-content"
-      );
+      const contentElement = widgetElement.querySelector(".grid-stack-item-content");
       if (contentElement) {
-        const app = createApp(component);
+        const app = createApp(componentConfig.component);
         app.mount(contentElement);
       } else {
         console.error("Failed to find .grid-stack-item-content element.");
@@ -88,7 +128,26 @@ export default {
 
     const removeWidget = (event) => {
       const widgetElement = event.target.closest(".grid-stack-item");
+      const componentName = widgetElement.dataset.componentName;
       grid.removeWidget(widgetElement);
+      const componentConfig = availableComponents.value.find((c) => c.name === componentName);
+      if (componentConfig) {
+        componentConfig.isActive = false;
+      }
+    };
+
+    const toggleComponent = (name) => {
+      const componentConfig = availableComponents.value.find((c) => c.name === name);
+      if (!componentConfig) return;
+
+      const existingWidget = grid.engine.nodes.find((n) => n.el.dataset.componentName === name);
+      if (existingWidget) {
+        grid.removeWidget(existingWidget.el);
+        componentConfig.isActive = false;
+      } else {
+        addWidget(componentConfig, componentConfig.width, componentConfig.height);
+        componentConfig.isActive = true;
+      }
     };
 
     const toggleEditMode = () => {
@@ -127,42 +186,24 @@ export default {
           }
         });
 
-        // 모든 컴포넌트를 초기 상태로 추가
-        const components = [
-          { component: TodayFocus1, width: 2, height: 1 },
-          { component: WeekFocus1, width: 2, height: 1 },
-          { component: MonthFocus1, width: 2, height: 1 },
-          { component: TodayFocus2, width: 4, height: 1 },
-          { component: WeekFocus2, width: 4, height: 1 },
-          { component: MonthFocus2, width: 4, height: 1 },
-          { component: TodayFocus2WithoutID, width: 4, height: 1 },
-          { component: WeekFocus2WithoutID, width: 4, height: 1 },
-          { component: MonthFocus2WithoutID, width: 4, height: 1 },
-          { component: TotalFocus2WithoutID, width: 4, height: 1 },
-          { component: PercentileRank, width: 4, height: 3 },
-          { component: TimeCheck, width: 4, height: 2 },
-          { component: TodayAchievement1, width: 2, height: 1 },
-          { component: WeekAchievement1, width: 2, height: 1 },
-          { component: MonthAchievement1, width: 2, height: 1 },
-          { component: TodayAchievement2, width: 2, height: 2 },
-          { component: WeekAchievement2, width: 2, height: 2 },
-          { component: MonthAchievement2, width: 2, height: 2 },
-          { component: MonthStreakColumn, width: 2, height: 2 },
-          { component: MonthStreakRow, width: 2, height: 2 },
-          // { component: HalfYearStreak, width: 8, height: 2 },
-          { component: CalendarCheck, width: 6, height: 4 },
-          { component: FocusTimeEachPrograms, width: 6, height: 4 },
-          { component: FocusTimeEachProgramsPrecentage, width: 6, height: 4 },
-          { component: TimeLine, width: 6, height: 4 },
-          { component: TodayAchievementTime, width: 2, height: 1 },
-          { component: WeekAchievementTime, width: 2, height: 1 },
-          { component: MonthAchievementTime, width: 2, height: 1 },
-          { component: SixMonthStreak, width: 6, height: 2},
-          { component: BannedProgramList, width: 6, height: 6},
+        // 기본 제공 컴포넌트 추가
+        const defaultComponents = [
+          { name: "오늘 집중 시간(비교X) 3x1", component: TodayFocusBigWithoutComparison, width: 3, height: 1 },
+          { name: "이번주 집중 시간(비교X) 3x1", component: WeekFocusBigWithoutComparison, width: 3, height: 1 },
+          { name: "이번달 집중 시간(비교X) 3x1", component: MonthFocusBigWithoutComparison, width: 3, height: 1 },
+          { name: "총 집중 시간 3x1", component: TotalFocusBig, width: 3, height: 1 },
+          { name: "오늘 시각별 집중 타임라인 7x4", component: TimeLine, width: 7, height: 4 },
+          { name: "금지 목록 5x4", component: BannedProgramList, width: 5, height: 4 },
+          { name: "항목별 집중 시간과 백분율 7x4", component: FocusTimeEachProgramsPrecentage, width: 7, height: 4 },
+          { name: "달력 5x4", component: CalendarCheck, width: 5, height: 4 },
         ];
 
-        components.forEach(({ component, width, height }) => {
-          addWidget(component, width, height);
+        defaultComponents.forEach(({ name, component, width, height }) => {
+          addWidget({ name, component }, width, height);
+          const componentConfig = availableComponents.value.find((c) => c.name === name);
+          if (componentConfig) {
+            componentConfig.isActive = true;
+          }
         });
       });
     });
@@ -171,9 +212,11 @@ export default {
       gridstack,
       isSidebarOpen,
       isEditMode,
+      availableComponents,
       toggleSidebar,
       toggleEditMode,
       addWidget,
+      toggleComponent,
     };
   },
 };
@@ -185,7 +228,7 @@ export default {
   height: 100vh;
   overflow: hidden;
   background-color: #f8f9fa;
-  border-radius: 10px; /* 대시보드 모서리를 둥글게 */
+  border-radius: 10px;
 }
 
 .header {
@@ -195,8 +238,8 @@ export default {
   padding: 20px;
   background-color: #f8f9fa;
   width: 100%;
-  border-radius: 10px 10px 0 0; /* 상단 모서리 둥글게 */
-  margin-bottom: 20px; /* 내용과의 간격 추가 */
+  border-radius: 10px 10px 0 0;
+  margin-bottom: 20px;
 }
 
 .header h1 {
@@ -213,15 +256,15 @@ export default {
   top: 0;
   right: 0;
   height: 100%;
-  width: 250px;
+  width: 350px;
   background-color: #f8f9fa;
   box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
   transform: translateX(100%);
   transition: transform 0.3s ease;
   z-index: 1000;
-  overflow-y: auto; /* 사이드바 내부 스크롤 설정 */
-  border-top-left-radius: 10px; /* 사이드바 모서리를 둥글게 */
-  border-bottom-left-radius: 10px; /* 사이드바 모서리를 둥글게 */
+  overflow-y: auto;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
 }
 
 .sidebar.open {
@@ -244,7 +287,7 @@ export default {
 }
 
 .toggle-button.open {
-  right: 270px; /* 사이드바 너비 + 여백 */
+  right: 350px;
 }
 
 .toggle-button:hover {
@@ -253,9 +296,7 @@ export default {
 
 .sidebar-content {
   padding: 20px;
-  height: calc(
-    100% - 40px
-  ); /* 높이를 계산하여 상단 버튼을 포함하지 않도록 설정 */
+  height: calc(100% - 40px);
 }
 
 .sidebar-content button {
@@ -270,6 +311,10 @@ export default {
   cursor: pointer;
 }
 
+.sidebar-content button.active {
+  background-color: gray;
+}
+
 .sidebar-content button:hover {
   background-color: #2980b9;
 }
@@ -279,35 +324,35 @@ export default {
   overflow: auto;
   transition: margin-right 0.3s ease, width 0.3s ease;
   background-color: #f8f9fa;
-  border-radius: 10px; /* 대시보드 모서리를 둥글게 */
+  border-radius: 10px;
 }
 
 .layout.sidebar-open .content {
-  margin-right: 250px; /* 사이드바의 너비만큼 오른쪽으로 이동 */
+  margin-right: 250px;
 }
 
 .grid-stack {
   width: 100%;
-  padding: 20px; /* 사이드바와 대시보드 간의 여백을 추가 */
-  flex-shrink: 0; /* 대시보드가 사이드바에 밀리지 않도록 고정 */
+  padding: 20px;
+  flex-shrink: 0;
 }
 
 .grid-stack-item {
-  width: calc(100% / 12); /* 12열 그리드에 맞게 셀 너비를 설정 */
+  width: calc(100% / 12);
 }
 
 .grid-stack-item-content {
-  background-color: #ffffff !important; /* 위젯 배경색을 하얀색으로 설정 */
+  background-color: #ffffff !important;
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #333; /* 텍스트 색상 변경 */
+  color: #333;
   height: 100%;
-  border-radius: 10px; /* 위젯 모서리를 둥글게 설정 */
-  white-space: nowrap; /* 줄넘김 방지 */
+  border-radius: 10px;
+  white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis; /* 글자 길어질 경우 생략표시 */
-  position: relative; /* 삭제 버튼 위치를 위해 필요 */
+  text-overflow: ellipsis;
+  position: relative;
 }
 
 .widget-delete {
@@ -322,7 +367,7 @@ export default {
   height: 20px;
   text-align: center;
   cursor: pointer;
-  display: none; /* 초기에는 숨김 */
+  display: none;
 }
 
 button {

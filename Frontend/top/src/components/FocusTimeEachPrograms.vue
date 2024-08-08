@@ -17,7 +17,7 @@
               <div class="item-content">
                 <img
                   class="icon"
-                  :src="getImagePath(app.name)"
+                  :src="app.imagePath"
                   :alt="app.name"
                   @error="handleImageError"
                 />
@@ -49,14 +49,15 @@ export default {
     async fetchData() {
       try {
         const response = await axios.get(
-          "https://i11a707.p.ssafy.io/api/dash/stats/focus-time"
+          "https://i11a707.p.ssafy.io/api/dash/stats/app"
         );
-        console.log("FocusTimeEachPrograms");
-        console.log(response.data);
-        if (response.status === 200 && response.data.statusCode === "200") {
-          this.appList = response.data.data.appList;
+        if (response.status === 200 && response.data.statusCode === 200) {
+          this.appList = response.data.data.map(app => ({
+            ...app,
+            imagePath: this.getImagePath(app.name),
+          }));
         } else {
-          console.error("Failed to fetch data:", response.data.message);
+          console.error("Failed to fetch data:", '데이터 조회에 실패했습니다');
         }
       } catch (error) {
         console.error("FocusTimeEachPrograms API request failed:", error);
@@ -78,7 +79,7 @@ export default {
       }
     },
     handleImageError(event) {
-      event.target.src = require("../static/img/application_icon/default.png"); // 기본 이미지 경로
+      event.target.src = require("../static/img/application_icon/default.png").default;
     },
   },
 };
@@ -86,26 +87,27 @@ export default {
 
 <style scoped>
 .box {
-  height: 400px;
-  width: 483px;
-  padding-top: 20px;
-}
-
-.box .element {
-  height: 400px;
-  left: 0;
-  top: 0;
-  width: 483px;
-}
-
-.box .overlap-group {
+  height: 100%;
+  width: 100%;
   background-color: #ffffff;
   border-radius: 15px;
   box-shadow: 0px 3.5px 5.5px #00000005;
-  height: 400px;
-  position: relative;
-  width: 483px;
+  padding-top: 20px;
+  overflow: hidden; /* 박스 자체에 스크롤이 생기지 않도록 설정 */
+}
+
+.box .element {
+  height: 100%; /* 요소 높이 100%로 설정 */
+  width: 100%;
+  overflow: hidden; /* 요소 내부에 스크롤이 생기지 않도록 설정 */
+}
+
+.box .overlap-group {
+  height: 100%; /* 요소 높이 100%로 설정 */
+  overflow-y: auto; /* 세로 스크롤이 생기도록 설정 */
+  width: 100%;
   padding: 20px;
+  background-color: #ffffff; /* 백그라운드 색상 설정 */
 }
 
 .box .list {
@@ -127,6 +129,7 @@ export default {
 .box .item-content {
   display: flex;
   align-items: center;
+  justify-content: space-between; /* x축 중앙 정렬을 위해 추가 */
   margin-bottom: 10px;
 }
 

@@ -67,8 +67,8 @@ export default {
   text-align: center;
   margin-top: 20px;
   font-family: Arial, sans-serif;
-  height: 300px;
-  width: 483px;
+  height: 100%;
+  width: 100%;
 }
 
 .timer h2 {

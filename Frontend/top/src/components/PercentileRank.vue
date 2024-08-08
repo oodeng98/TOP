@@ -1,13 +1,14 @@
-<template>
+`<template>
   <div class="subbox4">
     <div class="box4">
+      <div class="title">나의 백분위</div>
       <div class="group4">
         <div class="overlap4">
           <div class="overlap-group4">
             <div class="chart4">
               <div class="div4">
                 <div class="ellipse4"></div>
-                <div class="text4">{{ dailyPercentile }}</div>
+                <div class="text4">{{ dailyPercentile }}%</div>
                 <img
                   class="img4"
                   alt="Ellipse"
@@ -19,7 +20,7 @@
             <div class="overlap-wrapper4">
               <div class="overlap-4-2">
                 <div class="ellipse-4-2"></div>
-                <div class="text-4-2">{{ weeklyPercentile }}</div>
+                <div class="text-4-2">{{ weeklyPercentile }}%</div>
                 <div class="text-4-3">월간 백분위</div>
                 <img
                   class="ellipse-4-3"
@@ -32,7 +33,7 @@
           <div class="overlap-group-wrapper4">
             <div class="overlap-4-3">
               <div class="ellipse-4-4"></div>
-              <div class="text-4-4">{{ monthlyPercentile }}</div>
+              <div class="text-4-4">{{ monthlyPercentile }}%</div>
               <div class="text-4-5">주간 백분위</div>
               <img
                 class="ellipse-4-5"
@@ -88,11 +89,23 @@ export default {
 
 <style scoped>
 .subbox4 {
-  height: 300px;
-  width: 322px;
+  background-color: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0px 3.5px 5.5px #00000005;
+  height: 100%;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.title {
+  margin-top: -60px;
+  margin-bottom: 20px;
+  color: #a0aec0;
+  font-family: "Helvetica-BoldOblique", Helvetica;
+  font-size: 20px;
+  font-weight: 700;
 }
 
 .box4 {
@@ -307,3 +320,4 @@ export default {
   width: 123px;
 }
 </style>
+`
