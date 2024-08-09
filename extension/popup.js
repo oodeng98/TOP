@@ -14,14 +14,6 @@ document.addEventListener('DOMContentLoaded', () => {
     generateFormValues();
 });
 
-chrome.identity.getAuthToken({ interactive: true }, function(token) {
-    if (chrome.runtime.lastError) {
-        console.log('Not logged in:', chrome.runtime.lastError);
-    } else {
-        console.log('User is logged in. Token:', token);
-    }
-});
-
 function godashboard(event) {
     event.preventDefault(); // 기본 링크 동작을 방지합니다.
     const href = this.getAttribute('href'); // 'href' 속성을 가져옵니다.

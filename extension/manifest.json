@@ -8,7 +8,8 @@
     "storage",
     "activeTab",
     "scripting",
-    "tabCapture"
+    "tabCapture",
+    "identity"
   ],
   "background": {
     "service_worker": "background.js"
@@ -26,9 +27,13 @@
         "node_modules/bootstrap/dist/css/bootstrap.min.css",
         "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
         "node_modules/livekit-client/dist/livekit-client.umd.js",
-        "host/install_host.bat"
+        "host/initial_setting.bat"
       ],
       "matches": ["<all_urls>"]
     }
-  ]
+  ],
+  "oauth2": {
+    "client_id": "248934322493-gplf6c0t0r9mpah7aocrgugsejfs3t3a.apps.googleusercontent.com",
+    "scopes": ["https://www.googleapis.com/auth/userinfo.email"]
+  }
 }
