@@ -1,5 +1,6 @@
 var APPLICATION_SERVER_URL = "https://i11a707.p.ssafy.io/ov-server/";
 var LIVEKIT_URL = "wss://i11a707.p.ssafy.io:4443";
+var DEFAULT_URL = "https://i11a707.p.ssafy.io/api";
 
 const LivekitClient = window.LivekitClient;
 var room;
@@ -10,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById("join-button").addEventListener("click", joinRoom);
     document.getElementById("leave-room-button").addEventListener("click", leaveRoom);
     
-    // generateFormValues();
+    generateFormValues();
 });
 
 function godashboard(event) {
@@ -101,12 +102,12 @@ window.onbeforeunload = () => {
     room?.disconnect();
 };
 
-// window.onload = generateFormValues;
+window.onload = generateFormValues;
 
-// function generateFormValues() {
-//     document.getElementById("room-name").value = "Test Room";
-//     document.getElementById("participant-name").value = "Participant" + Math.floor(Math.random() * 100);
-// }
+function generateFormValues() {
+    document.getElementById("room-name").value = "Test Room";
+    document.getElementById("participant-name").value = getUserInfo().nickname;
+}
 
 function createVideoContainer(participantIdentity, local = false) {
     const videoContainer = document.createElement("div");
@@ -161,4 +162,21 @@ async function getToken(roomName, participantName) {
 
     const token = await response.json();
     return token.token;
+}
+
+// 내 정보 불러오기
+async function getUserInfo() {
+    fetch( DEFAULT_URL + "/user", {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        },
+    })
+    .then((response) => {
+        console.log(response);
+        return response;
+    })
+    .catch(error => {
+        console.log('error: ', error);
+    })
 }
