@@ -5,7 +5,7 @@
       <div v-for="(component, index) in availableComponents" :key="index">
         <button
           :class="{ active: component.isActive }"
-          @click="toggleComponent(component.name)"
+          @click="toggleComponent(component.componentName)"
         >
           <p>{{ component.name }}</p>
         </button>
@@ -39,7 +39,7 @@ export default {
   background-color: #f8f9fa;
   box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
   transform: translateX(100%);
-  transition: transform 2s ease-out;
+  transition: transform 0.3s ease;
   z-index: 1000;
   overflow-y: auto;
   border-top-left-radius: 10px;
@@ -47,7 +47,7 @@ export default {
 }
 
 .sidebar.open {
-  transform: translateX(0); /* Move the sidebar into view */
+  transform: translateX(0); /* 사이드바를 화면에 보이도록 이동 */
 }
 
 .sidebar-content {

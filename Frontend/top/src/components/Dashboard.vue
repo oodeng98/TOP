@@ -353,17 +353,19 @@ export default {
 
     const toggleComponent = (name) => {
       const componentConfig = availableComponents.value.find(
-        (c) => c.componentName === name // component의 name으로 찾기
+        (c) => c.componentName === name // 컴포넌트 이름으로 찾기
       );
       if (!componentConfig) return;
 
       const existingWidget = grid.engine.nodes.find(
-        (n) => n.el.dataset.componentName === name // component의 name으로 찾기
+        (n) => n.el.dataset.componentName === name // 해당 컴포넌트가 이미 존재하는지 확인
       );
       if (existingWidget) {
+        // 위젯이 이미 존재하면 제거
         grid.removeWidget(existingWidget.el);
         componentConfig.isActive = false;
       } else {
+        // 위젯이 존재하지 않으면 추가
         addWidget(
           componentConfig,
           componentConfig.width,
