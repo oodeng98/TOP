@@ -409,10 +409,6 @@ export default {
 
         // 현재 상태 로그로 확인
         console.log('Saving Active Widgets:', activeWidgets);
-
-        const response = await axios.post('https://i11a707.p.ssafy.io/widgets', activeWidgets);
-        console.log('Widgets saved successfully:', response.data);
-        alert('위젯 설정이 저장되었습니다.');
       } catch (error) {
         console.error("Error saving widgets:", error);
         alert("위젯 설정 저장 중 오류가 발생했습니다.");
