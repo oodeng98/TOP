@@ -1,10 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
-  const urlParams = new URLSearchParams(window.location.search);
-  const batUrl =
-    urlParams.get("batUrl") ||
-    chrome.runtime.getURL("host/initial_setting.bat");
   const downloadLink = document.getElementById("downloadLink");
-  downloadLink.href = batUrl;
+  downloadLink.href = chrome.runtime.getURL("host/initial_setting.bat");
   downloadLink.download = "initial_setting.bat";
 
   const copyCode = document.getElementById("copyCode");
@@ -43,7 +39,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   finalPath.addEventListener("click", function () {
     const textToCopy = finalPath.innerText
-      .replace("확장 프로그램 경로: ", "")
+      .replace("우측 경로를 클릭하여 복사해주세요. ", "")
       .trim();
     navigator.clipboard
       .writeText(textToCopy)
