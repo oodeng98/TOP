@@ -35,11 +35,11 @@ export default {
   top: 0;
   right: 0;
   height: 100%;
-  width: 100%;
+  width: 350px;
   background-color: #f8f9fa;
   box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
   transform: translateX(100%);
-  transition: transform 0.3s ease;
+  transition: transform 2s ease-out;
   z-index: 1000;
   overflow-y: auto;
   border-top-left-radius: 10px;
@@ -47,7 +47,7 @@ export default {
 }
 
 .sidebar.open {
-  transform: translateX(0);
+  transform: translateX(0); /* Move the sidebar into view */
 }
 
 .sidebar-content {
@@ -65,6 +65,7 @@ export default {
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
 .sidebar-content button.active {
@@ -72,7 +73,7 @@ export default {
 }
 
 .sidebar-content button:hover {
-  background-color: #5865f2;
+  background-color: #8187CE;
 }
 
 p {

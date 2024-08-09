@@ -3,13 +3,20 @@
     <div class="content">
       <div class="header">
         <h1>Dashboard</h1>
-        <button
-          v-if="!isSidebarOpen"
-          class="toggle-button"
-          @click.stop="toggleSidebar"
-        >
-          Edit
-        </button>
+        <div class="buttons">
+          <button
+            class="save-button"
+            @click="saveWidgets">
+            저장
+          </button>
+          <button
+            v-if="!isSidebarOpen"
+            class="toggle-button"
+            @click.stop="toggleSidebar"
+          >
+            위젯 목록
+          </button>
+        </div>  
       </div>
       <div ref="gridstack" class="grid-stack"></div>
       <Sidebar
@@ -58,12 +65,16 @@ import MonthTargetTime from "./MonthTargetTime.vue";
 import SixMonthStreak from "./SixMonthStreak.vue";
 import BannedProgramList from "./BannedProgramList.vue";
 
+import { useWidgetStore } from "@/store/useWidgetStore";
+
 export default {
   name: "GridstackComponent",
   components: { Sidebar },
   setup() {
     const gridstack = ref(null);
     const isSidebarOpen = ref(false);
+    const widgetStore = useWidgetStore(); // Pinia 스토어 사용
+
     let grid;
 
     const components = [
@@ -267,18 +278,31 @@ export default {
       } else {
         console.error("Failed to find .grid-stack-item-content element.");
       }
+
+      // Pinia 스토어에 위젯 추가
+      widgetStore.addWidget({
+        name: componentConfig.name,
+        width,
+        height,
+        x: pos.x || 0,
+        y: pos.y || 0,
+      });
     };
 
     const removeWidget = (event) => {
       const widgetElement = event.target.closest(".grid-stack-item");
       const componentName = widgetElement.dataset.componentName;
       grid.removeWidget(widgetElement);
+
       const componentConfig = availableComponents.value.find(
         (c) => c.name === componentName
       );
       if (componentConfig) {
         componentConfig.isActive = false;
       }
+
+      // Pinia 스토어에서 위젯 제거
+      widgetStore.removeWidget(componentName);
     };
 
     const toggleComponent = (name) => {
@@ -318,6 +342,17 @@ export default {
       }
     };
 
+    const saveWidgets = async () => {
+      try {
+        const response = await axios.post('https://i11a707.p.ssafy.io/widgets', widgetStore.widgets);
+        console.log('Widgets saved successfully:', response.data);
+        alert('위젯 설정이 저장되었습니다.');
+      } catch (error) {
+        console.error('Error saving widgets:', error);
+        alert('위젯 설정 저장 중 오류가 발생했습니다.');
+      }
+    };
+
     onMounted(() => {
       nextTick(() => {
         const gridElement = gridstack.value;
@@ -342,62 +377,81 @@ export default {
           }
         });
 
-        // 기본 제공 컴포넌트 추가
-        const defaultComponents = [
-          {
-            name: "오늘의 집중 시간(비교X) 3x1",
-            component: TodayFocusBigWithoutComparison,
-            width: 3,
-            height: 1,
-          },
-          {
-            name: "이번주 집중 시간(비교X) 3x1",
-            component: WeekFocusBigWithoutComparison,
-            width: 3,
-            height: 1,
-          },
-          {
-            name: "이번달 집중 시간(비교X) 3x1",
-            component: MonthFocusBigWithoutComparison,
-            width: 3,
-            height: 1,
-          },
-          {
-            name: "총 집중 시간 3x1",
-            component: TotalFocusBig,
-            width: 3,
-            height: 1,
-          },
-          {
-            name: "타임라인 7x4",
-            component: TimeLine,
-            width: 7,
-            height: 4,
-          },
-          {
-            name: "금지 프로그램 목록 5x4",
-            component: BannedProgramList,
-            width: 5,
-            height: 4,
-          },
-          {
-            name: "프로그램별 집중 시간과 백분율 7x4",
-            component: FocusTimeEachProgramsPrecentage,
-            width: 7,
-            height: 4,
-          },
-          { name: "캘린더 5x4", component: CalendarCheck, width: 5, height: 4 },
-        ];
+        // Pinia 스토어에 저장된 위젯 로드
+        if  (widgetStore.widgets.length > 0) {
+          widgetStore.widgets.forEach(({name, width, height, x, y}) => {
+            const componentConfig = availableComponents.value.find(
+              (c) => c.name === name
+            );
+            if (componentConfig) {
+              addWidget(componentConfig, width, height, {x, y});
+              componentConfig.isActive = true;
+            }
+          });
+        } else {
+          // 기본 제공 컴포넌트 추가
+          const defaultComponents = [
+            {
+              name: "오늘의 집중 시간(비교X) 3x1",
+              component: TodayFocusBigWithoutComparison,
+              width: 3,
+              height: 1,
+            },
+            {
+              name: "이번주 집중 시간(비교X) 3x1",
+              component: WeekFocusBigWithoutComparison,
+              width: 3,
+              height: 1,
+            },
+            {
+              name: "이번달 집중 시간(비교X) 3x1",
+              component: MonthFocusBigWithoutComparison,
+              width: 3,
+              height: 1,
+            },
+            {
+              name: "총 집중 시간 3x1",
+              component: TotalFocusBig,
+              width: 3,
+              height: 1,
+            },
+            {
+              name: "타임라인 7x4",
+              component: TimeLine,
+              width: 7,
+              height: 4,
+            },
+            {
+              name: "금지 프로그램 목록 5x4",
+              component: BannedProgramList,
+              width: 5,
+              height: 4,
+            },
+            {
+              name: "프로그램별 집중 시간과 백분율 7x4",
+              component: FocusTimeEachProgramsPrecentage,
+              width: 7,
+              height: 4,
+            },
+            { name: "캘린더 5x4",
+              component: CalendarCheck,
+              width: 5,
+              height: 4
+            },
+          ];
 
-        defaultComponents.forEach(({ name, component, width, height }) => {
-          addWidget({ name, component }, width, height);
-          const componentConfig = availableComponents.value.find(
-            (c) => c.name === name
-          );
-          if (componentConfig) {
-            componentConfig.isActive = true;
-          }
-        });
+          defaultComponents.forEach(({ name, component, width, height }) => {
+            addWidget({ name, component }, width, height);
+            const componentConfig = availableComponents.value.find(
+              (c) => c.name === name
+            );
+            if (componentConfig) {
+              componentConfig.isActive = true;
+            }
+          });
+        }
+
+
       });
     });
 
@@ -409,6 +463,7 @@ export default {
       addWidget,
       toggleComponent,
       handleOutsideClick,
+      saveWidgets,
     };
   },
 };
@@ -458,9 +513,23 @@ export default {
   transform: translateX(0);
 }
 
+.save-button {
+  position: relative;
+  width: 200px;
+  height: 50px;
+  background-color: #5865f2;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: right 0.3s ease;
+  text-align: center;
+  margin-right: 10px;
+}
+
 .toggle-button {
   position: relative;
-  width: 50px;
+  width: 200px;
   height: 50px;
   background-color: #5865f2;
   color: white;
