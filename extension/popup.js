@@ -14,6 +14,14 @@ document.addEventListener('DOMContentLoaded', () => {
     generateFormValues();
 });
 
+chrome.identity.getAuthToken({ interactive: true }, function(token) {
+    if (chrome.runtime.lastError) {
+        console.log('Not logged in:', chrome.runtime.lastError);
+    } else {
+        console.log('User is logged in. Token:', token);
+    }
+});
+
 function godashboard(event) {
     event.preventDefault(); // 기본 링크 동작을 방지합니다.
     const href = this.getAttribute('href'); // 'href' 속성을 가져옵니다.
@@ -106,7 +114,7 @@ window.onload = generateFormValues;
 
 function generateFormValues() {
     document.getElementById("room-name").value = "Test Room";
-    document.getElementById("participant-name").value = getUserInfo().nickname;
+    document.getElementById("participant-name").value = getUserInfo();
 }
 
 function createVideoContainer(participantIdentity, local = false) {
@@ -166,17 +174,22 @@ async function getToken(roomName, participantName) {
 
 // 내 정보 불러오기
 async function getUserInfo() {
-    fetch( DEFAULT_URL + "/user", {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json"
-        },
-    })
-    .then((response) => {
-        console.log(response);
-        return response;
-    })
-    .catch(error => {
-        console.log('error: ', error);
-    })
+    try {
+        const response = await fetch(DEFAULT_URL + "/user", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        const data = await response.json(); // 응답 본문을 JSON으로 파싱
+        return data; // 파싱된 데이터를 반환
+    } catch (error) {
+        console.log('getUserInfo 안됨: ', error); // 오류를 콘솔에 출력
+        throw error; // 필요하다면 오류를 다시 던져서 호출자에게 알림
+    }
 }
