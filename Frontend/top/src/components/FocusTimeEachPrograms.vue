@@ -52,12 +52,12 @@ export default {
           "https://i11a707.p.ssafy.io/api/dash/stats/app"
         );
         if (response.status === 200 && response.data.statusCode === 200) {
-          this.appList = response.data.data.map(app => ({
+          this.appList = response.data.data.map((app) => ({
             ...app,
             imagePath: this.getImagePath(app.name),
           }));
         } else {
-          console.error("Failed to fetch data:", '데이터 조회에 실패했습니다');
+          console.error("Failed to fetch data:", "데이터 조회에 실패했습니다");
         }
       } catch (error) {
         console.error("FocusTimeEachPrograms API request failed:", error);
@@ -79,7 +79,8 @@ export default {
       }
     },
     handleImageError(event) {
-      event.target.src = require("../static/img/application_icon/default.png").default;
+      event.target.src =
+        require("../static/img/application_icon/default.png").default;
     },
   },
 };
@@ -194,7 +195,7 @@ export default {
   letter-spacing: 0;
   line-height: 25.2px;
   margin-bottom: 10px;
-  text-align: left;
+  text-align: center;
   margin-left: 20px;
 }
 </style>

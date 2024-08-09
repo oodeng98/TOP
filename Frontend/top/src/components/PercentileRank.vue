@@ -1,7 +1,7 @@
-`<template>
+<template>
   <div class="subbox4">
     <div class="box4">
-      <div class="title">나의 백분위</div>
+      <div class="title">집중 백분율</div>
       <div class="group4">
         <div class="overlap4">
           <div class="overlap-group4">

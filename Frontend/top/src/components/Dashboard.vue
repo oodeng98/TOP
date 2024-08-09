@@ -3,7 +3,13 @@
     <div class="content">
       <div class="header">
         <h1>Dashboard</h1>
-        <a class="edit-button" @click="toggleEditMode">저장</a>
+        <button
+          class="toggle-button"
+          :class="{ open: isSidebarOpen }"
+          @click="toggleSidebar"
+        >
+          Edit
+        </button>
       </div>
       <div ref="gridstack" class="grid-stack"></div>
       <Sidebar
@@ -11,13 +17,6 @@
         :isOpen="isSidebarOpen"
         @toggleComponent="toggleComponent"
       />
-      <button
-        class="toggle-button"
-        :class="{ open: isSidebarOpen }"
-        @click="toggleSidebar"
-      >
-        ☰
-      </button>
     </div>
   </div>
 </template>
@@ -64,43 +63,179 @@ export default {
   setup() {
     const gridstack = ref(null);
     const isSidebarOpen = ref(false);
-    const isEditMode = ref(false);
     let grid;
 
     const components = [
-      { name: "오늘 집중 시간 2x1", component: TodayFocusSmall, width: 2, height: 1 },
-      { name: "오늘 집중 시간(비교X) 3x1", component: TodayFocusBigWithoutComparison, width: 3, height: 1 },
-      { name: "오늘 집중 시간(비교O) 3x1", component: TodayFocusBig, width: 3, height: 1 },
-      { name: "이번주 집중 시간 2x1", component: WeekFocusSmall, width: 2, height: 1 },
-      { name: "이번주 집중 시간(비교X) 3x1", component: WeekFocusBigWithoutComparison, width: 3, height: 1 },
-      { name: "이번주 집중 시간(비교O) 3x1", component: WeekFocusBig, width: 3, height: 1 },
-      { name: "이번달 집중 시간 2x1", component: MonthFocusSmall, width: 2, height: 1 },
-      { name: "이번달 집중 시간(비교X) 3x1", component: MonthFocusBigWithoutComparison, width: 3, height: 1 },
-      { name: "이번달 집중 시간(비교O) 3x1", component: MonthFocusBig, width: 3, height: 1 },
-      { name: "총 집중 시간 2x1", component: TotalFocusSmall, width: 2, height: 1 },
-      { name: "총 집중 시간 3x1", component: TotalFocusBig, width: 3, height: 1 },
-      { name: "오늘 목표 달성률 2x1", component: TodayAchievementSmall, width: 2, height: 1 },
-      { name: "오늘 목표 달성률 2x2", component: TodayAchievementBig, width: 2, height: 2 },
-      { name: "이번주 목표 달성률 2x1", component: WeekAchievementSmall, width: 2, height: 1 },
-      { name: "이번주 목표 달성률 2x2", component: WeekAchievementBig, width: 2, height: 2 },
-      { name: "이번달 목표 달성률 2x1", component: MonthAchievementSmall, width: 2, height: 1 },
-      { name: "이번달 목표 달성률 2x2", component: MonthAchievementBig, width: 2, height: 2 },
-      { name: "오늘 목표 집중 시간 2x1", component: TodayTargetTime, width: 2, height: 1 },
-      { name: "이번주 목표 집중 시간 2x1", component: WeekTargetTime, width: 2, height: 1 },
-      { name: "이번달 목표 집중 시간 2x1", component: MonthTargetTime, width: 2, height: 1 },
-      { name: "이번달 스트릭(세로) 2x2", component: MonthStreakColumn, width: 2, height: 2 },
-      { name: "이번달 스트릭(가로) 2x2", component: MonthStreakRow, width: 2, height: 2 },
+      {
+        name: "오늘의 집중 시간 2x1",
+        component: TodayFocusSmall,
+        width: 2,
+        height: 1,
+      },
+      {
+        name: "오늘의 집중 시간(비교X) 3x1",
+        component: TodayFocusBigWithoutComparison,
+        width: 3,
+        height: 1,
+      },
+      {
+        name: "오늘의 집중 시간(비교O) 3x1",
+        component: TodayFocusBig,
+        width: 3,
+        height: 1,
+      },
+      {
+        name: "이번주 집중 시간 2x1",
+        component: WeekFocusSmall,
+        width: 2,
+        height: 1,
+      },
+      {
+        name: "이번주 집중 시간(비교X) 3x1",
+        component: WeekFocusBigWithoutComparison,
+        width: 3,
+        height: 1,
+      },
+      {
+        name: "이번주 집중 시간(비교O) 3x1",
+        component: WeekFocusBig,
+        width: 3,
+        height: 1,
+      },
+      {
+        name: "이번달 집중 시간 2x1",
+        component: MonthFocusSmall,
+        width: 2,
+        height: 1,
+      },
+      {
+        name: "이번달 집중 시간(비교X) 3x1",
+        component: MonthFocusBigWithoutComparison,
+        width: 3,
+        height: 1,
+      },
+      {
+        name: "이번달 집중 시간(비교O) 3x1",
+        component: MonthFocusBig,
+        width: 3,
+        height: 1,
+      },
+      {
+        name: "총 집중 시간 2x1",
+        component: TotalFocusSmall,
+        width: 2,
+        height: 1,
+      },
+      {
+        name: "총 집중 시간 3x1",
+        component: TotalFocusBig,
+        width: 3,
+        height: 1,
+      },
+      {
+        name: "일간 목표 달성률 2x1",
+        component: TodayAchievementSmall,
+        width: 2,
+        height: 1,
+      },
+      {
+        name: "일간 목표 달성률 2x2",
+        component: TodayAchievementBig,
+        width: 2,
+        height: 2,
+      },
+      {
+        name: "주간 목표 달성률 2x1",
+        component: WeekAchievementSmall,
+        width: 2,
+        height: 1,
+      },
+      {
+        name: "주간 목표 달성률 2x2",
+        component: WeekAchievementBig,
+        width: 2,
+        height: 2,
+      },
+      {
+        name: "월간 목표 달성률 2x1",
+        component: MonthAchievementSmall,
+        width: 2,
+        height: 1,
+      },
+      {
+        name: "월간 목표 달성률 2x2",
+        component: MonthAchievementBig,
+        width: 2,
+        height: 2,
+      },
+      {
+        name: "일간 목표 집중 시간 2x1",
+        component: TodayTargetTime,
+        width: 2,
+        height: 1,
+      },
+      {
+        name: "주간 목표 집중 시간 2x1",
+        component: WeekTargetTime,
+        width: 2,
+        height: 1,
+      },
+      {
+        name: "월간 목표 집중 시간 2x1",
+        component: MonthTargetTime,
+        width: 2,
+        height: 1,
+      },
+      {
+        name: "월간 스트릭(세로) 2x2",
+        component: MonthStreakColumn,
+        width: 2,
+        height: 2,
+      },
+      {
+        name: "월간 스트릭(가로) 2x2",
+        component: MonthStreakRow,
+        width: 2,
+        height: 2,
+      },
       { name: "스트릭 6x2", component: SixMonthStreak, width: 6, height: 2 },
-      { name: "집중 백분율 4x3", component: PercentileRank, width: 4, height: 3 },
+      {
+        name: "집중 백분율 4x3",
+        component: PercentileRank,
+        width: 4,
+        height: 3,
+      },
       { name: "타이머 4x2", component: TimerCheck, width: 4, height: 2 },
-      { name: "달력 5x4", component: CalendarCheck, width: 5, height: 4 },
-      { name: "항목별 집중 시간 6x4", component: FocusTimeEachPrograms, width: 6, height: 4 },
-      { name: "항목별 집중 시간과 백분율 7x4", component: FocusTimeEachProgramsPrecentage, width: 7, height: 4 },
-      { name: "오늘 시각별 집중 타임라인 7x4", component: TimeLine, width: 7, height: 4 },
-      { name: "금지 목록 5x4", component: BannedProgramList, width: 5, height: 4 },
+      { name: "캘린더 5x4", component: CalendarCheck, width: 5, height: 4 },
+      {
+        name: "프로그램별 집중 시간 6x4",
+        component: FocusTimeEachPrograms,
+        width: 6,
+        height: 4,
+      },
+      {
+        name: "프로그램별 집중 시간과 백분율 7x4",
+        component: FocusTimeEachProgramsPrecentage,
+        width: 7,
+        height: 4,
+      },
+      {
+        name: "타임라인 7x4",
+        component: TimeLine,
+        width: 7,
+        height: 4,
+      },
+      {
+        name: "금지 프로그램 목록 5x4",
+        component: BannedProgramList,
+        width: 5,
+        height: 4,
+      },
     ];
 
-    const availableComponents = ref(components.map((c) => ({ ...c, isActive: false })));
+    const availableComponents = ref(
+      components.map((c) => ({ ...c, isActive: false }))
+    );
 
     const addWidget = (componentConfig, width, height, pos = {}) => {
       if (!grid) {
@@ -115,9 +250,16 @@ export default {
         <div class="grid-stack-item-content">
           <div class="widget-delete">✖</div>
         </div>`;
-      grid.addWidget(widgetElement, { w: width, h: height, ...pos, noResize: true });
+      grid.addWidget(widgetElement, {
+        w: width,
+        h: height,
+        ...pos,
+        noResize: true,
+      });
 
-      const contentElement = widgetElement.querySelector(".grid-stack-item-content");
+      const contentElement = widgetElement.querySelector(
+        ".grid-stack-item-content"
+      );
       if (contentElement) {
         const app = createApp(componentConfig.component);
         app.mount(contentElement);
@@ -130,32 +272,34 @@ export default {
       const widgetElement = event.target.closest(".grid-stack-item");
       const componentName = widgetElement.dataset.componentName;
       grid.removeWidget(widgetElement);
-      const componentConfig = availableComponents.value.find((c) => c.name === componentName);
+      const componentConfig = availableComponents.value.find(
+        (c) => c.name === componentName
+      );
       if (componentConfig) {
         componentConfig.isActive = false;
       }
     };
 
     const toggleComponent = (name) => {
-      const componentConfig = availableComponents.value.find((c) => c.name === name);
+      const componentConfig = availableComponents.value.find(
+        (c) => c.name === name
+      );
       if (!componentConfig) return;
 
-      const existingWidget = grid.engine.nodes.find((n) => n.el.dataset.componentName === name);
+      const existingWidget = grid.engine.nodes.find(
+        (n) => n.el.dataset.componentName === name
+      );
       if (existingWidget) {
         grid.removeWidget(existingWidget.el);
         componentConfig.isActive = false;
       } else {
-        addWidget(componentConfig, componentConfig.width, componentConfig.height);
+        addWidget(
+          componentConfig,
+          componentConfig.width,
+          componentConfig.height
+        );
         componentConfig.isActive = true;
       }
-    };
-
-    const toggleEditMode = () => {
-      isEditMode.value = !isEditMode.value;
-      const deleteButtons = document.querySelectorAll(".widget-delete");
-      deleteButtons.forEach((button) => {
-        button.style.display = isEditMode.value ? "block" : "none";
-      });
     };
 
     const toggleSidebar = () => {
@@ -188,19 +332,56 @@ export default {
 
         // 기본 제공 컴포넌트 추가
         const defaultComponents = [
-          { name: "오늘 집중 시간(비교X) 3x1", component: TodayFocusBigWithoutComparison, width: 3, height: 1 },
-          { name: "이번주 집중 시간(비교X) 3x1", component: WeekFocusBigWithoutComparison, width: 3, height: 1 },
-          { name: "이번달 집중 시간(비교X) 3x1", component: MonthFocusBigWithoutComparison, width: 3, height: 1 },
-          { name: "총 집중 시간 3x1", component: TotalFocusBig, width: 3, height: 1 },
-          { name: "오늘 시각별 집중 타임라인 7x4", component: TimeLine, width: 7, height: 4 },
-          { name: "금지 목록 5x4", component: BannedProgramList, width: 5, height: 4 },
-          { name: "항목별 집중 시간과 백분율 7x4", component: FocusTimeEachProgramsPrecentage, width: 7, height: 4 },
-          { name: "달력 5x4", component: CalendarCheck, width: 5, height: 4 },
+          {
+            name: "오늘의 집중 시간(비교X) 3x1",
+            component: TodayFocusBigWithoutComparison,
+            width: 3,
+            height: 1,
+          },
+          {
+            name: "이번주 집중 시간(비교X) 3x1",
+            component: WeekFocusBigWithoutComparison,
+            width: 3,
+            height: 1,
+          },
+          {
+            name: "이번달 집중 시간(비교X) 3x1",
+            component: MonthFocusBigWithoutComparison,
+            width: 3,
+            height: 1,
+          },
+          {
+            name: "총 집중 시간 3x1",
+            component: TotalFocusBig,
+            width: 3,
+            height: 1,
+          },
+          {
+            name: "타임라인 7x4",
+            component: TimeLine,
+            width: 7,
+            height: 4,
+          },
+          {
+            name: "금지 프로그램 목록 5x4",
+            component: BannedProgramList,
+            width: 5,
+            height: 4,
+          },
+          {
+            name: "프로그램별 집중 시간과 백분율 7x4",
+            component: FocusTimeEachProgramsPrecentage,
+            width: 7,
+            height: 4,
+          },
+          { name: "캘린더 5x4", component: CalendarCheck, width: 5, height: 4 },
         ];
 
         defaultComponents.forEach(({ name, component, width, height }) => {
           addWidget({ name, component }, width, height);
-          const componentConfig = availableComponents.value.find((c) => c.name === name);
+          const componentConfig = availableComponents.value.find(
+            (c) => c.name === name
+          );
           if (componentConfig) {
             componentConfig.isActive = true;
           }
@@ -211,10 +392,8 @@ export default {
     return {
       gridstack,
       isSidebarOpen,
-      isEditMode,
       availableComponents,
       toggleSidebar,
-      toggleEditMode,
       addWidget,
       toggleComponent,
     };
@@ -246,11 +425,6 @@ export default {
   margin: 0;
 }
 
-.edit-button {
-  cursor: pointer;
-  color: #3498db;
-}
-
 .sidebar {
   position: fixed;
   top: 0;
@@ -272,18 +446,16 @@ export default {
 }
 
 .toggle-button {
-  position: fixed;
-  top: 20px;
-  right: 20px;
+  position: relative;
   width: 50px;
   height: 50px;
-  background-color: #3498db;
+  background-color: #5865f2;
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  z-index: 1001;
   transition: right 0.3s ease;
+  text-align: center;
 }
 
 .toggle-button.open {
@@ -291,7 +463,7 @@ export default {
 }
 
 .toggle-button:hover {
-  background-color: #2980b9;
+  background-color: #5865f2;
 }
 
 .sidebar-content {
@@ -304,7 +476,7 @@ export default {
   width: 100%;
   margin-bottom: 10px;
   padding: 10px;
-  background-color: #3498db;
+  background-color: #5865f2;
   color: white;
   border: none;
   border-radius: 5px;
@@ -316,7 +488,7 @@ export default {
 }
 
 .sidebar-content button:hover {
-  background-color: #2980b9;
+  background-color: #5865f2;
 }
 
 .content {
@@ -371,8 +543,7 @@ export default {
 }
 
 button {
-  padding: 10px 20px;
-  background-color: #3498db;
+  background-color: #5865f2;
   color: white;
   border: none;
   border-radius: 5px;
@@ -380,6 +551,6 @@ button {
 }
 
 button:hover {
-  background-color: #2980b9;
+  background-color: #5865f2;
 }
 </style>

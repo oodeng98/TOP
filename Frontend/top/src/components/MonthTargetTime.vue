@@ -3,7 +3,7 @@
     <div class="element6">
       <div class="overlap-group6">
         <div class="text6">{{ monthlyTimeGoal }}</div>
-        <div class="title-data6">월간 목표 시간</div>
+        <div class="title-data6">월간 목표 집중 시간</div>
       </div>
     </div>
   </div>
@@ -82,7 +82,7 @@ export default {
   font-family: "Helvetica-BoldOblique", Helvetica;
   font-size: 14px;
   font-weight: 700;
-  left: 45px;
+  left: 32px;
   letter-spacing: 0.5px;
   line-height: 22px;
   position: absolute;

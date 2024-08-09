@@ -7,7 +7,7 @@
           :class="{ active: component.isActive }"
           @click="toggleComponent(component.name)"
         >
-          {{ component.name }}
+          <p>{{ component.name }}</p>
         </button>
       </div>
     </div>
@@ -60,7 +60,7 @@ export default {
   width: 100%;
   margin-bottom: 10px;
   padding: 10px;
-  background-color: #8793F5;
+  background-color: #5865f2;
   color: white;
   border: none;
   border-radius: 5px;
@@ -68,10 +68,23 @@ export default {
 }
 
 .sidebar-content button.active {
-  background-color: #A9A9A9;
+  background-color: #a9a9a9;
 }
 
 .sidebar-content button:hover {
-  background-color: #7A84DC;
+  background-color: #5865f2;
+}
+
+p {
+  font-family: "Helvetica-BoldOblique", Helvetica;
+  font-weight: 700;
+  font-size: 14px;
+  margin-bottom: 0;
+}
+
+h2 {
+  font-family: "Helvetica-BoldOblique", Helvetica;
+  font-weight: 700;
+  font-size: 30px;
 }
 </style>
