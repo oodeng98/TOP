@@ -57,7 +57,7 @@ import MonthStreakColumn from "./MonthStreakColumn.vue";
 import MonthStreakRow from "./MonthStreakRow.vue";
 import CalendarCheck from "./CalendarCheck.vue";
 import FocusTimeEachPrograms from "./FocusTimeEachPrograms.vue";
-import FocusTimeEachProgramsPrecentage from "./FocusTimeEachProgramsPrecentage.vue";
+import FocusTimeEachProgramsPercentage from "./FocusTimeEachProgramsPercentage.vue";
 import TimeLine from "./TimeLine.vue";
 import TodayTargetTime from "./TodayTargetTime.vue";
 import WeekTargetTime from "./WeekTargetTime.vue";
@@ -227,7 +227,7 @@ export default {
       },
       {
         name: "프로그램별 집중 시간과 백분율 7x4",
-        component: FocusTimeEachProgramsPrecentage,
+        component: FocusTimeEachProgramsPercentage,
         width: 7,
         height: 4,
       },
@@ -429,7 +429,7 @@ export default {
             },
             {
               name: "프로그램별 집중 시간과 백분율 7x4",
-              component: FocusTimeEachProgramsPrecentage,
+              component: FocusTimeEachProgramsPercentage,
               width: 7,
               height: 4,
             },
