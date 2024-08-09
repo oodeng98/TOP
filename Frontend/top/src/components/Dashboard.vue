@@ -1,18 +1,19 @@
 <template>
-  <div class="container">
+  <div class="container" @click="handleOutsideClick">
     <div class="content">
       <div class="header">
         <h1>Dashboard</h1>
         <button
+          v-if="!isSidebarOpen"
           class="toggle-button"
-          :class="{ open: isSidebarOpen }"
-          @click="toggleSidebar"
+          @click.stop="toggleSidebar"
         >
           Edit
         </button>
       </div>
       <div ref="gridstack" class="grid-stack"></div>
       <Sidebar
+        v-if="isSidebarOpen"
         :availableComponents="availableComponents"
         :isOpen="isSidebarOpen"
         @toggleComponent="toggleComponent"
@@ -306,6 +307,17 @@ export default {
       isSidebarOpen.value = !isSidebarOpen.value;
     };
 
+    const handleOutsideClick = (event) => {
+      const sidebarElement = document.querySelector(".sidebar");
+      if (
+        isSidebarOpen.value &&
+        sidebarElement &&
+        !sidebarElement.contains(event.target)
+      ) {
+        isSidebarOpen.value = false;
+      }
+    };
+
     onMounted(() => {
       nextTick(() => {
         const gridElement = gridstack.value;
@@ -396,6 +408,7 @@ export default {
       toggleSidebar,
       addWidget,
       toggleComponent,
+      handleOutsideClick,
     };
   },
 };
@@ -456,10 +469,6 @@ export default {
   cursor: pointer;
   transition: right 0.3s ease;
   text-align: center;
-}
-
-.toggle-button.open {
-  right: 350px;
 }
 
 .toggle-button:hover {
