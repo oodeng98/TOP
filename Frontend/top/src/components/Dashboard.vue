@@ -258,7 +258,7 @@ export default {
 
       const widgetElement = document.createElement("div");
       widgetElement.className = "grid-stack-item";
-      widgetElement.dataset.componentName = componentConfig.name;
+      widgetElement.dataset.componentName = componentConfig.component;
       widgetElement.innerHTML = `
         <div class="grid-stack-item-content">
           <div class="widget-delete">✖</div>
@@ -345,6 +345,7 @@ export default {
 
     const saveWidgets = async () => {
       try {
+        console.log(widgetStore.widgets)
         const response = await axios.post('https://i11a707.p.ssafy.io/widgets', widgetStore.widgets);
         console.log('Widgets saved successfully:', response.data);
         alert('위젯 설정이 저장되었습니다.');
