@@ -392,8 +392,22 @@ export default {
 
     const saveWidgets = async () => {
       try {
-        console.log(widgetStore.widgets)
-        const response = await axios.post('https://i11a707.p.ssafy.io/widgets', widgetStore.widgets);
+        // `isActive`가 true인 컴포넌트들만 필터링
+        const activeWidgets = availableComponents.value
+          .filter(component => component.isActive)
+          .map(component => {
+            // 각 활성화된 위젯의 스토어에 저장된 정보를 추출
+            const storedWidget = widgetStore.widgets.find(
+              widget => widget.name === component.componentName
+            );
+            return storedWidget;
+          })
+          .filter(widget => widget !== undefined); // 필터링 후 undefined인 값 제거
+
+        // 현재 상태 로그로 확인
+        console.log('Saving Active Widgets:', activeWidgets);
+
+        const response = await axios.post('https://i11a707.p.ssafy.io/widgets', activeWidgets);
         console.log('Widgets saved successfully:', response.data);
         alert('위젯 설정이 저장되었습니다.');
       } catch (error) {
