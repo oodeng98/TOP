@@ -33,6 +33,7 @@
 import { createApp, onMounted, ref, nextTick } from "vue";
 import { GridStack } from "gridstack";
 import "gridstack/dist/gridstack.min.css";
+import axios from "axios";
 import Sidebar from "./Sidebar.vue";
 import TodayFocusSmall from "./TodayFocusSmall.vue";
 import WeekFocusSmall from "./WeekFocusSmall.vue";
