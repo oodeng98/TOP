@@ -4,12 +4,20 @@ var LIVEKIT_URL = "wss://i11a707.p.ssafy.io:4443";
 const LivekitClient = window.LivekitClient;
 var room;
 
+// 각종 이벤트 리스너
 document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById("dashboard-link").addEventListener("click", godashboard);
     document.getElementById("join-button").addEventListener("click", joinRoom);
     document.getElementById("leave-room-button").addEventListener("click", leaveRoom);
-
-    generateFormValues();
+    
+    // generateFormValues();
 });
+
+function godashboard(event) {
+    event.preventDefault(); // 기본 링크 동작을 방지합니다.
+    const href = this.getAttribute('href'); // 'href' 속성을 가져옵니다.
+    chrome.tabs.create({ url: href }); // 새 탭에서 링크를 엽니다.
+}
 
 async function joinRoom() {
     // Disable 'Join' button
@@ -93,12 +101,12 @@ window.onbeforeunload = () => {
     room?.disconnect();
 };
 
-window.onload = generateFormValues;
+// window.onload = generateFormValues;
 
-function generateFormValues() {
-    document.getElementById("room-name").value = "Test Room";
-    document.getElementById("participant-name").value = "Participant" + Math.floor(Math.random() * 100);
-}
+// function generateFormValues() {
+//     document.getElementById("room-name").value = "Test Room";
+//     document.getElementById("participant-name").value = "Participant" + Math.floor(Math.random() * 100);
+// }
 
 function createVideoContainer(participantIdentity, local = false) {
     const videoContainer = document.createElement("div");
@@ -134,19 +142,6 @@ function removeAllLayoutElements() {
     });
 }
 
-/**
- * --------------------------------------------
- * GETTING A TOKEN FROM YOUR APPLICATION SERVER
- * --------------------------------------------
- * The method below request the creation of a token to
- * your application server. This prevents the need to expose
- * your LiveKit API key and secret to the client side.
- *
- * In this sample code, there is no user control at all. Anybody could
- * access your application server endpoints. In a real production
- * environment, your application server must identify the user to allow
- * access to the endpoints.
- */
 async function getToken(roomName, participantName) {
     const response = await fetch(APPLICATION_SERVER_URL + "token", {
         method: "POST",
