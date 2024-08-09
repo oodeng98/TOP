@@ -4,19 +4,15 @@
       <div class="header">
         <h1>Dashboard</h1>
         <div class="buttons">
-          <button
-            class="save-button"
-            @click="saveWidgets">
-            저장
-          </button>
+          <button class="save-button" @click="saveWidgets">저장</button>
           <button
             v-if="!isSidebarOpen"
             class="toggle-button"
             @click.stop="toggleSidebar"
           >
-            위젯 목록
+            위젯
           </button>
-        </div>  
+        </div>
       </div>
       <div ref="gridstack" class="grid-stack"></div>
       <Sidebar
@@ -233,12 +229,12 @@ export default {
         width: 2,
         height: 2,
       },
-      { 
-        name: "스트릭 6x2", 
-        component: SixMonthStreak, 
+      {
+        name: "스트릭 6x2",
+        component: SixMonthStreak,
         componentName: "SixMonthStreak",
-        width: 6, 
-        height: 2 
+        width: 6,
+        height: 2,
       },
       {
         name: "집중 백분율 4x3",
@@ -247,19 +243,19 @@ export default {
         width: 4,
         height: 3,
       },
-      { 
-        name: "타이머 4x2", 
-        component: TimerCheck, 
+      {
+        name: "타이머 4x2",
+        component: TimerCheck,
         componentName: "TimerCheck",
-        width: 4, 
-        height: 2 
+        width: 4,
+        height: 2,
       },
-      { 
-        name: "캘린더 5x4", 
-        component: CalendarCheck, 
+      {
+        name: "캘린더 5x4",
+        component: CalendarCheck,
         componentName: "CalendarCheck",
-        width: 5, 
-        height: 4 
+        width: 5,
+        height: 4,
       },
       {
         name: "프로그램별 집중 시간 6x4",
@@ -392,6 +388,13 @@ export default {
 
     const saveWidgets = async () => {
       try {
+        console.log(widgetStore.widgets);
+        const response = await axios.post(
+          "https://i11a707.p.ssafy.io/widgets",
+          widgetStore.widgets
+        );
+        console.log("Widgets saved successfully:", response.data);
+        alert("위젯 설정이 저장되었습니다.");
         // `isActive`가 true인 컴포넌트들만 필터링
         const activeWidgets = availableComponents.value
           .filter(component => component.isActive)
@@ -411,8 +414,8 @@ export default {
         console.log('Widgets saved successfully:', response.data);
         alert('위젯 설정이 저장되었습니다.');
       } catch (error) {
-        console.error('Error saving widgets:', error);
-        alert('위젯 설정 저장 중 오류가 발생했습니다.');
+        console.error("Error saving widgets:", error);
+        alert("위젯 설정 저장 중 오류가 발생했습니다.");
       }
     };
 
@@ -441,13 +444,13 @@ export default {
         });
 
         // Pinia 스토어에 저장된 위젯 로드
-        if  (widgetStore.widgets.length > 0) {
-          widgetStore.widgets.forEach(({name, width, height, x, y}) => {
+        if (widgetStore.widgets.length > 0) {
+          widgetStore.widgets.forEach(({ name, width, height, x, y }) => {
             const componentConfig = availableComponents.value.find(
               (c) => c.componentName === name // component의 name으로 찾기
             );
             if (componentConfig) {
-              addWidget(componentConfig, width, height, {x, y});
+              addWidget(componentConfig, width, height, { x, y });
               componentConfig.isActive = true;
             }
           });
@@ -503,26 +506,27 @@ export default {
               width: 7,
               height: 4,
             },
-            { name: "캘린더 5x4",
+            {
+              name: "캘린더 5x4",
               component: CalendarCheck,
               componentName: "CalendarCheck",
               width: 5,
-              height: 4
+              height: 4,
             },
           ];
 
-          defaultComponents.forEach(({ name, component, componentName, width, height }) => {
-            addWidget({ name, component, componentName }, width, height);
-            const componentConfig = availableComponents.value.find(
-              (c) => c.componentName === componentName
-            );
-            if (componentConfig) {
-              componentConfig.isActive = true;
+          defaultComponents.forEach(
+            ({ name, component, componentName, width, height }) => {
+              addWidget({ name, component, componentName }, width, height);
+              const componentConfig = availableComponents.value.find(
+                (c) => c.componentName === componentName
+              );
+              if (componentConfig) {
+                componentConfig.isActive = true;
+              }
             }
-          });
+          );
         }
-
-
       });
     });
 
@@ -539,7 +543,6 @@ export default {
   },
 };
 </script>
-
 
 <style scoped>
 .layout {
@@ -587,8 +590,8 @@ export default {
 
 .save-button {
   position: relative;
-  width: 200px;
-  height: 50px;
+  width: 60px;
+  height: 60px;
   background-color: #5865f2;
   color: white;
   border: none;
@@ -601,8 +604,8 @@ export default {
 
 .toggle-button {
   position: relative;
-  width: 200px;
-  height: 50px;
+  width: 60px;
+  height: 60px;
   background-color: #5865f2;
   color: white;
   border: none;
