@@ -9,8 +9,8 @@ document.addEventListener("DOMContentLoaded", function () {
   const generatePathButton = document.getElementById("generatePathButton");
   const finalPath = document.getElementById("finalPath");
 
-  const extensionId = "YOUR_EXTENSION_ID"; // 확장 프로그램 ID를 적절히 변경
-  const extensionVersion = "YOUR_EXTENSION_VERSION"; // 확장 프로그램 버전을 적절히 변경
+  const extensionId = "jckihcjdfohdkbnfaapkddekkgjheakg"; // 확장 프로그램 ID를 적절히 변경
+  const extensionVersion = "1.1_0"; // 확장 프로그램 버전을 적절히 변경
 
   copyCode.addEventListener("click", function () {
     const textToCopy = "chrome://version/";
@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", function () {
       .writeText(textToCopy)
       .then(function () {
         copyStatus.innerText = "URL이 클립보드에 복사되었습니다.";
-        setTimeout(() => (copyStatus.innerText = ""), 2000); // 2초 후에 메시지 지우기
+        setTimeout(() => (copyStatus.innerText = ""), 5000);
       })
       .catch(function (error) {
         copyStatus.innerText = "URL 복사에 실패했습니다.";
