@@ -82,165 +82,210 @@ export default {
       {
         name: "오늘의 집중 시간 2x1",
         component: TodayFocusSmall,
+        componentName: "TodayFocusSmall",
         width: 2,
         height: 1,
       },
       {
         name: "오늘의 집중 시간(비교X) 3x1",
         component: TodayFocusBigWithoutComparison,
+        componentName: "TodayFocusBigWithoutComparison",
         width: 3,
         height: 1,
       },
       {
         name: "오늘의 집중 시간(비교O) 3x1",
         component: TodayFocusBig,
+        componentName: "TodayFocusBig",
         width: 3,
         height: 1,
       },
       {
         name: "이번주 집중 시간 2x1",
         component: WeekFocusSmall,
+        componentName: "WeekFocusSmall",
         width: 2,
         height: 1,
       },
       {
         name: "이번주 집중 시간(비교X) 3x1",
         component: WeekFocusBigWithoutComparison,
+        componentName: "WeekFocusBigWithoutComparison",
         width: 3,
         height: 1,
       },
       {
         name: "이번주 집중 시간(비교O) 3x1",
         component: WeekFocusBig,
+        componentName: "WeekFocusBig",
         width: 3,
         height: 1,
       },
       {
         name: "이번달 집중 시간 2x1",
         component: MonthFocusSmall,
+        componentName: "MonthFocusSmall",
         width: 2,
         height: 1,
       },
       {
         name: "이번달 집중 시간(비교X) 3x1",
         component: MonthFocusBigWithoutComparison,
+        componentName: "MonthFocusBigWithoutComparison",
         width: 3,
         height: 1,
       },
       {
         name: "이번달 집중 시간(비교O) 3x1",
         component: MonthFocusBig,
+        componentName: "MonthFocusBig",
         width: 3,
         height: 1,
       },
       {
         name: "총 집중 시간 2x1",
         component: TotalFocusSmall,
+        componentName: "TotalFocusSmall",
         width: 2,
         height: 1,
       },
       {
         name: "총 집중 시간 3x1",
         component: TotalFocusBig,
+        componentName: "TotalFocusBig",
         width: 3,
         height: 1,
       },
       {
         name: "일간 목표 달성률 2x1",
         component: TodayAchievementSmall,
+        componentName: "TodayAchievementSmall",
         width: 2,
         height: 1,
       },
       {
         name: "일간 목표 달성률 2x2",
         component: TodayAchievementBig,
+        componentName: "TodayAchievementBig",
         width: 2,
         height: 2,
       },
       {
         name: "주간 목표 달성률 2x1",
         component: WeekAchievementSmall,
+        componentName: "WeekAchievementSmall",
         width: 2,
         height: 1,
       },
       {
         name: "주간 목표 달성률 2x2",
         component: WeekAchievementBig,
+        componentName: "WeekAchievementBig",
         width: 2,
         height: 2,
       },
       {
         name: "월간 목표 달성률 2x1",
         component: MonthAchievementSmall,
+        componentName: "MonthAchievementSmall",
         width: 2,
         height: 1,
       },
       {
         name: "월간 목표 달성률 2x2",
         component: MonthAchievementBig,
+        componentName: "MonthAchievementBig",
         width: 2,
         height: 2,
       },
       {
         name: "일간 목표 집중 시간 2x1",
         component: TodayTargetTime,
+        componentName: "TodayTargetTime",
         width: 2,
         height: 1,
       },
       {
         name: "주간 목표 집중 시간 2x1",
         component: WeekTargetTime,
+        componentName: "WeekTargetTime",
         width: 2,
         height: 1,
       },
       {
         name: "월간 목표 집중 시간 2x1",
         component: MonthTargetTime,
+        componentName: "MonthTargetTime",
         width: 2,
         height: 1,
       },
       {
         name: "월간 스트릭(세로) 2x2",
         component: MonthStreakColumn,
+        componentName: "MonthStreakColumn",
         width: 2,
         height: 2,
       },
       {
         name: "월간 스트릭(가로) 2x2",
         component: MonthStreakRow,
+        componentName: "MonthStreakRow",
         width: 2,
         height: 2,
       },
-      { name: "스트릭 6x2", component: SixMonthStreak, width: 6, height: 2 },
+      { 
+        name: "스트릭 6x2", 
+        component: SixMonthStreak, 
+        componentName: "SixMonthStreak",
+        width: 6, 
+        height: 2 
+      },
       {
         name: "집중 백분율 4x3",
         component: PercentileRank,
+        componentName: "PercentileRank",
         width: 4,
         height: 3,
       },
-      { name: "타이머 4x2", component: TimerCheck, width: 4, height: 2 },
-      { name: "캘린더 5x4", component: CalendarCheck, width: 5, height: 4 },
+      { 
+        name: "타이머 4x2", 
+        component: TimerCheck, 
+        componentName: "TimerCheck",
+        width: 4, 
+        height: 2 
+      },
+      { 
+        name: "캘린더 5x4", 
+        component: CalendarCheck, 
+        componentName: "CalendarCheck",
+        width: 5, 
+        height: 4 
+      },
       {
         name: "프로그램별 집중 시간 6x4",
         component: FocusTimeEachPrograms,
+        componentName: "FocusTimeEachPrograms",
         width: 6,
         height: 4,
       },
       {
         name: "프로그램별 집중 시간과 백분율 7x4",
         component: FocusTimeEachProgramsPercentage,
+        componentName: "FocusTimeEachProgramsPercentage",
         width: 7,
         height: 4,
       },
       {
         name: "타임라인 7x4",
         component: TimeLine,
+        componentName: "TimeLine",
         width: 7,
         height: 4,
       },
       {
         name: "금지 프로그램 목록 5x4",
         component: BannedProgramList,
+        componentName: "BannedProgramList",
         width: 5,
         height: 4,
       },
@@ -258,7 +303,7 @@ export default {
 
       const widgetElement = document.createElement("div");
       widgetElement.className = "grid-stack-item";
-      widgetElement.dataset.componentName = componentConfig.component;
+      widgetElement.dataset.componentName = componentConfig.componentName; // componentName으로 저장
       widgetElement.innerHTML = `
         <div class="grid-stack-item-content">
           <div class="widget-delete">✖</div>
@@ -282,7 +327,7 @@ export default {
 
       // Pinia 스토어에 위젯 추가
       widgetStore.addWidget({
-        name: componentConfig.name,
+        name: componentConfig.componentName, // component의 name으로 저장
         width,
         height,
         x: pos.x || 0,
@@ -296,7 +341,7 @@ export default {
       grid.removeWidget(widgetElement);
 
       const componentConfig = availableComponents.value.find(
-        (c) => c.name === componentName
+        (c) => c.componentName === componentName // component의 name으로 찾기
       );
       if (componentConfig) {
         componentConfig.isActive = false;
@@ -308,12 +353,12 @@ export default {
 
     const toggleComponent = (name) => {
       const componentConfig = availableComponents.value.find(
-        (c) => c.name === name
+        (c) => c.componentName === name // component의 name으로 찾기
       );
       if (!componentConfig) return;
 
       const existingWidget = grid.engine.nodes.find(
-        (n) => n.el.dataset.componentName === name
+        (n) => n.el.dataset.componentName === name // component의 name으로 찾기
       );
       if (existingWidget) {
         grid.removeWidget(existingWidget.el);
@@ -383,7 +428,7 @@ export default {
         if  (widgetStore.widgets.length > 0) {
           widgetStore.widgets.forEach(({name, width, height, x, y}) => {
             const componentConfig = availableComponents.value.find(
-              (c) => c.name === name
+              (c) => c.componentName === name // component의 name으로 찾기
             );
             if (componentConfig) {
               addWidget(componentConfig, width, height, {x, y});
@@ -396,56 +441,64 @@ export default {
             {
               name: "오늘의 집중 시간(비교X) 3x1",
               component: TodayFocusBigWithoutComparison,
+              componentName: "TodayFocusBigWithoutComparison",
               width: 3,
               height: 1,
             },
             {
               name: "이번주 집중 시간(비교X) 3x1",
               component: WeekFocusBigWithoutComparison,
+              componentName: "WeekFocusBigWithoutComparison",
               width: 3,
               height: 1,
             },
             {
               name: "이번달 집중 시간(비교X) 3x1",
               component: MonthFocusBigWithoutComparison,
+              componentName: "MonthFocusBigWithoutComparison",
               width: 3,
               height: 1,
             },
             {
               name: "총 집중 시간 3x1",
               component: TotalFocusBig,
+              componentName: "TotalFocusBig",
               width: 3,
               height: 1,
             },
             {
               name: "타임라인 7x4",
               component: TimeLine,
+              componentName: "TimeLine",
               width: 7,
               height: 4,
             },
             {
               name: "금지 프로그램 목록 5x4",
               component: BannedProgramList,
+              componentName: "BannedProgramList",
               width: 5,
               height: 4,
             },
             {
               name: "프로그램별 집중 시간과 백분율 7x4",
               component: FocusTimeEachProgramsPercentage,
+              componentName: "FocusTimeEachProgramsPercentage",
               width: 7,
               height: 4,
             },
             { name: "캘린더 5x4",
               component: CalendarCheck,
+              componentName: "CalendarCheck",
               width: 5,
               height: 4
             },
           ];
 
-          defaultComponents.forEach(({ name, component, width, height }) => {
-            addWidget({ name, component }, width, height);
+          defaultComponents.forEach(({ name, component, componentName, width, height }) => {
+            addWidget({ name, component, componentName }, width, height);
             const componentConfig = availableComponents.value.find(
-              (c) => c.name === name
+              (c) => c.componentName === componentName
             );
             if (componentConfig) {
               componentConfig.isActive = true;
@@ -470,6 +523,7 @@ export default {
   },
 };
 </script>
+
 
 <style scoped>
 .layout {
