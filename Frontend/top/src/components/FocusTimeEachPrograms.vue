@@ -24,7 +24,7 @@
                 <div class="app-name">{{ app.name }}</div>
                 <div class="text-wrapper">{{ formatTime(app.focusTime) }}</div>
               </div>
-              <img class="line" alt="Line" src="../static/img/line.png" />
+              <img class="line" alt="Line" src="../../static/img/line.png" />
             </div>
           </div>
         </div>
@@ -71,16 +71,16 @@ export default {
     },
     getImagePath(appName) {
       try {
-        return require(`../static/img/application_icon/${appName
+        return require(`../../static/application_icon/${appName
           .toLowerCase()
           .replace(/\s+/g, "")}.png`);
       } catch (e) {
-        return require("../static/img/application_icon/default.png"); // 기본 이미지 경로
+        return require("../../static/application_icon/default.png"); // 기본 이미지 경로
       }
     },
     handleImageError(event) {
       event.target.src =
-        require("../static/img/application_icon/default.png").default;
+        require("../../static/application_icon/default.png").default;
     },
   },
 };
