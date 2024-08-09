@@ -12,7 +12,7 @@
                 <img
                   class="img4"
                   alt="Ellipse"
-                  src="../static/img/ellipse-17-1.svg"
+                  src="../../static/img/ellipse-17-1.svg"
                 />
                 <div class="text-wrapper4">일간 백분위</div>
               </div>
@@ -25,7 +25,7 @@
                 <img
                   class="ellipse-4-3"
                   alt="Ellipse"
-                  src="../static/img/ellipse-17-2.svg"
+                  src="../../static/img/ellipse-17-2.svg"
                 />
               </div>
             </div>
@@ -38,7 +38,7 @@
               <img
                 class="ellipse-4-5"
                 alt="Ellipse"
-                src="../static/img/ellipse-17.svg"
+                src="../../static/img/ellipse-17.svg"
               />
             </div>
           </div>
