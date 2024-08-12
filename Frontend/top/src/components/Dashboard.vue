@@ -3,6 +3,7 @@
     <div class="content">
       <div class="header">
         <h1>Dashboard</h1>
+        <button id="openModalBtn" @click="openModal">설정</button>
         <div class="buttons">
           <button class="save-button" @click="saveWidgets">저장</button>
           <button
@@ -22,8 +23,34 @@
         @toggleComponent="toggleComponent"
       />
     </div>
+
+    <!-- 모달 창 -->
+    <div v-if="isModalOpen" class="modal">
+      <div class="modal-content">
+        <span class="close" @click="closeModal">&times;</span>
+        <h2>목표 집중 시간 설정</h2>
+        <form>
+          <div class="form-group">
+            <label for="dailyGoal">일간 목표 집중 시간:</label>
+            <input type="number" v-model="dailyGoal" id="dailyGoal" /> 분
+            <button @click="saveDailyGoal">저장</button>
+          </div>
+          <div class="form-group">
+            <label for="weeklyGoal">주간 목표 집중 시간:</label>
+            <input type="number" v-model="weeklyGoal" id="weeklyGoal" /> 분
+            <button @click="saveWeeklyGoal">저장</button>
+          </div>
+          <div class="form-group">
+            <label for="monthlyGoal">월간 목표 집중 시간:</label>
+            <input type="number" v-model="monthlyGoal" id="monthlyGoal" /> 분
+            <button @click="saveMonthlyGoal">저장</button>
+          </div>
+        </form>
+      </div>
+    </div>
   </div>
 </template>
+
 
 <script>
 import { createApp, onMounted, ref, nextTick } from "vue";
@@ -69,6 +96,10 @@ export default {
   setup() {
     const gridstack = ref(null);
     const isSidebarOpen = ref(false);
+    const isModalOpen = ref(false); // 모달 열림 상태 관리
+    const dailyGoal = ref(0);
+    const weeklyGoal = ref(0);
+    const monthlyGoal = ref(0);
     const widgetStore = useWidgetStore(); // Pinia 스토어 사용
 
     let grid;
@@ -271,6 +302,74 @@ export default {
         height: 4,
       },
     ];
+
+    const openModal = () => {
+      isModalOpen.value = true;
+    };
+
+    const closeModal = () => {
+      isModalOpen.value = false;
+    };
+
+    const saveDailyGoal = async (event) => {
+      event.preventDefault();
+      try {
+        await axios.post('/api/saveDailyGoal', { goal: dailyGoal.value });
+        Swal.fire({
+          title: '성공!',
+          text: '일간 목표 집중 시간이 저장되었습니다.',
+          icon: 'success',
+          confirmButtonText: '확인'
+        });
+      } catch (error) {
+        Swal.fire({
+          title: '오류!',
+          text: '저장 중 문제가 발생했습니다.',
+          icon: 'error',
+          confirmButtonText: '확인'
+        });
+      }
+    };
+
+    const saveWeeklyGoal = async (event) => {
+      event.preventDefault();
+      try {
+        await axios.post('/api/saveWeeklyGoal', { goal: weeklyGoal.value });
+        Swal.fire({
+          title: '성공!',
+          text: '주간 목표 집중 시간이 저장되었습니다.',
+          icon: 'success',
+          confirmButtonText: '확인'
+        });
+      } catch (error) {
+        Swal.fire({
+          title: '오류!',
+          text: '저장 중 문제가 발생했습니다.',
+          icon: 'error',
+          confirmButtonText: '확인'
+        });
+      }
+    };
+
+    const saveMonthlyGoal = async (event) => {
+      event.preventDefault();
+      try {
+        await axios.post('/api/saveMonthlyGoal', { goal: monthlyGoal.value });
+        Swal.fire({
+          title: '성공!',
+          text: '월간 목표 집중 시간이 저장되었습니다.',
+          icon: 'success',
+          confirmButtonText: '확인'
+        });
+      } catch (error) {
+        Swal.fire({
+          title: '오류!',
+          text: '저장 중 문제가 발생했습니다.',
+          icon: 'error',
+          confirmButtonText: '확인'
+        });
+      }
+    };
 
     const availableComponents = ref(
       components.map((c) => ({ ...c, isActive: false }))
@@ -538,9 +637,18 @@ export default {
       gridstack,
       isSidebarOpen,
       availableComponents,
-      toggleSidebar,
       addWidget,
       toggleComponent,
+      isModalOpen,
+      dailyGoal,
+      weeklyGoal,
+      monthlyGoal,
+      openModal,
+      closeModal,
+      saveDailyGoal,
+      saveWeeklyGoal,
+      saveMonthlyGoal,
+      toggleSidebar,
       handleOutsideClick,
       saveWidgets,
     };
@@ -709,5 +817,64 @@ button {
 
 button:hover {
   background-color: #5865f2;
+}
+
+.modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  background-color: #fefefe;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 500px;
+  border-radius: 10px;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+button {
+  background-color: #5865f2;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 10px 20px;
+}
+
+button:hover {
+  background-color: #4a55d4;
 }
 </style>
