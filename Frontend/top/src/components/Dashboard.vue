@@ -50,8 +50,6 @@ import MonthAchievementSmall from "./MonthAchievementSmall.vue";
 import TodayAchievementBig from "./TodayAchievementBig.vue";
 import WeekAchievementBig from "./WeekAchievementBig.vue";
 import MonthAchievementBig from "./MonthAchievementBig.vue";
-import MonthStreakColumn from "./MonthStreakColumn.vue";
-import MonthStreakRow from "./MonthStreakRow.vue";
 import CalendarCheck from "./CalendarCheck.vue";
 import FocusTimeEachPrograms from "./FocusTimeEachPrograms.vue";
 import FocusTimeEachProgramsPercentage from "./FocusTimeEachProgramsPercentage.vue";
@@ -215,20 +213,6 @@ export default {
         componentName: "MonthTargetTime",
         width: 2,
         height: 1,
-      },
-      {
-        name: "월간 스트릭(세로) 2x2",
-        component: MonthStreakColumn,
-        componentName: "MonthStreakColumn",
-        width: 2,
-        height: 2,
-      },
-      {
-        name: "월간 스트릭(가로) 2x2",
-        component: MonthStreakRow,
-        componentName: "MonthStreakRow",
-        width: 2,
-        height: 2,
       },
       {
         name: "스트릭 6x2",
@@ -420,21 +404,18 @@ export default {
     };
 
     onMounted(async () => {
-      nextTick(async () => {
+      await nextTick(async () => {
         const gridElement = gridstack.value;
         if (!gridElement) {
           console.error("GridStack element not found");
           return;
         }
 
-        grid = GridStack.init(
-          {
-            column: 12, // 그리드 열 수 설정
-            cellHeight: 125, // 셀 높이 설정
-            float: true,
-          },
-          gridElement
-        );
+        grid = GridStack.init({
+          column: 12, // 그리드 열 수 설정
+          cellHeight: 125, // 셀 높이 설정
+          float: true,
+        }, gridElement);
 
         // 이벤트 위임을 사용하여 삭제 버튼 클릭 처리
         gridElement.addEventListener("click", (event) => {
@@ -448,6 +429,8 @@ export default {
           const response = await axios.get("https://i11a707.p.ssafy.io/api/widgets");
           const storedWidgets = response.data;
 
+          console.log("Stored widgets:", storedWidgets);
+
           if (storedWidgets.length > 0) {
             // 가져온 위젯 데이터로 위젯 추가
             storedWidgets.forEach(({ name, width, height, x, y }) => {
@@ -455,6 +438,7 @@ export default {
                 (c) => c.componentName === name // component의 name과 매칭
               );
               if (componentConfig) {
+                console.log(`Adding widget: ${name} at (${x}, ${y})`);
                 addWidget(componentConfig, width, height, { x, y });
                 componentConfig.isActive = true;
               } else {
@@ -463,77 +447,7 @@ export default {
             });
           } else {
             console.log("No widgets found on the server, loading default widgets.");
-            // 기본 제공 컴포넌트 추가 (선택 사항)
-            const defaultComponents = [
-              {
-                name: "오늘의 집중 시간(비교X) 3x1",
-                component: TodayFocusBigWithoutComparison,
-                componentName: "TodayFocusBigWithoutComparison",
-                width: 3,
-                height: 1,
-              },
-              {
-                name: "이번주 집중 시간(비교X) 3x1",
-                component: WeekFocusBigWithoutComparison,
-                componentName: "WeekFocusBigWithoutComparison",
-                width: 3,
-                height: 1,
-              },
-              {
-                name: "이번달 집중 시간(비교X) 3x1",
-                component: MonthFocusBigWithoutComparison,
-                componentName: "MonthFocusBigWithoutComparison",
-                width: 3,
-                height: 1,
-              },
-              {
-                name: "총 집중 시간 3x1",
-                component: TotalFocusBig,
-                componentName: "TotalFocusBig",
-                width: 3,
-                height: 1,
-              },
-              {
-                name: "타임라인 7x4",
-                component: TimeLine,
-                componentName: "TimeLine",
-                width: 7,
-                height: 4,
-              },
-              {
-                name: "금지 프로그램 목록 5x4",
-                component: BannedProgramList,
-                componentName: "BannedProgramList",
-                width: 5,
-                height: 4,
-              },
-              {
-                name: "프로그램별 집중 시간과 백분율 7x4",
-                component: FocusTimeEachProgramsPercentage,
-                componentName: "FocusTimeEachProgramsPercentage",
-                width: 7,
-                height: 4,
-              },
-              {
-                name: "캘린더 5x4",
-                component: CalendarCheck,
-                componentName: "CalendarCheck",
-                width: 5,
-                height: 4,
-              },
-            ];
-
-            defaultComponents.forEach(
-              ({ name, component, componentName, width, height }) => {
-                addWidget({ name, component, componentName }, width, height);
-                const componentConfig = availableComponents.value.find(
-                  (c) => c.componentName === componentName
-                );
-                if (componentConfig) {
-                  componentConfig.isActive = true;
-                }
-              }
-            );
+            loadDefaultWidgets();
           }
         } catch (error) {
           console.error("Error loading widgets:", error);
@@ -546,6 +460,79 @@ export default {
         }
       });
     });
+
+    const loadDefaultWidgets = () => {
+      const defaultComponents = [
+        {
+          name: "오늘의 집중 시간(비교X) 3x1",
+          component: TodayFocusBigWithoutComparison,
+          componentName: "TodayFocusBigWithoutComparison",
+          width: 3,
+          height: 1,
+        },
+        {
+          name: "이번주 집중 시간(비교X) 3x1",
+          component: WeekFocusBigWithoutComparison,
+          componentName: "WeekFocusBigWithoutComparison",
+          width: 3,
+          height: 1,
+        },
+        {
+          name: "이번달 집중 시간(비교X) 3x1",
+          component: MonthFocusBigWithoutComparison,
+          componentName: "MonthFocusBigWithoutComparison",
+          width: 3,
+          height: 1,
+        },
+        {
+          name: "총 집중 시간 3x1",
+          component: TotalFocusBig,
+          componentName: "TotalFocusBig",
+          width: 3,
+          height: 1,
+        },
+        {
+          name: "타임라인 7x4",
+          component: TimeLine,
+          componentName: "TimeLine",
+          width: 7,
+          height: 4,
+        },
+        {
+          name: "금지 프로그램 목록 5x4",
+          component: BannedProgramList,
+          componentName: "BannedProgramList",
+          width: 5,
+          height: 4,
+        },
+        {
+          name: "프로그램별 집중 시간과 백분율 7x4",
+          component: FocusTimeEachProgramsPercentage,
+          componentName: "FocusTimeEachProgramsPercentage",
+          width: 7,
+          height: 4,
+        },
+        {
+          name: "캘린더 5x4",
+          component: CalendarCheck,
+          componentName: "CalendarCheck",
+          width: 5,
+          height: 4,
+        },
+      ];
+
+      defaultComponents.forEach(
+        ({ name, component, componentName, width, height }) => {
+          addWidget({ name, component, componentName }, width, height);
+          const componentConfig = availableComponents.value.find(
+            (c) => c.componentName === componentName
+          );
+          if (componentConfig) {
+            componentConfig.isActive = true;
+          }
+        }
+      );
+    };
 
     return {
       gridstack,
