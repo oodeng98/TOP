@@ -389,11 +389,19 @@ export default {
 
     const saveWidgets = async () => {
       try {
-        console.log(widgetStore.widgets)
+        // 활성화된(대시보드에 떠있는) 위젯만 필터링
+        const activeWidgets = widgetStore.widgets.filter(widget => {
+          const componentConfig = availableComponents.value.find(
+            (c) => c.componentName === widget.name
+          );
+          return componentConfig && componentConfig.isActive;
+        });
+
         const response = await axios.post(
           "https://i11a707.p.ssafy.io/api/widgets",
-          widgetStore.widgets
+          activeWidgets // 필터링된 위젯만 서버로 전송
         );
+        console.log(activeWidgets)
         Swal.fire({
           title: '성공!',
           text: '위젯이 성공적으로 저장되었습니다!',
@@ -401,7 +409,6 @@ export default {
           confirmButtonText: '확인'
         });
       } catch (error) {
-        console.log(widgetStore.widgets)
         Swal.fire({
           title: '오류!',
           text: '위젯을 저장하는 중에 문제가 발생했습니다. 나중에 다시 시도해 주세요.',
