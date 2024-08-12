@@ -389,19 +389,11 @@ export default {
 
     const saveWidgets = async () => {
       try {
-        // 활성화된(대시보드에 떠있는) 위젯만 필터링
-        const activeWidgets = widgetStore.widgets.filter(widget => {
-          const componentConfig = availableComponents.value.find(
-            (c) => c.componentName === widget.name
-          );
-          return componentConfig && componentConfig.isActive;
-        });
-
+        console.log(widgetStore.widgets)
         const response = await axios.post(
           "https://i11a707.p.ssafy.io/api/widgets",
-          activeWidgets // 필터링된 위젯만 서버로 전송
+          widgetStore.widgets
         );
-        console.log(activeWidgets)
         Swal.fire({
           title: '성공!',
           text: '위젯이 성공적으로 저장되었습니다!',
@@ -409,6 +401,7 @@ export default {
           confirmButtonText: '확인'
         });
       } catch (error) {
+        console.log(widgetStore.widgets)
         Swal.fire({
           title: '오류!',
           text: '위젯을 저장하는 중에 문제가 발생했습니다. 나중에 다시 시도해 주세요.',
@@ -418,8 +411,8 @@ export default {
       }
     };
 
-    onMounted(() => {
-      nextTick(() => {
+    onMounted(async () => {
+      nextTick(async () => {
         const gridElement = gridstack.value;
         if (!gridElement) {
           console.error("GridStack element not found");
@@ -442,20 +435,24 @@ export default {
           }
         });
 
-        // Pinia 스토어에 저장된 위젯 로드
-        if (widgetStore.widgets.length > 0) {
-          widgetStore.widgets.forEach(({ name, width, height, x, y }) => {
-            const componentConfig = availableComponents.value.find(
-              (c) => c.componentName === name // component의 name으로 찾기
-            );
-            if (componentConfig) {
-              addWidget(componentConfig, width, height, { x, y });
-              componentConfig.isActive = true;
-            }
-          });
-        } else {
-          // 기본 제공 컴포넌트 추가
-          const defaultComponents = [
+        try {
+          // 서버에서 저장된 위젯 상태 가져오기
+          const response = await axios.get("https://i11a707.p.ssafy.io/api/widgets");
+          const storedWidgets = response.data;
+
+          if (storedWidgets.length > 0) {
+            storedWidgets.forEach(({ name, width, height, x, y }) => {
+              const componentConfig = availableComponents.value.find(
+                (c) => c.componentName === name // component의 name으로 찾기
+              );
+              if (componentConfig) {
+                addWidget(componentConfig, width, height, { x, y });
+                componentConfig.isActive = true;
+              }
+            });
+          } else {
+            // 기본 제공 컴포넌트 추가 (선택 사항)
+            const defaultComponents = [
             {
               name: "오늘의 집중 시간(비교X) 3x1",
               component: TodayFocusBigWithoutComparison,
@@ -525,6 +522,15 @@ export default {
               }
             }
           );
+        }
+      } catch (error) {
+          console.error("Error loading widgets:", error);
+          Swal.fire({
+            title: '오류!',
+            text: '위젯을 불러오는 중에 문제가 발생했습니다. 나중에 다시 시도해 주세요.',
+            icon: 'error',
+            confirmButtonText: '확인'
+          });
         }
       });
     });
