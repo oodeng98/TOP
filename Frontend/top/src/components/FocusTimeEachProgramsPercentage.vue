@@ -85,8 +85,6 @@ export default {
         const response = await axios.post('https://i11a707.p.ssafy.io/api/focus-time/ban', {
           name: appName,
         });
-
-        this.bannedList.push({ name: appName });
       } catch (error) {
         if (error.response && error.response.status === 409) {
           console.warn(`${appName}은(는) 이미 금지된 프로그램으로 등록되어 있습니다.`);
