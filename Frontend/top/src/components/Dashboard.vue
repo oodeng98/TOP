@@ -3,8 +3,8 @@
     <div class="content">
       <div class="header">
         <h1>Dashboard</h1>
-        <button id="openModalBtn" @click="openModal">설정</button>
         <div class="buttons">
+          <button class="openModalBtn" @click="openModal">설정</button>
           <button class="save-button" @click="saveWidgets">저장</button>
           <button
             v-if="!isSidebarOpen"
@@ -701,6 +701,20 @@ export default {
 }
 
 .save-button {
+  position: relative;
+  width: 150px;
+  height: 60px;
+  background-color: #5865f2;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: right 0.3s ease;
+  text-align: center;
+  margin-right: 10px;
+}
+
+.openModalBtn {
   position: relative;
   width: 150px;
   height: 60px;

@@ -70,9 +70,11 @@ export default {
     },
     async addprogram(appName) {
       try {
-        const url = `https://i11a707.p.ssafy.io/api/focus-time/ban`;
-        await axios.post(url);
-        this.bannedList.push({ name: appName });
+        await axios.post('https://i11a707.p.ssafy.io/api/focus-time/ban', {
+          params: {
+            name: appName,
+          }
+        });
       } catch (error) {
         console.error("Error adding program:", error);
       }

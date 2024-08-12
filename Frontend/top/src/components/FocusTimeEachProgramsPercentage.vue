@@ -76,12 +76,11 @@ export default {
     // 금지 프로그램 추가
     async addprogram(appName) {
       try {
-        await axios.post('https://i11a707.p.ssafy.io/api/focus-time/ban', {}, {
+        await axios.post('https://i11a707.p.ssafy.io/api/focus-time/ban', {
           params: {
-            name: appName
+            name: appName,
           }
         });
-        this.bannedList.push({ name: appName });
       } catch (error) {
         console.error("Error adding program:", error);
       }
