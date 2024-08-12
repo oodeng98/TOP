@@ -596,8 +596,6 @@ export default {
       openModal,
       closeModal,
       saveDailyGoal,
-      saveWeeklyGoal,
-      saveMonthlyGoal,
       toggleSidebar,
       handleOutsideClick,
       saveWidgets,
