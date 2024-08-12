@@ -27,7 +27,7 @@
                     :style="{ width: app.percentage + '%' }"
                   ></div>
                 </div>
-                <button type="submit" @click="addprogram(app.name)" class="image-button image-button-plus">
+                <button type="submit" @click.stop="addprogram(app.name)" class="image-button image-button-plus">
                   +
                 </button>
               </div>
@@ -76,8 +76,11 @@ export default {
     // 금지 프로그램 추가
     async addprogram(appName) {
       try {
-        const url = `https://i11a707.p.ssafy.io/api/focus-time/ban`;
-        await axios.post(url);
+        await axios.post('https://i11a707.p.ssafy.io/api/focus-time/ban', {}, {
+          params: {
+            name: appName
+          }
+        });
         this.bannedList.push({ name: appName });
       } catch (error) {
         console.error("Error adding program:", error);
