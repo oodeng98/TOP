@@ -24,8 +24,8 @@
                 <div class="app-name">{{ app.name }}</div>
                 <div class="text-wrapper">
                   {{ formatTime(app.focusTime) }}
-                  <button type="submit" @click="addprogram(app.name)" class="image-button image-button-plus">
-                    +
+                  <button type="submit" @click.stop="addprogram(app.name)" class="image-button-plus">
+                    <img src="../../static/img/PlusCircle.svg" alt="">
                   </button>
                 </div>
               </div>
@@ -209,5 +209,13 @@ export default {
   margin-bottom: 10px;
   text-align: center;
   margin-left: 20px;
+}
+
+.image-button-plus {
+  background: none; /* 배경 제거 */
+  border: none; /* 테두리 제거 */
+  padding: 0; /* 여백 제거 */
+  cursor: pointer; /* 커서 포인터로 변경 */
+  outline: none; /* 클릭 시 나타나는 외곽선 제거 */
 }
 </style>
