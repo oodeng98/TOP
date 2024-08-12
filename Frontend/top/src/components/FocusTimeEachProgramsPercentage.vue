@@ -26,6 +26,9 @@
                     class="progress"
                     :style="{ width: app.percentage + '%' }"
                   ></div>
+                  <button type="submit" @click="addprogram(app.name)" class="image-button image-button-plus">
+                    <img src="../../static/img/PlusCircle.svg" alt="추가" />
+                  </button>
                 </div>
               </div>
               <img class="line" alt="Line" src="../../static/img/line.png" />
@@ -68,6 +71,16 @@ export default {
         }
       } catch (error) {
         console.error("API request failed:", error);
+      }
+    },
+    // 금지 프로그램 추가
+    async addprogram(appName) {
+      try {
+        const url = `https://i11a707.p.ssafy.io/api/focus-time/ban/${encodeURIComponent(appName)}`;
+        await axios.post(url);
+        this.bannedList.push({ name: appName, focusTime: 0 });
+      } catch (error) {
+        console.error("Error adding program:", error);
       }
     },
     formatTime(seconds) {

@@ -50,8 +50,6 @@ import MonthAchievementSmall from "./MonthAchievementSmall.vue";
 import TodayAchievementBig from "./TodayAchievementBig.vue";
 import WeekAchievementBig from "./WeekAchievementBig.vue";
 import MonthAchievementBig from "./MonthAchievementBig.vue";
-import MonthStreakColumn from "./MonthStreakColumn.vue";
-import MonthStreakRow from "./MonthStreakRow.vue";
 import CalendarCheck from "./CalendarCheck.vue";
 import FocusTimeEachPrograms from "./FocusTimeEachPrograms.vue";
 import FocusTimeEachProgramsPercentage from "./FocusTimeEachProgramsPercentage.vue";
@@ -215,20 +213,6 @@ export default {
         componentName: "MonthTargetTime",
         width: 2,
         height: 1,
-      },
-      {
-        name: "월간 스트릭(세로) 2x2",
-        component: MonthStreakColumn,
-        componentName: "MonthStreakColumn",
-        width: 2,
-        height: 2,
-      },
-      {
-        name: "월간 스트릭(가로) 2x2",
-        component: MonthStreakRow,
-        componentName: "MonthStreakRow",
-        width: 2,
-        height: 2,
       },
       {
         name: "스트릭 6x2",

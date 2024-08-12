@@ -22,7 +22,12 @@
                   @error="handleImageError"
                 />
                 <div class="app-name">{{ app.name }}</div>
-                <div class="text-wrapper">{{ formatTime(app.focusTime) }}</div>
+                <div class="text-wrapper">
+                  {{ formatTime(app.focusTime) }}
+                  <button type="submit" @click="addprogram(app.name)" class="image-button image-button-plus">
+                    <img src="../../static/img/PlusCircle.svg" alt="추가" />
+                  </button>
+                </div>
               </div>
               <img class="line" alt="Line" src="../../static/img/line.png" />
             </div>
@@ -61,6 +66,15 @@ export default {
         }
       } catch (error) {
         console.error("FocusTimeEachPrograms API request failed:", error);
+      }
+    },
+    async addprogram(appName) {
+      try {
+        const url = `https://i11a707.p.ssafy.io/api/focus-time/ban/${encodeURIComponent(appName)}`;
+        await axios.post(url);
+        this.bannedList.push({ name: appName, focusTime: 0 });
+      } catch (error) {
+        console.error("Error adding program:", error);
       }
     },
     formatTime(seconds) {
