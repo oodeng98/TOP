@@ -71,9 +71,7 @@ export default {
     },
     getImagePath(appName) {
       try {
-        return require(`../../static/application_icon/${appName
-          .toLowerCase()
-          .replace(/\s+/g, "")}.png`);
+        return require(`../../static/application_icon/${appName}.png`);
       } catch (e) {
         return require("../../static/application_icon/default.png"); // 기본 이미지 경로
       }
