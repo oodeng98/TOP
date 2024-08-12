@@ -76,17 +76,21 @@ export default {
     // 금지 프로그램 추가
     async addprogram(appName) {
       try {
+        // bannedList가 초기화되지 않았을 경우 빈 배열로 처리
+        if (!this.bannedList) {
+          this.bannedList = [];
+        }
+
         // 이미 금지된 프로그램인지 확인
-        if (this.bannedList.some(program => program.name === appName)) {
+        if (this.bannedList.appList.some(program => program.name === appName)) {
           console.warn(`${appName}은(는) 이미 금지된 프로그램입니다.`);
           return; // 이미 존재하면 중복 요청을 보내지 않음
         }
 
-        const response = await axios.post('https://i11a707.p.ssafy.io/api/focus-time/ban', {
+        // 서버로 POST 요청 보내기
+        await axios.post('https://i11a707.p.ssafy.io/api/focus-time/ban', {
           name: appName,
         });
-
-        this.bannedList.push({ name: appName });
       } catch (error) {
         if (error.response && error.response.status === 409) {
           console.warn(`${appName}은(는) 이미 금지된 프로그램으로 등록되어 있습니다.`);
