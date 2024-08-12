@@ -390,7 +390,7 @@ export default {
       try {
         console.log(widgetStore.widgets);
         const response = await axios.post(
-          "https://i11a707.p.ssafy.io/widgets",
+          "https://i11a707.p.ssafy.io/api/widgets",
           widgetStore.widgets
         );
         console.log("Widgets saved successfully:", response.data);
@@ -586,7 +586,7 @@ export default {
 
 .save-button {
   position: relative;
-  width: 60px;
+  width: 150px;
   height: 60px;
   background-color: #5865f2;
   color: white;
@@ -600,7 +600,7 @@ export default {
 
 .toggle-button {
   position: relative;
-  width: 60px;
+  width: 150px;
   height: 60px;
   background-color: #5865f2;
   color: white;
