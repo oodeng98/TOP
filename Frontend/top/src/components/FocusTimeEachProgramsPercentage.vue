@@ -77,7 +77,7 @@ export default {
     async addprogram(appName) {
       try {
         await axios.post('https://i11a707.p.ssafy.io/api/focus-time/ban', {
-          params: {
+          data: {
             name: appName,
           }
         });
