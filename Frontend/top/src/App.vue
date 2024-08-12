@@ -1,6 +1,5 @@
 <template>
   <div id="app" class="container">
-    <Dashboard />
     <!-- 대시보드는 로그인된 상태일 때만 렌더링됩니다 -->
   </div>
 </template>
@@ -31,7 +30,7 @@ export default {
         })
         .catch((error) => {
           console.error(error); // 에러 발생 시 에러를 출력
-          this.redirectToLogin();
+          // this.redirectToLogin();
         });
     },
     renderDashboard() {
@@ -40,8 +39,7 @@ export default {
       this.$el.appendChild(dashboardInstance.$el);
     },
     redirectToLogin() {
-      const loginUrl =
-        "https://accounts.google.com/o/oauth2/v2/auth?client_id=1055451669456-7j0mkark9qc3r3stsjt82jbt3hl3d248.apps.googleusercontent.com&redirect_uri=https%3A//i11a707.p.ssafy.io&response_type=token&scope=profile email";
+      const loginUrl = "https://i11a707.p.ssafy.io/api/user/login";
       window.location.href = loginUrl;
     },
   },
