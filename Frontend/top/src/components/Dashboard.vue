@@ -389,6 +389,7 @@ export default {
 
     const saveWidgets = async () => {
       try {
+        console.log(widgetStore.widgets)
         const response = await axios.post(
           "https://i11a707.p.ssafy.io/api/widgets",
           widgetStore.widgets
@@ -400,6 +401,7 @@ export default {
           confirmButtonText: '확인'
         });
       } catch (error) {
+        console.log(widgetStore.widgets)
         Swal.fire({
           title: '오류!',
           text: '위젯을 저장하는 중에 문제가 발생했습니다. 나중에 다시 시도해 주세요.',
