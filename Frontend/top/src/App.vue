@@ -25,7 +25,8 @@ export default {
           if (response.data.data) {
             this.renderDashboard();
           } else {
-            this.redirectToLogin();
+            // this.redirectToLogin();
+            console.log("실패");
           }
         })
         .catch((error) => {
