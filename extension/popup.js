@@ -73,33 +73,7 @@ async function joinRoom() {
         console.log("There was an error connecting to the room:", error.message);
         await leaveRoom();
     }
-  try {
-    // Get the room name and participant name from the form
-    const roomName = document.getElementById("room-name").value;
-    const userName = document.getElementById("participant-name").value;
-
-    // Get a token from your application server with the room name and participant name
-    const token = await getToken(roomName, userName);
-
-    // Connect to the room with the LiveKit URL and the token
-    await room.connect(LIVEKIT_URL, token);
-
-    // Hide the 'Join room' page and show the 'Room' page
-    document.getElementById("room-title").innerText = roomName;
-    document.getElementById("join").hidden = true;
-    document.getElementById("room").hidden = false;
-
-    // Publish your camera and microphone
-    await room.localParticipant.enableCameraAndMicrophone();
-    const localVideoTrack = room.localParticipant.videoTrackPublications
-      .values()
-      .next().value.track;
-    addTrack(localVideoTrack, userName, true);
-  } catch (error) {
-    console.log("There was an error connecting to the room:", error.message);
-    await leaveRoom();
   }
-}
 
 function addTrack(track, participantIdentity, local = false) {
   const element = track.attach();
@@ -154,7 +128,6 @@ async function generateFormValues() {
         console.log('generateFormValues 안됨: ', error); // 오류 처리
     }
 }
-
 
 function createVideoContainer(participantIdentity, local = false) {
   const videoContainer = document.createElement("div");
