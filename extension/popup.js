@@ -1,22 +1,6 @@
 var APPLICATION_SERVER_URL = "https://i11a707.p.ssafy.io/ov-server/";
 var LIVEKIT_URL = "wss://i11a707.p.ssafy.io:4443";
-configureUrls();
 
-document.addEventListener("DOMContentLoaded", () => {
-  // document.getElementById("join-button").addEventListener("click", joinRoom);
-  const leave_button = document.getElementById("leave-room-button");
-  const form = document.getElementById("form");
-  form.onsubmit = function (event) {
-    event.preventDefault();
-    joinRoom();
-    return false;
-  };
-  leave_button.onclick = function () {
-    leaveRoom();
-  };
-
-  generateFormValues();
-});
 
 const LivekitClient = window.LivekitClient;
 var room;
@@ -27,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById("join-button").addEventListener("click", joinRoom);
     document.getElementById("leave-room-button").addEventListener("click", leaveRoom);
     
-    // generateFormValues();
+    generateFormValues();
 });
 
 function godashboard(event) {
@@ -155,16 +139,13 @@ window.onbeforeunload = () => {
   room?.disconnect();
 };
 
-// window.onload = generateFormValues;
+window.onload = generateFormValues;
 
-// function generateFormValues() {
-//     document.getElementById("room-name").value = "Test Room";
-//     document.getElementById("participant-name").value = "Participant" + Math.floor(Math.random() * 100);
-// }
 function generateFormValues() {
-  document.getElementById("room-name").value = "Test Room";
-  document.getElementById("participant-name").value =
-    "Participant" + Math.floor(Math.random() * 100);
+    const participantName = getUserInfo();
+    console.log(participantName);
+    document.getElementById("room-name").value = "Test Room";
+    document.getElementById("participant-name").value = participantName.value;
 }
 
 function createVideoContainer(participantIdentity, local = false) {
@@ -222,4 +203,31 @@ async function getToken(roomName, participantName) {
 
   const token = await response.json();
   return token.token;
+}
+
+// 내 정보 불러오기
+var DEFAULT_URL = "https://i11a707.p.ssafy.io/api";
+
+async function getUserInfo() {
+    try {
+        const response = await fetch(DEFAULT_URL + "/user", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        // .then(
+        const data = await response.json(); // 응답 본문을 JSON으로 파싱
+        const participantName = data.data.nickname;
+        console.log(participantName);
+        return participantName; // 파싱된 데이터를 반환
+        // )
+    } catch (error) {
+        console.log('getUserInfo 안됨: ', error); // 오류를 콘솔에 출력
+        throw error; // 필요하다면 오류를 다시 던져서 호출자에게 알림
+    }
 }
