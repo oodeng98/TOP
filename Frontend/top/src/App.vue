@@ -14,8 +14,16 @@ export default {
   },
   mounted() {
     const googleAuthUrl = "https://i11a707.p.ssafy.io/api/user/login";
+    const isLoggedIn = this.checkLoginStatus(); // 로그인 상태 확인
 
-    window.location.href = googleAuthUrl;
+    if (!isLoggedIn) {
+      window.location.href = googleAuthUrl;
+    }
+  },
+  methods: {
+    checkLoginStatus() {
+      return localStorage.getItem("authToken") !== null;
+    },
   },
 };
 </script>
