@@ -389,11 +389,19 @@ export default {
 
     const saveWidgets = async () => {
       try {
-        console.log(widgetStore.widgets)
+        // 활성화된(대시보드에 떠있는) 위젯만 필터링
+        const activeWidgets = widgetStore.widgets.filter(widget => {
+          const componentConfig = availableComponents.value.find(
+            (c) => c.componentName === widget.name
+          );
+          return componentConfig && componentConfig.isActive;
+        });
+        console.log(activeWidgets)
         const response = await axios.post(
           "https://i11a707.p.ssafy.io/api/widgets",
-          widgetStore.widgets
+          activeWidgets // 필터링된 위젯만 서버로 전송
         );
+
         Swal.fire({
           title: '성공!',
           text: '위젯이 성공적으로 저장되었습니다!',
@@ -411,8 +419,8 @@ export default {
       }
     };
 
-    onMounted(() => {
-      nextTick(() => {
+    onMounted(async () => {
+      nextTick(async () => {
         const gridElement = gridstack.value;
         if (!gridElement) {
           console.error("GridStack element not found");
@@ -435,89 +443,106 @@ export default {
           }
         });
 
-        // Pinia 스토어에 저장된 위젯 로드
-        if (widgetStore.widgets.length > 0) {
-          widgetStore.widgets.forEach(({ name, width, height, x, y }) => {
-            const componentConfig = availableComponents.value.find(
-              (c) => c.componentName === name // component의 name으로 찾기
-            );
-            if (componentConfig) {
-              addWidget(componentConfig, width, height, { x, y });
-              componentConfig.isActive = true;
-            }
-          });
-        } else {
-          // 기본 제공 컴포넌트 추가
-          const defaultComponents = [
-            {
-              name: "오늘의 집중 시간(비교X) 3x1",
-              component: TodayFocusBigWithoutComparison,
-              componentName: "TodayFocusBigWithoutComparison",
-              width: 3,
-              height: 1,
-            },
-            {
-              name: "이번주 집중 시간(비교X) 3x1",
-              component: WeekFocusBigWithoutComparison,
-              componentName: "WeekFocusBigWithoutComparison",
-              width: 3,
-              height: 1,
-            },
-            {
-              name: "이번달 집중 시간(비교X) 3x1",
-              component: MonthFocusBigWithoutComparison,
-              componentName: "MonthFocusBigWithoutComparison",
-              width: 3,
-              height: 1,
-            },
-            {
-              name: "총 집중 시간 3x1",
-              component: TotalFocusBig,
-              componentName: "TotalFocusBig",
-              width: 3,
-              height: 1,
-            },
-            {
-              name: "타임라인 7x4",
-              component: TimeLine,
-              componentName: "TimeLine",
-              width: 7,
-              height: 4,
-            },
-            {
-              name: "금지 프로그램 목록 5x4",
-              component: BannedProgramList,
-              componentName: "BannedProgramList",
-              width: 5,
-              height: 4,
-            },
-            {
-              name: "프로그램별 집중 시간과 백분율 7x4",
-              component: FocusTimeEachProgramsPercentage,
-              componentName: "FocusTimeEachProgramsPercentage",
-              width: 7,
-              height: 4,
-            },
-            {
-              name: "캘린더 5x4",
-              component: CalendarCheck,
-              componentName: "CalendarCheck",
-              width: 5,
-              height: 4,
-            },
-          ];
+        try {
+          // 서버에서 저장된 위젯 상태 가져오기
+          const response = await axios.get("https://i11a707.p.ssafy.io/api/widgets");
+          const storedWidgets = response.data;
 
-          defaultComponents.forEach(
-            ({ name, component, componentName, width, height }) => {
-              addWidget({ name, component, componentName }, width, height);
+          if (storedWidgets.length > 0) {
+            // 가져온 위젯 데이터로 위젯 추가
+            storedWidgets.forEach(({ name, width, height, x, y }) => {
               const componentConfig = availableComponents.value.find(
-                (c) => c.componentName === componentName
+                (c) => c.componentName === name // component의 name과 매칭
               );
               if (componentConfig) {
+                addWidget(componentConfig, width, height, { x, y });
                 componentConfig.isActive = true;
+              } else {
+                console.error(`Component with name ${name} not found.`);
               }
-            }
-          );
+            });
+          } else {
+            console.log("No widgets found on the server, loading default widgets.");
+            // 기본 제공 컴포넌트 추가 (선택 사항)
+            const defaultComponents = [
+              {
+                name: "오늘의 집중 시간(비교X) 3x1",
+                component: TodayFocusBigWithoutComparison,
+                componentName: "TodayFocusBigWithoutComparison",
+                width: 3,
+                height: 1,
+              },
+              {
+                name: "이번주 집중 시간(비교X) 3x1",
+                component: WeekFocusBigWithoutComparison,
+                componentName: "WeekFocusBigWithoutComparison",
+                width: 3,
+                height: 1,
+              },
+              {
+                name: "이번달 집중 시간(비교X) 3x1",
+                component: MonthFocusBigWithoutComparison,
+                componentName: "MonthFocusBigWithoutComparison",
+                width: 3,
+                height: 1,
+              },
+              {
+                name: "총 집중 시간 3x1",
+                component: TotalFocusBig,
+                componentName: "TotalFocusBig",
+                width: 3,
+                height: 1,
+              },
+              {
+                name: "타임라인 7x4",
+                component: TimeLine,
+                componentName: "TimeLine",
+                width: 7,
+                height: 4,
+              },
+              {
+                name: "금지 프로그램 목록 5x4",
+                component: BannedProgramList,
+                componentName: "BannedProgramList",
+                width: 5,
+                height: 4,
+              },
+              {
+                name: "프로그램별 집중 시간과 백분율 7x4",
+                component: FocusTimeEachProgramsPercentage,
+                componentName: "FocusTimeEachProgramsPercentage",
+                width: 7,
+                height: 4,
+              },
+              {
+                name: "캘린더 5x4",
+                component: CalendarCheck,
+                componentName: "CalendarCheck",
+                width: 5,
+                height: 4,
+              },
+            ];
+
+            defaultComponents.forEach(
+              ({ name, component, componentName, width, height }) => {
+                addWidget({ name, component, componentName }, width, height);
+                const componentConfig = availableComponents.value.find(
+                  (c) => c.componentName === componentName
+                );
+                if (componentConfig) {
+                  componentConfig.isActive = true;
+                }
+              }
+            );
+          }
+        } catch (error) {
+          console.error("Error loading widgets:", error);
+          Swal.fire({
+            title: '오류!',
+            text: '위젯을 불러오는 중에 문제가 발생했습니다. 나중에 다시 시도해 주세요.',
+            icon: 'error',
+            confirmButtonText: '확인'
+          });
         }
       });
     });
