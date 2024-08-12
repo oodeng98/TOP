@@ -1,6 +1,6 @@
 <template>
   <div id="app" class="container">
-    <!-- 대시보드는 로그인된 상태일 때만 렌더링됩니다 -->
+    <Dashboard />
   </div>
 </template>
 
@@ -18,26 +18,20 @@ export default {
   },
   methods: {
     checkLoginStatus() {
-      // 서버에서 제공하는 로그인 API를 통해 로그인 여부 확인
       axios
         .get("https://i11a707.p.ssafy.io/api/user/check")
         .then((response) => {
           if (response.data.data) {
-            this.renderDashboard();
+            console.log("로그인 성공");
           } else {
             // this.redirectToLogin();
-            console.log("실패");
+            console.log("로그인 실패");
           }
         })
         .catch((error) => {
           console.error(error); // 에러 발생 시 에러를 출력
           // this.redirectToLogin();
         });
-    },
-    renderDashboard() {
-      const dashboardComponent = this.$options.components.Dashboard;
-      const dashboardInstance = new dashboardComponent().$mount();
-      this.$el.appendChild(dashboardInstance.$el);
     },
     redirectToLogin() {
       const loginUrl = "https://i11a707.p.ssafy.io/api/user/login";
