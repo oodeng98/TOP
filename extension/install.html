@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>설치 안내</title>
+  </head>
+  <body>
+    <h1>설치 안내</h1>
+    <h2>1. initial_setting.bat 실행</h2>
+    <p>
+      정상적인 확장 프로그램 구동을 위해 initial_setting.bat 파일을 다운로드하여
+      실행해주세요.
+      <br />
+      해당 파일은 Python 3.11.4와 Pip를 설치하는 파일입니다. 사용자의 컴퓨터에
+      악영향을 미칠 코드는 없습니다.
+    </p>
+    <a id="downloadLink" href="#">initial_setting.bat 다운로드</a>
+
+    <h2>2. 프로필 경로 확인</h2>
+    <p>Chrome에서 내 프로필 경로를 확인하는 방법</p>
+    <ol>
+      <li>
+        오른쪽 url
+        <strong> <code id="copyCode">chrome://version/</code></strong>
+        을 클릭하여 URL을 복사합니다.
+        <p id="copyStatus" style="color: green; margin: 0px"></p>
+      </li>
+      <li>새 탭을 열고 복사한 URL을 붙여넣은 후 Enter를 누릅니다.</li>
+      <li>"프로필 경로" 항목을 찾습니다.</li>
+      <li>표시된 경로를 복사하여 아래에 입력해주세요.</li>
+    </ol>
+
+    <h2>3. 프로필 경로 입력</h2>
+    <input
+      type="text"
+      id="profilePathInput"
+      placeholder="프로필 경로를 입력하세요"
+      style="width: 80%"
+    />
+    <button id="generatePathButton">경로 생성</button>
+    <p id="finalPath" style="color: blue; cursor: pointer"></p>
+
+    <h2>4. 확장 프로그램 설정</h2>
+    <p>
+      파일 탐색기에서 F4를 누르고 생성된 경로를 입력하여 확장 프로그램이 설치된
+      폴더로 이동합니다.
+      <br />
+      이동한 폴더에서 <code>install_host.bat</code> 파일을 실행하세요.
+      <br />
+      이 파일은 확장 프로그램이 로컬 컴퓨터와 소통하기 위한 설정을 세팅합니다.
+    </p>
+
+    <script src="install.js"></script>
+  </body>
+</html>
