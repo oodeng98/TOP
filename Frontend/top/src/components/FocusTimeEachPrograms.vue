@@ -34,35 +34,38 @@
 </template>
 
 <script>
-import axios from "axios";
+// import axios from "axios";
+import { useAxiosStore } from '@/store/useAxiosStore';
 
 export default {
   data() {
+    const store = useAxiosStore();
     return {
-      appList: [],
+      appList: store.appListFTEP,
+      fetchData: store.FocusTimeEachPrograms
     };
   },
   mounted() {
     this.fetchData();
   },
   methods: {
-    async fetchData() {
-      try {
-        const response = await axios.get(
-          "https://i11a707.p.ssafy.io/api/dash/stats/app"
-        );
-        if (response.status === 200 && response.data.statusCode === 200) {
-          this.appList = response.data.data.map((app) => ({
-            ...app,
-            imagePath: this.getImagePath(app.name),
-          }));
-        } else {
-          console.error("Failed to fetch data:", "데이터 조회에 실패했습니다");
-        }
-      } catch (error) {
-        console.error("FocusTimeEachPrograms API request failed:", error);
-      }
-    },
+    // async fetchData() {
+    //   try {
+    //     const response = await axios.get(
+    //       "https://i11a707.p.ssafy.io/api/dash/stats/app"
+    //     );
+    //     if (response.status === 200 && response.data.statusCode === 200) {
+    //       this.appList = response.data.data.map((app) => ({
+    //         ...app,
+    //         imagePath: this.getImagePath(app.name),
+    //       }));
+    //     } else {
+    //       console.error("Failed to fetch data:", "데이터 조회에 실패했습니다");
+    //     }
+    //   } catch (error) {
+    //     console.error("FocusTimeEachPrograms API request failed:", error);
+    //   }
+    // },
     formatTime(seconds) {
       const h = Math.floor(seconds / 3600);
       const m = Math.floor((seconds % 3600) / 60);

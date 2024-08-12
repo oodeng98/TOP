@@ -45,27 +45,30 @@
 
 <script>
 import axios from "axios";
+import { useAxiosStore } from "@/store/useAxiosStore";
 
 export default {
   name: "App",
   data() {
+    const store = useAxiosStore();
     return {
       banprogram: "",
-      bannedList: [],
+      bannedList: store.bannedList,
+      fetchProgramLists : store.fetchProgramLists,
     };
   },
   methods: {
     // 금지 프로그램 목록 불러오기
-    async fetchProgramLists() {
-      try {
-        const response = await axios.get(
-          "https://i11a707.p.ssafy.io/api/focus-time/ban"
-        );
-        this.bannedList = response.data.data;
-      } catch (error) {
-        console.error("Error to fetch data:", error);
-      }
-    },
+    // async fetchProgramLists() {
+    //   try {
+    //     const response = await axios.get(
+    //       "https://i11a707.p.ssafy.io/api/focus-time/ban"
+    //     );
+    //     this.bannedList = response.data.data;
+    //   } catch (error) {
+    //     console.error("Error to fetch data:", error);
+    //   }
+    // },
     // 금지 프로그램 추가
     async addprogram() {
       const trimmedUrl = this.banprogram.trim();
@@ -105,26 +108,26 @@ export default {
         .padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
     },
     // 주기적인 사용 시간 데이터 업데이트 시작
-    startPeriodicUpdates() {
-      this.interval = setInterval(() => {
-        this.fetchProgramLists();
-      }, 600000);
-    },
-    // 주기적인 업데이트 정지
-    stopPeriodicUpdates() {
-      if (this.interval) {
-        clearInterval(this.interval);
-      }
-    },
-  },
-  created() {
+    // startPeriodicUpdates() {
+    //   this.interval = setInterval(() => {
+    //     this.fetchProgramLists();
+    //   }, 600000);
+    // },
+    // // 주기적인 업데이트 정지
+    // stopPeriodicUpdates() {
+    //   if (this.interval) {
+    //     clearInterval(this.interval);
+    //   }
+    // },
+  mounted() {
     this.fetchProgramLists();
-    this.startPeriodicUpdates();
+    // this.startPeriodicUpdates();
   },
-  beforeDestroy() {
-    this.stopPeriodicUpdates();
-  },
-};
+  // beforeDestroy() {
+  //   this.stopPeriodicUpdates();
+  // },
+}
+}
 </script>
 
 <style scoped>
