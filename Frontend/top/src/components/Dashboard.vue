@@ -36,16 +36,6 @@
             <input type="number" v-model="dailyGoal" id="dailyGoal" /> 분
             <button @click="saveDailyGoal">저장</button>
           </div>
-          <div class="form-group">
-            <label for="weeklyGoal">주간 목표 집중 시간:</label>
-            <input type="number" v-model="weeklyGoal" id="weeklyGoal" /> 분
-            <button @click="saveWeeklyGoal">저장</button>
-          </div>
-          <div class="form-group">
-            <label for="monthlyGoal">월간 목표 집중 시간:</label>
-            <input type="number" v-model="monthlyGoal" id="monthlyGoal" /> 분
-            <button @click="saveMonthlyGoal">저장</button>
-          </div>
         </form>
       </div>
     </div>
@@ -602,9 +592,9 @@ export default {
           height: 1,
         },
         {
-          name: "타임라인 7x4",
-          component: TimeLine,
-          componentName: "TimeLine",
+          name: "프로그램별 집중 시간과 백분율 7x4",
+          component: FocusTimeEachProgramsPercentage,
+          componentName: "FocusTimeEachProgramsPercentage",
           width: 7,
           height: 4,
         },
@@ -616,9 +606,9 @@ export default {
           height: 4,
         },
         {
-          name: "프로그램별 집중 시간과 백분율 7x4",
-          component: FocusTimeEachProgramsPercentage,
-          componentName: "FocusTimeEachProgramsPercentage",
+          name: "타임라인 7x4",
+          component: TimeLine,
+          componentName: "TimeLine",
           width: 7,
           height: 4,
         },
@@ -657,8 +647,6 @@ export default {
       openModal,
       closeModal,
       saveDailyGoal,
-      saveWeeklyGoal,
-      saveMonthlyGoal,
       toggleSidebar,
       handleOutsideClick,
       saveWidgets,

@@ -7,9 +7,7 @@
           <div class="div3">{{ dailyFocusTime }}</div>
           <div class="text-wrapper-3">{{ focusTimeDifference }}</div>
         </div>
-        <div class="icon3">
-          <Default class="ionicon-w-wallet3" />
-        </div>
+        <div class="alphabet">T</div>
       </div>
     </div>
   </div>
@@ -156,7 +154,7 @@ export default {
   text-align: center;
 }
 
-.icon3 {
+.alphabet {
   background-color: #5865f2;
   border-radius: 12px;
   box-shadow: 0px 3.5px 5.5px #00000005;
@@ -169,10 +167,9 @@ export default {
   right: 20px;
   top: 50%;
   transform: translateY(-50%);
-}
-
-.ionicon-w-wallet3 {
-  width: 29px;
-  height: 29px;
+  font-family: "Helvetica-BoldOblique", Helvetica;
+  font-size: 20px;
+  font-weight: 900;
+  color: white;
 }
 </style>

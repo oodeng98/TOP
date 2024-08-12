@@ -27,8 +27,8 @@
                     :style="{ width: app.percentage + '%' }"
                   ></div>
                 </div>
-                <button type="submit" @click.stop="addprogram(app.name)" class="image-button image-button-plus">
-                  +
+                <button type="submit" @click.stop="addprogram(app.name)" class="image-button-plus">
+                  <img src="../../static/img/PlusCircle.svg" alt="">
                 </button>
               </div>
               <img class="line" alt="Line" src="../../static/img/line.png" />
@@ -47,10 +47,12 @@ export default {
   data() {
     return {
       appList: [],
+      bannedList: [] // bannedList를 빈 배열로 초기화
     };
   },
   mounted() {
     this.fetchData();
+    this.fetchBannedList();
   },
   methods: {
     async fetchData() {
@@ -73,16 +75,23 @@ export default {
         console.error("API request failed:", error);
       }
     },
+    async fetchBannedList() {
+      try {
+        const response = await axios.get('https://i11a707.p.ssafy.io/api/focus-time/ban');
+        if (response.status === 200 && response.data.statusCode === 200) {
+          this.bannedList = response.data.data.appList || [];
+        } else {
+          console.error("Failed to fetch banned list");
+        }
+      } catch (error) {
+        console.error("API request failed:", error);
+      }
+    },
     // 금지 프로그램 추가
     async addprogram(appName) {
       try {
-        // bannedList가 초기화되지 않았을 경우 빈 배열로 처리
-        if (!this.bannedList) {
-          this.bannedList = [];
-        }
-
         // 이미 금지된 프로그램인지 확인
-        if (this.bannedList.appList.some(program => program.name === appName)) {
+        if (this.bannedList.some(program => program.name === appName)) {
           console.warn(`${appName}은(는) 이미 금지된 프로그램입니다.`);
           return; // 이미 존재하면 중복 요청을 보내지 않음
         }
@@ -91,6 +100,10 @@ export default {
         await axios.post('https://i11a707.p.ssafy.io/api/focus-time/ban', {
           name: appName,
         });
+
+        // 성공적으로 추가되면 로컬 리스트에도 추가
+        this.bannedList.push({ name: appName });
+
       } catch (error) {
         if (error.response && error.response.status === 409) {
           console.warn(`${appName}은(는) 이미 금지된 프로그램으로 등록되어 있습니다.`);
@@ -258,5 +271,13 @@ export default {
   margin-bottom: 10px;
   text-align: center;
   margin-left: 20px;
+}
+
+.image-button-plus {
+  background: none; /* 배경 제거 */
+  border: none; /* 테두리 제거 */
+  padding: 0; /* 여백 제거 */
+  cursor: pointer; /* 커서 포인터로 변경 */
+  outline: none; /* 클릭 시 나타나는 외곽선 제거 */
 }
 </style>
