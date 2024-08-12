@@ -63,6 +63,7 @@ import SixMonthStreak from "./SixMonthStreak.vue";
 import BannedProgramList from "./BannedProgramList.vue";
 
 import { useWidgetStore } from "@/store/useWidgetStore";
+import Swal from 'sweetalert2';
 
 export default {
   name: "GridstackComponent",
@@ -388,30 +389,23 @@ export default {
 
     const saveWidgets = async () => {
       try {
-        console.log(widgetStore.widgets);
         const response = await axios.post(
           "https://i11a707.p.ssafy.io/api/widgets",
           widgetStore.widgets
         );
-        console.log("Widgets saved successfully:", response.data);
-        alert("위젯 설정이 저장되었습니다.");
-        // `isActive`가 true인 컴포넌트들만 필터링
-        const activeWidgets = availableComponents.value
-          .filter(component => component.isActive)
-          .map(component => {
-            // 각 활성화된 위젯의 스토어에 저장된 정보를 추출
-            const storedWidget = widgetStore.widgets.find(
-              widget => widget.name === component.componentName
-            );
-            return storedWidget;
-          })
-          .filter(widget => widget !== undefined); // 필터링 후 undefined인 값 제거
-
-        // 현재 상태 로그로 확인
-        console.log('Saving Active Widgets:', activeWidgets);
+        Swal.fire({
+          title: '성공!',
+          text: '위젯이 성공적으로 저장되었습니다!',
+          icon: 'success',
+          confirmButtonText: '확인'
+        });
       } catch (error) {
-        console.error("Error saving widgets:", error);
-        alert("위젯 설정 저장 중 오류가 발생했습니다.");
+        Swal.fire({
+          title: '오류!',
+          text: '위젯을 저장하는 중에 문제가 발생했습니다. 나중에 다시 시도해 주세요.',
+          icon: 'error',
+          confirmButtonText: '확인'
+        });
       }
     };
 
