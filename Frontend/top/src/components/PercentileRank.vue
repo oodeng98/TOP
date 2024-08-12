@@ -50,7 +50,7 @@
 
 <script>
 import axios from "axios";
-import { ref, onMounted } from "vue";
+import { ref, onMounted, onUnmounted } from "vue";
 
 export default {
   setup() {
@@ -75,7 +75,13 @@ export default {
     };
 
     onMounted(() => {
-      fetchPercentile();
+      fetchPercentile(); // Fetch immediately on mount
+      const intervalId = setInterval(fetchPercentile, 60000); // Fetch every 1 minute
+
+      // Clean up the interval on component unmount
+      onUnmounted(() => {
+        clearInterval(intervalId);
+      });
     });
 
     return {

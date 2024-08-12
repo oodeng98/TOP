@@ -24,7 +24,7 @@ export default {
           if (response.data.data) {
             console.log("로그인 성공");
           } else {
-            // this.redirectToLogin();
+            this.redirectToLogin();
             console.log("로그인 실패");
           }
         })

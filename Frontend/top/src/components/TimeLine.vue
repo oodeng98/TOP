@@ -13,7 +13,7 @@
 <script>
 import { Bar } from "vue-chartjs";
 import { Chart, registerables } from "chart.js";
-import { reactive, ref, onMounted, computed } from "vue";
+import { reactive, ref, onMounted, computed, onUnmounted } from "vue";
 import axios from "axios";
 Chart.register(...registerables);
 
@@ -130,7 +130,13 @@ export default {
     };
 
     onMounted(() => {
-      fetchFocusTimeData();
+      fetchFocusTimeData(); // Fetch immediately on mount
+      const intervalId = setInterval(fetchFocusTimeData, 60000); // Fetch every 1 minute
+
+      // Clean up the interval on component unmount
+      onUnmounted(() => {
+        clearInterval(intervalId);
+      });
     });
 
     return {

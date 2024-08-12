@@ -4,6 +4,7 @@
       <div class="header">
         <h1>Dashboard</h1>
         <div class="buttons">
+          <button class="login-button" @click="redirectToLogin">로그인</button>
           <button class="openModalBtn" @click="openModal">설정</button>
           <button class="save-button" @click="saveWidgets">저장</button>
           <button
@@ -51,7 +52,6 @@
   </div>
 </template>
 
-
 <script>
 import { createApp, onMounted, ref, nextTick } from "vue";
 import { GridStack } from "gridstack";
@@ -88,7 +88,7 @@ import SixMonthStreak from "./SixMonthStreak.vue";
 import BannedProgramList from "./BannedProgramList.vue";
 
 import { useWidgetStore } from "@/store/useWidgetStore";
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 
 export default {
   name: "GridstackComponent",
@@ -314,19 +314,19 @@ export default {
     const saveDailyGoal = async (event) => {
       event.preventDefault();
       try {
-        await axios.post('/api/saveDailyGoal', { goal: dailyGoal.value });
+        await axios.post("/api/saveDailyGoal", { goal: dailyGoal.value });
         Swal.fire({
-          title: '성공!',
-          text: '일간 목표 집중 시간이 저장되었습니다.',
-          icon: 'success',
-          confirmButtonText: '확인'
+          title: "성공!",
+          text: "일간 목표 집중 시간이 저장되었습니다.",
+          icon: "success",
+          confirmButtonText: "확인",
         });
       } catch (error) {
         Swal.fire({
-          title: '오류!',
-          text: '저장 중 문제가 발생했습니다.',
-          icon: 'error',
-          confirmButtonText: '확인'
+          title: "오류!",
+          text: "저장 중 문제가 발생했습니다.",
+          icon: "error",
+          confirmButtonText: "확인",
         });
       }
     };
@@ -334,19 +334,19 @@ export default {
     const saveWeeklyGoal = async (event) => {
       event.preventDefault();
       try {
-        await axios.post('/api/saveWeeklyGoal', { goal: weeklyGoal.value });
+        await axios.post("/api/saveWeeklyGoal", { goal: weeklyGoal.value });
         Swal.fire({
-          title: '성공!',
-          text: '주간 목표 집중 시간이 저장되었습니다.',
-          icon: 'success',
-          confirmButtonText: '확인'
+          title: "성공!",
+          text: "주간 목표 집중 시간이 저장되었습니다.",
+          icon: "success",
+          confirmButtonText: "확인",
         });
       } catch (error) {
         Swal.fire({
-          title: '오류!',
-          text: '저장 중 문제가 발생했습니다.',
-          icon: 'error',
-          confirmButtonText: '확인'
+          title: "오류!",
+          text: "저장 중 문제가 발생했습니다.",
+          icon: "error",
+          confirmButtonText: "확인",
         });
       }
     };
@@ -354,19 +354,19 @@ export default {
     const saveMonthlyGoal = async (event) => {
       event.preventDefault();
       try {
-        await axios.post('/api/saveMonthlyGoal', { goal: monthlyGoal.value });
+        await axios.post("/api/saveMonthlyGoal", { goal: monthlyGoal.value });
         Swal.fire({
-          title: '성공!',
-          text: '월간 목표 집중 시간이 저장되었습니다.',
-          icon: 'success',
-          confirmButtonText: '확인'
+          title: "성공!",
+          text: "월간 목표 집중 시간이 저장되었습니다.",
+          icon: "success",
+          confirmButtonText: "확인",
         });
       } catch (error) {
         Swal.fire({
-          title: '오류!',
-          text: '저장 중 문제가 발생했습니다.',
-          icon: 'error',
-          confirmButtonText: '확인'
+          title: "오류!",
+          text: "저장 중 문제가 발생했습니다.",
+          icon: "error",
+          confirmButtonText: "확인",
         });
       }
     };
@@ -473,33 +473,37 @@ export default {
     const saveWidgets = async () => {
       try {
         // 활성화된(대시보드에 떠있는) 위젯만 필터링
-        const activeWidgets = widgetStore.widgets.filter(widget => {
+        const activeWidgets = widgetStore.widgets.filter((widget) => {
           const componentConfig = availableComponents.value.find(
             (c) => c.componentName === widget.name
           );
           return componentConfig && componentConfig.isActive;
         });
-        console.log(activeWidgets)
+        console.log(activeWidgets);
         const response = await axios.post(
           "https://i11a707.p.ssafy.io/api/widgets",
           activeWidgets // 필터링된 위젯만 서버로 전송
         );
 
         Swal.fire({
-          title: '성공!',
-          text: '위젯이 성공적으로 저장되었습니다!',
-          icon: 'success',
-          confirmButtonText: '확인'
+          title: "성공!",
+          text: "위젯이 성공적으로 저장되었습니다!",
+          icon: "success",
+          confirmButtonText: "확인",
         });
       } catch (error) {
-        console.log(widgetStore.widgets)
+        console.log(widgetStore.widgets);
         Swal.fire({
-          title: '오류!',
-          text: '위젯을 저장하는 중에 문제가 발생했습니다. 나중에 다시 시도해 주세요.',
-          icon: 'error',
-          confirmButtonText: '확인'
+          title: "오류!",
+          text: "위젯을 저장하는 중에 문제가 발생했습니다. 나중에 다시 시도해 주세요.",
+          icon: "error",
+          confirmButtonText: "확인",
         });
       }
+    };
+
+    const redirectToLogin = () => {
+      window.location.href = "https://i11a707.p.ssafy.io/api/user/login";
     };
 
     onMounted(async () => {
@@ -510,11 +514,14 @@ export default {
           return;
         }
 
-        grid = GridStack.init({
-          column: 12, // 그리드 열 수 설정
-          cellHeight: 125, // 셀 높이 설정
-          float: true,
-        }, gridElement);
+        grid = GridStack.init(
+          {
+            column: 12, // 그리드 열 수 설정
+            cellHeight: 125, // 셀 높이 설정
+            float: true,
+          },
+          gridElement
+        );
 
         // 이벤트 위임을 사용하여 삭제 버튼 클릭 처리
         gridElement.addEventListener("click", (event) => {
@@ -525,7 +532,9 @@ export default {
 
         try {
           // 서버에서 저장된 위젯 상태 가져오기
-          const response = await axios.get("https://i11a707.p.ssafy.io/api/widgets");
+          const response = await axios.get(
+            "https://i11a707.p.ssafy.io/api/widgets"
+          );
           const storedWidgets = response.data;
 
           console.log("Stored widgets:", storedWidgets);
@@ -545,16 +554,18 @@ export default {
               }
             });
           } else {
-            console.log("No widgets found on the server, loading default widgets.");
+            console.log(
+              "No widgets found on the server, loading default widgets."
+            );
             loadDefaultWidgets();
           }
         } catch (error) {
           console.error("Error loading widgets:", error);
           Swal.fire({
-            title: '오류!',
-            text: '위젯을 불러오는 중에 문제가 발생했습니다. 나중에 다시 시도해 주세요.',
-            icon: 'error',
-            confirmButtonText: '확인'
+            title: "오류!",
+            text: "위젯을 불러오는 중에 문제가 발생했습니다. 나중에 다시 시도해 주세요.",
+            icon: "error",
+            confirmButtonText: "확인",
           });
         }
       });
@@ -651,6 +662,7 @@ export default {
       toggleSidebar,
       handleOutsideClick,
       saveWidgets,
+      redirectToLogin,
     };
   },
 };
@@ -889,6 +901,24 @@ button {
 }
 
 button:hover {
+  background-color: #4a55d4;
+}
+
+.login-button {
+  position: relative;
+  width: 150px;
+  height: 60px;
+  background-color: #5865f2;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: right 0.3s ease;
+  text-align: center;
+  margin-right: 10px;
+}
+
+.login-button:hover {
   background-color: #4a55d4;
 }
 </style>

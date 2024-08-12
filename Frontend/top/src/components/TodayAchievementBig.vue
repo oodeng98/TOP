@@ -24,7 +24,7 @@
 
 <script>
 import axios from "axios";
-import { ref, onMounted } from "vue";
+import { ref, onMounted, onUnmounted } from "vue";
 
 export default {
   name: "GoalChart",
@@ -100,7 +100,13 @@ export default {
     };
 
     onMounted(() => {
-      updatePercentage();
+      updatePercentage(); // Fetch immediately on mount
+      const intervalId = setInterval(updatePercentage, 60000); // Fetch every 1 minute
+
+      // Clean up the interval on component unmount
+      onUnmounted(() => {
+        clearInterval(intervalId);
+      });
     });
 
     return {
