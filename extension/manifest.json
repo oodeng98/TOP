@@ -1,16 +1,8 @@
 {
   "manifest_version": 3,
   "name": "TOP",
-  "version": "1.0",
-  "permissions": [
-    "nativeMessaging",
-    "tabs",
-    "storage",
-    "activeTab",
-    "scripting",
-    "tabCapture",
-    "identity"
-  ],
+  "version": "1.1",
+  "permissions": ["nativeMessaging", "tabs", "scripting", "identity"],
   "background": {
     "service_worker": "background.js"
   },
