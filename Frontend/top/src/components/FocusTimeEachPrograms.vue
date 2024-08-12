@@ -34,38 +34,38 @@
 </template>
 
 <script>
-// import axios from "axios";
-import { useAxiosStore } from '@/store/useAxiosStore';
+import axios from "axios";
 
 export default {
   data() {
-    const store = useAxiosStore();
     return {
-      appList: store.appListFTEP,
-      fetchData: store.FocusTimeEachPrograms
+      appList: [],
+      interval: null,
     };
   },
   mounted() {
     this.fetchData();
+    this.startFetching();
   },
   methods: {
-    // async fetchData() {
-    //   try {
-    //     const response = await axios.get(
-    //       "https://i11a707.p.ssafy.io/api/dash/stats/app"
-    //     );
-    //     if (response.status === 200 && response.data.statusCode === 200) {
-    //       this.appList = response.data.data.map((app) => ({
-    //         ...app,
-    //         imagePath: this.getImagePath(app.name),
-    //       }));
-    //     } else {
-    //       console.error("Failed to fetch data:", "데이터 조회에 실패했습니다");
-    //     }
-    //   } catch (error) {
-    //     console.error("FocusTimeEachPrograms API request failed:", error);
-    //   }
-    // },
+    async fetchData() {
+      try {
+        const response = await axios.get(
+          "https://i11a707.p.ssafy.io/api/dash/stats/app"
+        );
+        if (response.status === 200 && response.data.statusCode === 200) {
+          this.appList = response.data.data.map((app) => ({
+            ...app,
+            imagePath: this.getImagePath(app.name),
+          }));
+        } else {
+          console.error("Failed to fetch data:", "데이터 조회에 실패했습니다");
+        }
+      } catch (error) {
+        console.error("FocusTimeEachPrograms API request failed:", error);
+      }
+    },
+    
     formatTime(seconds) {
       const h = Math.floor(seconds / 3600);
       const m = Math.floor((seconds % 3600) / 60);
@@ -83,7 +83,23 @@ export default {
       event.target.src =
         require("../../static/application_icon/default.png").default;
     },
+  // 주기적인 사용 시간 데이터 업데이트 시작
+  startFetching() {
+      this.fetchdata();
+      this.interval = setInterval(() => {
+        this.fetchdata();
+      }, 60000);
+    },
+    // 주기적인 업데이트 정지
+    stopfetching() {
+      if (this.interval) {
+        clearInterval(this.interval);
+      }
+    },
   },
+  beforeDestroy() {
+    this.stopfetching();
+  }
 };
 </script>
 

@@ -44,6 +44,7 @@ export default {
   data() {
     return {
       appList: [],
+      interval: null,
     };
   },
   mounted() {
@@ -86,6 +87,26 @@ export default {
     handleImageError(event) {
       event.target.src = require("../../static/application_icon/default.png"); // 기본 이미지 경로
     },
+
+    // 주기적인 사용 시간 데이터 업데이트 시작
+    startFetching() {
+      this.fetchdata();
+      this.interval = setInterval(() => {
+        this.fetchdata();
+      }, 60000);
+    },
+    // 주기적인 업데이트 정지
+    stopfetching() {
+      if (this.interval) {
+        clearInterval(this.interval);
+      }
+    },
+  },
+  mounted() {
+    this.startFetching();
+  },
+  beforeDestroy() {
+    this.stopfetching();
   },
 };
 </script>

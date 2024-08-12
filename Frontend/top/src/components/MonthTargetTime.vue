@@ -16,8 +16,9 @@ import { ref, onMounted } from "vue";
 export default {
   setup() {
     const monthlyTimeGoal = ref("00:00:00");
+    const interval = ref(null);
 
-    const fetchTimeGoal = async () => {
+    const fetchdata = async () => {
       try {
         const response = await axios.get(
           "https://i11a707.p.ssafy.io/api/focus-time/goal"
@@ -30,8 +31,27 @@ export default {
       }
     };
 
+    // 주기적인 사용 시간 데이터 업데이트 시작
+    const startFetching = () => {
+      fetchdata();
+      interval = setInterval(() => {
+      fetchdata();
+      }, 60000);
+    }
+
+    // 주기적인 업데이트 정지
+    const stopfetching = () => {
+      if (interval) {
+        clearInterval(interval.value);
+      }
+    }
+
     onMounted(() => {
-      fetchTimeGoal();
+      startFetching();
+    });
+
+    onBeforeUnmount(() => {
+      stopfetching();
     });
 
     return {

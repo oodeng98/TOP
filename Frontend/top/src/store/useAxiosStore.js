@@ -27,7 +27,7 @@ export const useAxiosStore = defineStore('axiosStore', () => {
             defaultUrl + "dash/stats/app"
           );
           if (response.status === 200 && response.data.statusCode === 200) {
-            this.appList = response.data.data.map((app) => ({
+            this.appListFTEP = response.data.data.map((app) => ({
               ...app,
               imagePath: this.getImagePath(app.name),
             }));
@@ -39,8 +39,54 @@ export const useAxiosStore = defineStore('axiosStore', () => {
         }
       }
 
-      // FocusTimeEachProgramsPercentage
+    // FocusTimeEachProgramsPercentage
+    const appListFTEPP = ref([])
+    const FocusTimeEachProgramsPercentage = async function() {
+        try {
+          const response = await axios.get(
+            "https://i11a707.p.ssafy.io/api/dash/stats/app"
+          );
+          if (response.status === 200 && response.data.statusCode === 200) {
+            this.appListFTEPP = response.data.data.map((app) => ({
+              ...app,
+              percentage: app.focusRate,
+            }));
+          } else {
+            console.error(
+              "Failed to fetch data:",
+              "프로그램 조회에 실패하였습니다."
+            );
+          }
+        } catch (error) {
+          console.error("API request failed:", error);
+        }
+      }
       
+    // MonthtAchievementBig
+    const monthlyFocusTime = ref('')
+    const fetchFocusTime = async function () {
+      try {
+        const response = await axios.get(
+          "https://i11a707.p.ssafy.io/api/dash/stats/focus-time",
+          {
+            params: {
+              period: "month",
+            },
+          }
+        );
+        monthlyFocusTime.value = timeStringToSeconds(
+          response.data.data.totalFocusTime
+        );
+        // return monthlyFocusTime;
+      } catch (error) {
+        console.error(
+          "MonthAchievement2 데이터를 가져오는 중 오류 발생1:",
+          error
+        );
+        return 0;
+      }
+    }
+
     const startFetching = () => {
         this.fetchProgramLists();
         this.intervalId = setInterval(this.fetchProgramLists, 60000);
@@ -54,5 +100,7 @@ export const useAxiosStore = defineStore('axiosStore', () => {
       }
     
     return { bannedList, fetchProgramLists,
-             appListFTEP, FocusTimeEachPrograms, startFetching, stopFetching}
+             appListFTEP, FocusTimeEachPrograms,
+             appListFTEPP, FocusTimeEachProgramsPercentage,
+              startFetching, stopFetching}
 }, {persist: true})

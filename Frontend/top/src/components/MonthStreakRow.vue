@@ -23,10 +23,11 @@ export default {
     return {
       days: ["S", "M", "T", "W", "T", "F", "S"],
       weeks: Array(5).fill(Array(7).fill({ day: "", focusTime: 0, active: false })),
+      interval: null,
     };
   },
   methods: {
-    async fetchStreakData() {
+    async fetchdata() {
       try {
         const response = await axios.get('https://i11a707.p.ssafy.io/api/dash/streak', {
           params: { month: 1 }
@@ -48,11 +49,27 @@ export default {
       } catch (error) {
         console.error('Error fetching streak data:', error);
       }
-    }
+    },
+    // 주기적인 사용 시간 데이터 업데이트 시작
+    startFetching() {
+      this.fetchdata();
+      this.interval = setInterval(() => {
+        this.fetchdata();
+      }, 60000);
+    },
+    // 주기적인 업데이트 정지
+    stopfetching() {
+      if (this.interval) {
+        clearInterval(this.interval);
+      }
+    },
   },
   mounted() {
-    this.fetchStreakData();
-  }
+    this.startFetching();
+  },
+  beforeDestroy() {
+    this.stopfetching();
+  },
 };
 </script>
 

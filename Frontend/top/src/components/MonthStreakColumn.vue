@@ -33,10 +33,11 @@ export default {
         [false, false, false, false, false, false, false],
         [false, false, false, false, false, false, false],
       ],
+      interval: null,
     };
   },
   methods: {
-    async fetchStreakData() {
+    async fetchdata() {
       try {
         const response = await axios.get('https://i11a707.p.ssafy.io/api/dash/streak', {
           params: { month: 1 }
@@ -59,11 +60,26 @@ export default {
       } catch (error) {
         console.error('Error fetching streak data:', error);
       }
-    }
+    },
+    startFetching() {
+      this.fetchdata();
+      this.interval = setInterval(() => {
+        this.fetchdata();
+      }, 60000);
+    },
+    // 주기적인 업데이트 정지
+    stopfetching() {
+      if (this.interval) {
+        clearInterval(this.interval);
+      }
+    },
   },
   mounted() {
-    this.fetchStreakData();
-  }
+    this.startFetching();
+  },
+  beforeDestroy() {
+    this.stopfetching();
+  },
 };
 </script>
 
