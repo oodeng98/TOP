@@ -6,10 +6,13 @@
 
 <script>
 import axios from "axios";
+import Dashboard from "./components/Dashboard.vue"; // Dashboard 컴포넌트 import
 
 export default {
   name: "App",
-  // created()는 Vue 인스턴스가 생성된 직후 호출됩니다.
+  components: {
+    Dashboard, // Dashboard 컴포넌트 등록
+  },
   created() {
     this.login();
   },
