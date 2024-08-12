@@ -45,10 +45,12 @@ export default {
   data() {
     return {
       appList: [],
+      interval: null,
     };
   },
   mounted() {
     this.fetchData();
+    this.startFetching();
   },
   methods: {
     async fetchData() {
@@ -94,7 +96,23 @@ export default {
       event.target.src =
         require("../../static/application_icon/default.png").default;
     },
+  // 주기적인 사용 시간 데이터 업데이트 시작
+  startFetching() {
+      this.fetchdata();
+      this.interval = setInterval(() => {
+        this.fetchdata();
+      }, 60000);
+    },
+    // 주기적인 업데이트 정지
+    stopfetching() {
+      if (this.interval) {
+        clearInterval(this.interval);
+      }
+    },
   },
+  beforeDestroy() {
+    this.stopfetching();
+  }
 };
 </script>
 

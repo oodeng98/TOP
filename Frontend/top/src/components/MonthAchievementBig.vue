@@ -26,7 +26,7 @@
 
 <script>
 import axios from "axios";
-import { ref, onMounted } from "vue";
+import { ref, onMounted, onBeforeUnmount } from "vue";
 
 export default {
   name: "GoalChart",
@@ -38,6 +38,7 @@ export default {
   },
   setup() {
     const monthlyAchievement = ref("0%");
+    const interval = ref(null)
 
     const timeStringToSeconds = (timeString) => {
       const [hours, minutes, seconds] = timeString.split(":").map(Number);
@@ -100,10 +101,27 @@ export default {
       }
     };
 
-    onMounted(() => {
+    // 주기적인 사용 시간 데이터 업데이트 시작
+    const startFetching = () => {
       updatePercentage();
+      interval.value = setInterval(() => {
+      updatePercentage();
+      }, 60000);
+    }
+    // 주기적인 업데이트 정지
+    const stopfetching = () => {
+      if (interval) {
+        clearInterval(interval.value);
+      }
+    }
+    onMounted(() => {
+      startFetching();
     });
 
+    onBeforeUnmount(() => {
+    stopfetching();
+   });
+   
     return {
       monthlyAchievement,
     };

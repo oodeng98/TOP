@@ -41,11 +41,12 @@ export default {
     return {
       banprogram: "",
       bannedList: [],
+      interval: null,
     };
   },
   methods: {
     // 금지 프로그램 목록 불러오기
-    async fetchProgramLists() {
+    async fetchdata() {
       try {
         const response = await axios.get(
           "https://i11a707.p.ssafy.io/api/focus-time/ban"
@@ -76,26 +77,26 @@ export default {
         .padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
     },
     // 주기적인 사용 시간 데이터 업데이트 시작
-    startPeriodicUpdates() {
+    startFetching() {
+      this.fetchdata();
       this.interval = setInterval(() => {
-        this.fetchProgramLists();
-      }, 600000);
+        this.fetchdata();
+      }, 60000);
     },
     // 주기적인 업데이트 정지
-    stopPeriodicUpdates() {
+    stopfetching() {
       if (this.interval) {
         clearInterval(this.interval);
       }
     },
   },
-  created() {
-    this.fetchProgramLists();
-    this.startPeriodicUpdates();
+  mounted() {
+    this.startFetching();
   },
   beforeDestroy() {
-    this.stopPeriodicUpdates();
+    this.stopfetching();
   },
-};
+}
 </script>
 
 <style scoped>
