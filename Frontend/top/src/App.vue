@@ -20,7 +20,7 @@ export default {
     async login() {
       try {
         const response = await axios.get(
-          "https://i11a707.p.ssafy.io/api/user/login"
+          "https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=1055451669456-7j0mkark9qc3r3stsjt82jbt3hl3d248.apps.googleusercontent.com&scope=profile%20email&state=zCNq0aJOX1TTG4RP7lykKplQGxRteR_xVvZIgJ1kfgs%3D&redirect_uri=https://i11a707.p.ssafy.io/api/login/oauth2/code/google"
         );
         console.log("로그인 요청 성공:", response.data);
       } catch (error) {
