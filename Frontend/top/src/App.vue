@@ -1,7 +1,7 @@
 <template>
   <div id="app" class="container">
-    <Dashboard v-if="isLoggedIn" />
-    <div v-else>Loading...</div>
+    <Dashboard />
+    <!-- 대시보드는 로그인된 상태일 때만 렌더링됩니다 -->
   </div>
 </template>
 
@@ -14,11 +14,6 @@ export default {
   components: {
     Dashboard,
   },
-  data() {
-    return {
-      isLoggedIn: false,
-    };
-  },
   mounted() {
     this.checkLoginStatus();
   },
@@ -28,22 +23,21 @@ export default {
       axios
         .get("https://i11a707.p.ssafy.io/api/user/check")
         .then((response) => {
-          console.log(response); // 서버로부터의 응답을 출력
           if (response.data.data) {
-            // 로그인 상태라면 메인 페이지를 표시
-            this.isLoggedIn = true;
-            // console.log("로그인 되어있음");
+            this.renderDashboard();
           } else {
-            // 로그인이 되어 있지 않다면 로그인 페이지로 리다이렉트
-            // console.log("로그인 안되어있음");
             this.redirectToLogin();
           }
         })
         .catch((error) => {
           console.error(error); // 에러 발생 시 에러를 출력
-          // 에러가 발생하면 로그인 페이지로 리다이렉트
           this.redirectToLogin();
         });
+    },
+    renderDashboard() {
+      const dashboardComponent = this.$options.components.Dashboard;
+      const dashboardInstance = new dashboardComponent().$mount();
+      this.$el.appendChild(dashboardInstance.$el);
     },
     redirectToLogin() {
       const loginUrl =
