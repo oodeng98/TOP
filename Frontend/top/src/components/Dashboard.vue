@@ -443,10 +443,13 @@ export default {
           }
         });
 
+        const response = await axios.get("https://i11a707.p.ssafy.io/api/widgets");
+        console.log(response.data.data)
+
         try {
           // 서버에서 저장된 위젯 상태 가져오기
           const response = await axios.get("https://i11a707.p.ssafy.io/api/widgets");
-          const storedWidgets = response.data.data;
+          const storedWidgets = response.data;
 
           if (storedWidgets.length > 0) {
             // 가져온 위젯 데이터로 위젯 추가
