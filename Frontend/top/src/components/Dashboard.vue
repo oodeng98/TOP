@@ -4,7 +4,6 @@
       <div class="header">
         <h1>Dashboard</h1>
         <div class="buttons">
-          <button class="login-button" @click="redirectToLogin">로그인</button>
           <button class="openModalBtn" @click="openModal">설정</button>
           <button class="save-button" @click="saveWidgets">저장</button>
           <button
@@ -889,24 +888,6 @@ button {
 }
 
 button:hover {
-  background-color: #4a55d4;
-}
-
-.login-button {
-  position: relative;
-  width: 150px;
-  height: 60px;
-  background-color: #5865f2;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: right 0.3s ease;
-  text-align: center;
-  margin-right: 10px;
-}
-
-.login-button:hover {
   background-color: #4a55d4;
 }
 </style>

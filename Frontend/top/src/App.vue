@@ -1,6 +1,7 @@
 <template>
   <div id="app" class="container">
-    <Dashboard />
+    <!-- 로그인 성공 시에만 Dashboard 컴포넌트를 렌더링 -->
+    <Dashboard v-if="isLoggedIn" />
   </div>
 </template>
 
@@ -13,6 +14,11 @@ export default {
   components: {
     Dashboard,
   },
+  data() {
+    return {
+      isLoggedIn: false, // 로그인 상태를 추적하는 변수
+    };
+  },
   mounted() {
     this.checkLoginStatus();
   },
@@ -23,14 +29,15 @@ export default {
         .then((response) => {
           if (response.data.data) {
             console.log("로그인 성공");
+            this.isLoggedIn = true; // 로그인 성공 시 Dashboard 로딩
           } else {
-            this.redirectToLogin();
             console.log("로그인 실패");
+            this.redirectToLogin(); // 로그인 실패 시 로그인 페이지로 리다이렉트
           }
         })
         .catch((error) => {
-          console.error(error); // 에러 발생 시 에러를 출력
-          // this.redirectToLogin();
+          console.error("로그인 상태 확인 중 오류 발생:", error);
+          this.redirectToLogin(); // 오류 발생 시 로그인 페이지로 리다이렉트
         });
     },
     redirectToLogin() {

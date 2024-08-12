@@ -96,7 +96,7 @@ export default {
   beforeDestroy() {
     this.stopfetching();
   },
-}
+};
 </script>
 
 <style scoped>
