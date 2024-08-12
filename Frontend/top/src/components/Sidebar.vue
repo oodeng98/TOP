@@ -5,9 +5,9 @@
       <div v-for="(component, index) in availableComponents" :key="index">
         <button
           :class="{ active: component.isActive }"
-          @click="toggleComponent(component.name)"
+          @click="toggleComponent(component.componentName)"
         >
-          {{ component.name }}
+          <p>{{ component.name }}</p>
         </button>
       </div>
     </div>
@@ -35,7 +35,7 @@ export default {
   top: 0;
   right: 0;
   height: 100%;
-  width: 100%;
+  width: 350px;
   background-color: #f8f9fa;
   box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
   transform: translateX(100%);
@@ -47,7 +47,7 @@ export default {
 }
 
 .sidebar.open {
-  transform: translateX(0);
+  transform: translateX(0); /* 사이드바를 화면에 보이도록 이동 */
 }
 
 .sidebar-content {
@@ -60,18 +60,32 @@ export default {
   width: 100%;
   margin-bottom: 10px;
   padding: 10px;
-  background-color: #8793F5;
+  background-color: #5865f2;
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
 .sidebar-content button.active {
-  background-color: #A9A9A9;
+  background-color: #a9a9a9;
 }
 
 .sidebar-content button:hover {
-  background-color: #7A84DC;
+  background-color: #8187CE;
+}
+
+p {
+  font-family: "Helvetica-BoldOblique", Helvetica;
+  font-weight: 700;
+  font-size: 14px;
+  margin-bottom: 0;
+}
+
+h2 {
+  font-family: "Helvetica-BoldOblique", Helvetica;
+  font-weight: 700;
+  font-size: 30px;
 }
 </style>

@@ -1,23 +1,26 @@
 <template>
-  <div class="container">
+  <div class="container" @click="handleOutsideClick">
     <div class="content">
       <div class="header">
         <h1>Dashboard</h1>
-        <a class="edit-button" @click="toggleEditMode">저장</a>
+        <div class="buttons">
+          <button class="save-button" @click="saveWidgets">저장</button>
+          <button
+            v-if="!isSidebarOpen"
+            class="toggle-button"
+            @click.stop="toggleSidebar"
+          >
+            위젯
+          </button>
+        </div>
       </div>
       <div ref="gridstack" class="grid-stack"></div>
       <Sidebar
+        v-if="isSidebarOpen"
         :availableComponents="availableComponents"
         :isOpen="isSidebarOpen"
         @toggleComponent="toggleComponent"
       />
-      <button
-        class="toggle-button"
-        :class="{ open: isSidebarOpen }"
-        @click="toggleSidebar"
-      >
-        ☰
-      </button>
     </div>
   </div>
 </template>
@@ -26,6 +29,7 @@
 import { createApp, onMounted, ref, nextTick } from "vue";
 import { GridStack } from "gridstack";
 import "gridstack/dist/gridstack.min.css";
+import axios from "axios";
 import Sidebar from "./Sidebar.vue";
 import TodayFocusSmall from "./TodayFocusSmall.vue";
 import WeekFocusSmall from "./WeekFocusSmall.vue";
@@ -50,7 +54,7 @@ import MonthStreakColumn from "./MonthStreakColumn.vue";
 import MonthStreakRow from "./MonthStreakRow.vue";
 import CalendarCheck from "./CalendarCheck.vue";
 import FocusTimeEachPrograms from "./FocusTimeEachPrograms.vue";
-import FocusTimeEachProgramsPrecentage from "./FocusTimeEachProgramsPrecentage.vue";
+import FocusTimeEachProgramsPercentage from "./FocusTimeEachProgramsPercentage.vue";
 import TimeLine from "./TimeLine.vue";
 import TodayTargetTime from "./TodayTargetTime.vue";
 import WeekTargetTime from "./WeekTargetTime.vue";
@@ -58,49 +62,235 @@ import MonthTargetTime from "./MonthTargetTime.vue";
 import SixMonthStreak from "./SixMonthStreak.vue";
 import BannedProgramList from "./BannedProgramList.vue";
 
+import { useWidgetStore } from "@/store/useWidgetStore";
+import Swal from 'sweetalert2';
+
 export default {
   name: "GridstackComponent",
   components: { Sidebar },
   setup() {
     const gridstack = ref(null);
     const isSidebarOpen = ref(false);
-    const isEditMode = ref(false);
+    const widgetStore = useWidgetStore(); // Pinia 스토어 사용
+
     let grid;
 
     const components = [
-      { name: "오늘 집중 시간 2x1", component: TodayFocusSmall, width: 2, height: 1 },
-      { name: "오늘 집중 시간(비교X) 3x1", component: TodayFocusBigWithoutComparison, width: 3, height: 1 },
-      { name: "오늘 집중 시간(비교O) 3x1", component: TodayFocusBig, width: 3, height: 1 },
-      { name: "이번주 집중 시간 2x1", component: WeekFocusSmall, width: 2, height: 1 },
-      { name: "이번주 집중 시간(비교X) 3x1", component: WeekFocusBigWithoutComparison, width: 3, height: 1 },
-      { name: "이번주 집중 시간(비교O) 3x1", component: WeekFocusBig, width: 3, height: 1 },
-      { name: "이번달 집중 시간 2x1", component: MonthFocusSmall, width: 2, height: 1 },
-      { name: "이번달 집중 시간(비교X) 3x1", component: MonthFocusBigWithoutComparison, width: 3, height: 1 },
-      { name: "이번달 집중 시간(비교O) 3x1", component: MonthFocusBig, width: 3, height: 1 },
-      { name: "총 집중 시간 2x1", component: TotalFocusSmall, width: 2, height: 1 },
-      { name: "총 집중 시간 3x1", component: TotalFocusBig, width: 3, height: 1 },
-      { name: "오늘 목표 달성률 2x1", component: TodayAchievementSmall, width: 2, height: 1 },
-      { name: "오늘 목표 달성률 2x2", component: TodayAchievementBig, width: 2, height: 2 },
-      { name: "이번주 목표 달성률 2x1", component: WeekAchievementSmall, width: 2, height: 1 },
-      { name: "이번주 목표 달성률 2x2", component: WeekAchievementBig, width: 2, height: 2 },
-      { name: "이번달 목표 달성률 2x1", component: MonthAchievementSmall, width: 2, height: 1 },
-      { name: "이번달 목표 달성률 2x2", component: MonthAchievementBig, width: 2, height: 2 },
-      { name: "오늘 목표 집중 시간 2x1", component: TodayTargetTime, width: 2, height: 1 },
-      { name: "이번주 목표 집중 시간 2x1", component: WeekTargetTime, width: 2, height: 1 },
-      { name: "이번달 목표 집중 시간 2x1", component: MonthTargetTime, width: 2, height: 1 },
-      { name: "이번달 스트릭(세로) 2x2", component: MonthStreakColumn, width: 2, height: 2 },
-      { name: "이번달 스트릭(가로) 2x2", component: MonthStreakRow, width: 2, height: 2 },
-      { name: "스트릭 6x2", component: SixMonthStreak, width: 6, height: 2 },
-      { name: "집중 백분율 4x3", component: PercentileRank, width: 4, height: 3 },
-      { name: "타이머 4x2", component: TimerCheck, width: 4, height: 2 },
-      { name: "달력 5x4", component: CalendarCheck, width: 5, height: 4 },
-      { name: "항목별 집중 시간 6x4", component: FocusTimeEachPrograms, width: 6, height: 4 },
-      { name: "항목별 집중 시간과 백분율 7x4", component: FocusTimeEachProgramsPrecentage, width: 7, height: 4 },
-      { name: "오늘 시각별 집중 타임라인 7x4", component: TimeLine, width: 7, height: 4 },
-      { name: "금지 목록 5x4", component: BannedProgramList, width: 5, height: 4 },
+      {
+        name: "오늘의 집중 시간 2x1",
+        component: TodayFocusSmall,
+        componentName: "TodayFocusSmall",
+        width: 2,
+        height: 1,
+      },
+      {
+        name: "오늘의 집중 시간(비교X) 3x1",
+        component: TodayFocusBigWithoutComparison,
+        componentName: "TodayFocusBigWithoutComparison",
+        width: 3,
+        height: 1,
+      },
+      {
+        name: "오늘의 집중 시간(비교O) 3x1",
+        component: TodayFocusBig,
+        componentName: "TodayFocusBig",
+        width: 3,
+        height: 1,
+      },
+      {
+        name: "이번주 집중 시간 2x1",
+        component: WeekFocusSmall,
+        componentName: "WeekFocusSmall",
+        width: 2,
+        height: 1,
+      },
+      {
+        name: "이번주 집중 시간(비교X) 3x1",
+        component: WeekFocusBigWithoutComparison,
+        componentName: "WeekFocusBigWithoutComparison",
+        width: 3,
+        height: 1,
+      },
+      {
+        name: "이번주 집중 시간(비교O) 3x1",
+        component: WeekFocusBig,
+        componentName: "WeekFocusBig",
+        width: 3,
+        height: 1,
+      },
+      {
+        name: "이번달 집중 시간 2x1",
+        component: MonthFocusSmall,
+        componentName: "MonthFocusSmall",
+        width: 2,
+        height: 1,
+      },
+      {
+        name: "이번달 집중 시간(비교X) 3x1",
+        component: MonthFocusBigWithoutComparison,
+        componentName: "MonthFocusBigWithoutComparison",
+        width: 3,
+        height: 1,
+      },
+      {
+        name: "이번달 집중 시간(비교O) 3x1",
+        component: MonthFocusBig,
+        componentName: "MonthFocusBig",
+        width: 3,
+        height: 1,
+      },
+      {
+        name: "총 집중 시간 2x1",
+        component: TotalFocusSmall,
+        componentName: "TotalFocusSmall",
+        width: 2,
+        height: 1,
+      },
+      {
+        name: "총 집중 시간 3x1",
+        component: TotalFocusBig,
+        componentName: "TotalFocusBig",
+        width: 3,
+        height: 1,
+      },
+      {
+        name: "일간 목표 달성률 2x1",
+        component: TodayAchievementSmall,
+        componentName: "TodayAchievementSmall",
+        width: 2,
+        height: 1,
+      },
+      {
+        name: "일간 목표 달성률 2x2",
+        component: TodayAchievementBig,
+        componentName: "TodayAchievementBig",
+        width: 2,
+        height: 2,
+      },
+      {
+        name: "주간 목표 달성률 2x1",
+        component: WeekAchievementSmall,
+        componentName: "WeekAchievementSmall",
+        width: 2,
+        height: 1,
+      },
+      {
+        name: "주간 목표 달성률 2x2",
+        component: WeekAchievementBig,
+        componentName: "WeekAchievementBig",
+        width: 2,
+        height: 2,
+      },
+      {
+        name: "월간 목표 달성률 2x1",
+        component: MonthAchievementSmall,
+        componentName: "MonthAchievementSmall",
+        width: 2,
+        height: 1,
+      },
+      {
+        name: "월간 목표 달성률 2x2",
+        component: MonthAchievementBig,
+        componentName: "MonthAchievementBig",
+        width: 2,
+        height: 2,
+      },
+      {
+        name: "일간 목표 집중 시간 2x1",
+        component: TodayTargetTime,
+        componentName: "TodayTargetTime",
+        width: 2,
+        height: 1,
+      },
+      {
+        name: "주간 목표 집중 시간 2x1",
+        component: WeekTargetTime,
+        componentName: "WeekTargetTime",
+        width: 2,
+        height: 1,
+      },
+      {
+        name: "월간 목표 집중 시간 2x1",
+        component: MonthTargetTime,
+        componentName: "MonthTargetTime",
+        width: 2,
+        height: 1,
+      },
+      {
+        name: "월간 스트릭(세로) 2x2",
+        component: MonthStreakColumn,
+        componentName: "MonthStreakColumn",
+        width: 2,
+        height: 2,
+      },
+      {
+        name: "월간 스트릭(가로) 2x2",
+        component: MonthStreakRow,
+        componentName: "MonthStreakRow",
+        width: 2,
+        height: 2,
+      },
+      {
+        name: "스트릭 6x2",
+        component: SixMonthStreak,
+        componentName: "SixMonthStreak",
+        width: 6,
+        height: 2,
+      },
+      {
+        name: "집중 백분율 4x3",
+        component: PercentileRank,
+        componentName: "PercentileRank",
+        width: 4,
+        height: 3,
+      },
+      {
+        name: "타이머 4x2",
+        component: TimerCheck,
+        componentName: "TimerCheck",
+        width: 4,
+        height: 2,
+      },
+      {
+        name: "캘린더 5x4",
+        component: CalendarCheck,
+        componentName: "CalendarCheck",
+        width: 5,
+        height: 4,
+      },
+      {
+        name: "프로그램별 집중 시간 6x4",
+        component: FocusTimeEachPrograms,
+        componentName: "FocusTimeEachPrograms",
+        width: 6,
+        height: 4,
+      },
+      {
+        name: "프로그램별 집중 시간과 백분율 7x4",
+        component: FocusTimeEachProgramsPercentage,
+        componentName: "FocusTimeEachProgramsPercentage",
+        width: 7,
+        height: 4,
+      },
+      {
+        name: "타임라인 7x4",
+        component: TimeLine,
+        componentName: "TimeLine",
+        width: 7,
+        height: 4,
+      },
+      {
+        name: "금지 프로그램 목록 5x4",
+        component: BannedProgramList,
+        componentName: "BannedProgramList",
+        width: 5,
+        height: 4,
+      },
     ];
 
-    const availableComponents = ref(components.map((c) => ({ ...c, isActive: false })));
+    const availableComponents = ref(
+      components.map((c) => ({ ...c, isActive: false }))
+    );
 
     const addWidget = (componentConfig, width, height, pos = {}) => {
       if (!grid) {
@@ -110,74 +300,138 @@ export default {
 
       const widgetElement = document.createElement("div");
       widgetElement.className = "grid-stack-item";
-      widgetElement.dataset.componentName = componentConfig.name;
+      widgetElement.dataset.componentName = componentConfig.componentName; // componentName으로 저장
       widgetElement.innerHTML = `
         <div class="grid-stack-item-content">
           <div class="widget-delete">✖</div>
         </div>`;
-      grid.addWidget(widgetElement, { w: width, h: height, ...pos, noResize: true });
+      grid.addWidget(widgetElement, {
+        w: width,
+        h: height,
+        ...pos,
+        noResize: true,
+      });
 
-      const contentElement = widgetElement.querySelector(".grid-stack-item-content");
+      const contentElement = widgetElement.querySelector(
+        ".grid-stack-item-content"
+      );
       if (contentElement) {
         const app = createApp(componentConfig.component);
         app.mount(contentElement);
       } else {
         console.error("Failed to find .grid-stack-item-content element.");
       }
+
+      // Pinia 스토어에 위젯 추가
+      widgetStore.addWidget({
+        name: componentConfig.componentName, // component의 name으로 저장
+        width,
+        height,
+        x: pos.x || 0,
+        y: pos.y || 0,
+      });
     };
 
     const removeWidget = (event) => {
       const widgetElement = event.target.closest(".grid-stack-item");
       const componentName = widgetElement.dataset.componentName;
       grid.removeWidget(widgetElement);
-      const componentConfig = availableComponents.value.find((c) => c.name === componentName);
+
+      const componentConfig = availableComponents.value.find(
+        (c) => c.componentName === componentName // component의 name으로 찾기
+      );
       if (componentConfig) {
         componentConfig.isActive = false;
       }
+
+      // Pinia 스토어에서 위젯 제거
+      widgetStore.removeWidget(componentName);
     };
 
     const toggleComponent = (name) => {
-      const componentConfig = availableComponents.value.find((c) => c.name === name);
+      const componentConfig = availableComponents.value.find(
+        (c) => c.componentName === name // 컴포넌트 이름으로 찾기
+      );
       if (!componentConfig) return;
 
-      const existingWidget = grid.engine.nodes.find((n) => n.el.dataset.componentName === name);
+      const existingWidget = grid.engine.nodes.find(
+        (n) => n.el.dataset.componentName === name // 해당 컴포넌트가 이미 존재하는지 확인
+      );
       if (existingWidget) {
+        // 위젯이 이미 존재하면 제거
         grid.removeWidget(existingWidget.el);
         componentConfig.isActive = false;
       } else {
-        addWidget(componentConfig, componentConfig.width, componentConfig.height);
+        // 위젯이 존재하지 않으면 추가
+        addWidget(
+          componentConfig,
+          componentConfig.width,
+          componentConfig.height
+        );
         componentConfig.isActive = true;
       }
-    };
-
-    const toggleEditMode = () => {
-      isEditMode.value = !isEditMode.value;
-      const deleteButtons = document.querySelectorAll(".widget-delete");
-      deleteButtons.forEach((button) => {
-        button.style.display = isEditMode.value ? "block" : "none";
-      });
     };
 
     const toggleSidebar = () => {
       isSidebarOpen.value = !isSidebarOpen.value;
     };
 
-    onMounted(() => {
-      nextTick(() => {
+    const handleOutsideClick = (event) => {
+      const sidebarElement = document.querySelector(".sidebar");
+      if (
+        isSidebarOpen.value &&
+        sidebarElement &&
+        !sidebarElement.contains(event.target)
+      ) {
+        isSidebarOpen.value = false;
+      }
+    };
+
+    const saveWidgets = async () => {
+      try {
+        // 활성화된(대시보드에 떠있는) 위젯만 필터링
+        const activeWidgets = widgetStore.widgets.filter(widget => {
+          const componentConfig = availableComponents.value.find(
+            (c) => c.componentName === widget.name
+          );
+          return componentConfig && componentConfig.isActive;
+        });
+        console.log(activeWidgets)
+        const response = await axios.post(
+          "https://i11a707.p.ssafy.io/api/widgets",
+          activeWidgets // 필터링된 위젯만 서버로 전송
+        );
+
+        Swal.fire({
+          title: '성공!',
+          text: '위젯이 성공적으로 저장되었습니다!',
+          icon: 'success',
+          confirmButtonText: '확인'
+        });
+      } catch (error) {
+        console.log(widgetStore.widgets)
+        Swal.fire({
+          title: '오류!',
+          text: '위젯을 저장하는 중에 문제가 발생했습니다. 나중에 다시 시도해 주세요.',
+          icon: 'error',
+          confirmButtonText: '확인'
+        });
+      }
+    };
+
+    onMounted(async () => {
+      await nextTick(async () => {
         const gridElement = gridstack.value;
         if (!gridElement) {
           console.error("GridStack element not found");
           return;
         }
 
-        grid = GridStack.init(
-          {
-            column: 12, // 그리드 열 수 설정
-            cellHeight: 125, // 셀 높이 설정
-            float: true,
-          },
-          gridElement
-        );
+        grid = GridStack.init({
+          column: 12, // 그리드 열 수 설정
+          cellHeight: 125, // 셀 높이 설정
+          float: true,
+        }, gridElement);
 
         // 이벤트 위임을 사용하여 삭제 버튼 클릭 처리
         gridElement.addEventListener("click", (event) => {
@@ -186,37 +440,125 @@ export default {
           }
         });
 
-        // 기본 제공 컴포넌트 추가
-        const defaultComponents = [
-          { name: "오늘 집중 시간(비교X) 3x1", component: TodayFocusBigWithoutComparison, width: 3, height: 1 },
-          { name: "이번주 집중 시간(비교X) 3x1", component: WeekFocusBigWithoutComparison, width: 3, height: 1 },
-          { name: "이번달 집중 시간(비교X) 3x1", component: MonthFocusBigWithoutComparison, width: 3, height: 1 },
-          { name: "총 집중 시간 3x1", component: TotalFocusBig, width: 3, height: 1 },
-          { name: "오늘 시각별 집중 타임라인 7x4", component: TimeLine, width: 7, height: 4 },
-          { name: "금지 목록 5x4", component: BannedProgramList, width: 5, height: 4 },
-          { name: "항목별 집중 시간과 백분율 7x4", component: FocusTimeEachProgramsPrecentage, width: 7, height: 4 },
-          { name: "달력 5x4", component: CalendarCheck, width: 5, height: 4 },
-        ];
+        try {
+          // 서버에서 저장된 위젯 상태 가져오기
+          const response = await axios.get("https://i11a707.p.ssafy.io/api/widgets");
+          const storedWidgets = response.data;
 
-        defaultComponents.forEach(({ name, component, width, height }) => {
-          addWidget({ name, component }, width, height);
-          const componentConfig = availableComponents.value.find((c) => c.name === name);
+          console.log("Stored widgets:", storedWidgets);
+
+          if (storedWidgets.length > 0) {
+            // 가져온 위젯 데이터로 위젯 추가
+            storedWidgets.forEach(({ name, width, height, x, y }) => {
+              const componentConfig = availableComponents.value.find(
+                (c) => c.componentName === name // component의 name과 매칭
+              );
+              if (componentConfig) {
+                console.log(`Adding widget: ${name} at (${x}, ${y})`);
+                addWidget(componentConfig, width, height, { x, y });
+                componentConfig.isActive = true;
+              } else {
+                console.error(`Component with name ${name} not found.`);
+              }
+            });
+          } else {
+            console.log("No widgets found on the server, loading default widgets.");
+            loadDefaultWidgets();
+          }
+        } catch (error) {
+          console.error("Error loading widgets:", error);
+          Swal.fire({
+            title: '오류!',
+            text: '위젯을 불러오는 중에 문제가 발생했습니다. 나중에 다시 시도해 주세요.',
+            icon: 'error',
+            confirmButtonText: '확인'
+          });
+        }
+      });
+    });
+
+    const loadDefaultWidgets = () => {
+      const defaultComponents = [
+        {
+          name: "오늘의 집중 시간(비교X) 3x1",
+          component: TodayFocusBigWithoutComparison,
+          componentName: "TodayFocusBigWithoutComparison",
+          width: 3,
+          height: 1,
+        },
+        {
+          name: "이번주 집중 시간(비교X) 3x1",
+          component: WeekFocusBigWithoutComparison,
+          componentName: "WeekFocusBigWithoutComparison",
+          width: 3,
+          height: 1,
+        },
+        {
+          name: "이번달 집중 시간(비교X) 3x1",
+          component: MonthFocusBigWithoutComparison,
+          componentName: "MonthFocusBigWithoutComparison",
+          width: 3,
+          height: 1,
+        },
+        {
+          name: "총 집중 시간 3x1",
+          component: TotalFocusBig,
+          componentName: "TotalFocusBig",
+          width: 3,
+          height: 1,
+        },
+        {
+          name: "타임라인 7x4",
+          component: TimeLine,
+          componentName: "TimeLine",
+          width: 7,
+          height: 4,
+        },
+        {
+          name: "금지 프로그램 목록 5x4",
+          component: BannedProgramList,
+          componentName: "BannedProgramList",
+          width: 5,
+          height: 4,
+        },
+        {
+          name: "프로그램별 집중 시간과 백분율 7x4",
+          component: FocusTimeEachProgramsPercentage,
+          componentName: "FocusTimeEachProgramsPercentage",
+          width: 7,
+          height: 4,
+        },
+        {
+          name: "캘린더 5x4",
+          component: CalendarCheck,
+          componentName: "CalendarCheck",
+          width: 5,
+          height: 4,
+        },
+      ];
+
+      defaultComponents.forEach(
+        ({ name, component, componentName, width, height }) => {
+          addWidget({ name, component, componentName }, width, height);
+          const componentConfig = availableComponents.value.find(
+            (c) => c.componentName === componentName
+          );
           if (componentConfig) {
             componentConfig.isActive = true;
           }
-        });
-      });
-    });
+        }
+      );
+    };
 
     return {
       gridstack,
       isSidebarOpen,
-      isEditMode,
       availableComponents,
       toggleSidebar,
-      toggleEditMode,
       addWidget,
       toggleComponent,
+      handleOutsideClick,
+      saveWidgets,
     };
   },
 };
@@ -246,11 +588,6 @@ export default {
   margin: 0;
 }
 
-.edit-button {
-  cursor: pointer;
-  color: #3498db;
-}
-
 .sidebar {
   position: fixed;
   top: 0;
@@ -271,27 +608,35 @@ export default {
   transform: translateX(0);
 }
 
-.toggle-button {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  width: 50px;
-  height: 50px;
-  background-color: #3498db;
+.save-button {
+  position: relative;
+  width: 150px;
+  height: 60px;
+  background-color: #5865f2;
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  z-index: 1001;
   transition: right 0.3s ease;
+  text-align: center;
+  margin-right: 10px;
 }
 
-.toggle-button.open {
-  right: 350px;
+.toggle-button {
+  position: relative;
+  width: 150px;
+  height: 60px;
+  background-color: #5865f2;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: right 0.3s ease;
+  text-align: center;
 }
 
 .toggle-button:hover {
-  background-color: #2980b9;
+  background-color: #5865f2;
 }
 
 .sidebar-content {
@@ -304,7 +649,7 @@ export default {
   width: 100%;
   margin-bottom: 10px;
   padding: 10px;
-  background-color: #3498db;
+  background-color: #5865f2;
   color: white;
   border: none;
   border-radius: 5px;
@@ -316,7 +661,7 @@ export default {
 }
 
 .sidebar-content button:hover {
-  background-color: #2980b9;
+  background-color: #5865f2;
 }
 
 .content {
@@ -371,8 +716,7 @@ export default {
 }
 
 button {
-  padding: 10px 20px;
-  background-color: #3498db;
+  background-color: #5865f2;
   color: white;
   border: none;
   border-radius: 5px;
@@ -380,6 +724,6 @@ button {
 }
 
 button:hover {
-  background-color: #2980b9;
+  background-color: #5865f2;
 }
 </style>

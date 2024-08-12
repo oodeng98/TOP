@@ -1,6 +1,6 @@
 <template>
   <div class="calendar-container">
-    <div class="title">Calendar</div>
+    <div class="title">캘린더</div>
     <div class="calendar-header">
       <select v-model="selectedMonth" @change="updateCalendar">
         <option v-for="(month, index) in months" :key="index" :value="index">
@@ -116,7 +116,7 @@ export default {
 }
 
 .title {
-  font-size: 30px;
+  font-size: 18px;
   color: #a0aec0;
   font-family: "Helvetica-BoldOblique", Helvetica;
   font-weight: 700;
@@ -133,6 +133,8 @@ export default {
   display: flex;
   justify-content: space-between;
   margin-bottom: 20px;
+  margin-left: 10px;
+  margin-right: 8px;
 }
 
 .calendar-header select {
@@ -172,7 +174,7 @@ export default {
   border-radius: 50%;
   background: #f5f5f5;
   color: #4a4a4a;
-  margin: auto; /* 중앙 정렬 추가 */
+  margin: auto;
 }
 
 .day.current-month {
@@ -181,11 +183,6 @@ export default {
 }
 
 .day.today {
-  background: #5865f2;
-  color: white;
-}
-
-.day.current-month.today {
   background: #5865f2;
   color: white;
 }

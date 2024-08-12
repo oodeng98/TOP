@@ -22,7 +22,7 @@ import { ref, onMounted } from "vue";
 export default {
   setup() {
     const dailyFocusTime = ref("00:00:00");
-    const focusTimeDifference = ref("+ 00:00:00");
+    const focusTimeDifference = ref("+00:00:00");
 
     const timeStringToSeconds = (timeString) => {
       const [hours, minutes, seconds] = timeString.split(":").map(Number);

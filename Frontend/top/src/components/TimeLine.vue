@@ -1,20 +1,25 @@
 <template>
   <div class="bigbox">
     <h2>타임라인</h2>
-    <bar-chart ref="chart" class="chart" :data="chartData" :options="chartOptions"></bar-chart>
+    <bar-chart
+      ref="chart"
+      class="chart"
+      :data="chartData"
+      :options="chartOptions"
+    ></bar-chart>
   </div>
 </template>
 
 <script>
-import { Bar } from 'vue-chartjs';
-import { Chart, registerables } from 'chart.js';
-import { reactive, ref, onMounted, computed } from 'vue';
-import axios from 'axios';
+import { Bar } from "vue-chartjs";
+import { Chart, registerables } from "chart.js";
+import { reactive, ref, onMounted, computed } from "vue";
+import axios from "axios";
 Chart.register(...registerables);
 
 export default {
   components: {
-    'bar-chart': Bar
+    "bar-chart": Bar,
   },
   setup() {
     const chart = ref(null);
@@ -22,11 +27,15 @@ export default {
 
     const chartData = computed(() => ({
       labels: Array.from({ length: 24 }, (_, i) => i.toString()),
-      datasets: [{
-        label: '집중 시간',
-        data: usageData.value,
-        backgroundColor: usageData.value.map(value => value === Math.max(...usageData.value) ? '#5865f2' : '#c6d1ff'),
-      }]
+      datasets: [
+        {
+          label: "집중 시간",
+          data: usageData.value,
+          backgroundColor: usageData.value.map((value) =>
+            value === Math.max(...usageData.value) ? "#5865f2" : "#c6d1ff"
+          ),
+        },
+      ],
     }));
 
     const chartOptions = reactive({
@@ -37,13 +46,13 @@ export default {
             minRotation: 0,
             font: {
               size: 12,
-              family: 'Arial'
+              family: "Arial",
             },
             padding: 5,
           },
           grid: {
-            display: false
-          }
+            display: false,
+          },
         },
         y: {
           beginAtZero: true,
@@ -51,63 +60,71 @@ export default {
           ticks: {
             font: {
               size: 12,
-              family: 'Arial'
+              family: "Arial",
             },
-            padding: 5
+            padding: 5,
           },
           grid: {
-            display: true
-          }
-        }
+            display: true,
+          },
+        },
       },
       plugins: {
         legend: {
-          display: false
+          display: false,
         },
         tooltip: {
           enabled: true,
-          mode: 'index',
+          mode: "index",
           intersect: true,
-          position: 'nearest',
+          position: "nearest",
           callbacks: {
-            label: function(context) {
-              let label = context.dataset.label || '';
+            label: function (context) {
+              let label = context.dataset.label || "";
               if (label) {
-                label += ': ';
+                label += ": ";
               }
               if (context.parsed.y !== null) {
                 label += context.parsed.y;
               }
               return label;
-            }
-          }
-        }
-      }
+            },
+          },
+        },
+      },
     });
 
     const fetchFocusTimeData = async () => {
       try {
-        const response = await axios.get('https://i11a707.p.ssafy.io/api/dash/stats/focus-time/detail', {
-          params: { period: 'day' }
-        });
+        const response = await axios.get(
+          "https://i11a707.p.ssafy.io/api/dash/stats/focus-time/detail",
+          {
+            params: { period: "day" },
+          }
+        );
 
         // Reset usageData to zeros before updating with new data
         usageData.value.fill(0);
 
-        response.data.data.forEach(entry => {
-          usageData.value[entry.startTime] = parseFloat((entry.focusTime / 60).toFixed(2));
+        response.data.data.forEach((entry) => {
+          usageData.value[entry.startTime] = parseFloat(
+            (entry.focusTime / 60).toFixed(2)
+          );
         });
 
         updateChart();
       } catch (error) {
-        console.error('Error fetching focus time data:', error);
+        console.error("Error fetching focus time data:", error);
       }
     };
 
     const updateChart = () => {
       if (chart.value && chart.value.chartInstance) {
         chart.value.chartInstance.data.datasets[0].data = usageData.value;
-        chart.value.chartInstance.data.datasets[0].backgroundColor = usageData.value.map(value => value === Math.max(...usageData.value) ? '#5865f2' : '#c6d1ff');
+        chart.value.chartInstance.data.datasets[0].backgroundColor =
+          usageData.value.map((value) =>
+            value === Math.max(...usageData.value) ? "#5865f2" : "#c6d1ff"
+          );
         chart.value.chartInstance.update();
       }
     };
@@ -119,9 +136,9 @@ export default {
     return {
       chart,
       chartData,
-      chartOptions
+      chartOptions,
     };
-  }
+  },
 };
 </script>
 
@@ -132,6 +149,7 @@ export default {
   box-shadow: 0px 3.5px 5.5px #00000005;
   height: 100%;
   width: 100%;
+  padding: 20px;
 }
 
 .chart {
