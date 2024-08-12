@@ -2,17 +2,6 @@
   <div class="banned-program">
     <div class="header">
       <div class="top-font">금지 프로그램 목록</div>
-      <form @submit.prevent="addprogram">
-        <input
-          class="form-program"
-          type="text"
-          placeholder="프로그램/URL 입력"
-          v-model="banprogram"
-        />
-        <button type="submit" class="image-button image-button-plus">
-          <img src="../../static/img/PlusCircle.svg" alt="추가" />
-        </button>
-      </form>
     </div>
     <div class="pass-list">
       <div class="between">
@@ -64,24 +53,6 @@ export default {
         this.bannedList = response.data.data;
       } catch (error) {
         console.error("Error to fetch data:", error);
-      }
-    },
-    // 금지 프로그램 추가
-    async addprogram() {
-      const trimmedUrl = this.banprogram.trim();
-      if (
-        trimmedUrl &&
-        !this.bannedList.some((program) => program.name === trimmedUrl)
-      ) {
-        try {
-          await axios.post("https://i11a707.p.ssafy.io/api/focus-time/ban", {
-            name: trimmedUrl,
-          });
-          this.bannedList.push({ name: trimmedUrl, focusTime: 0 });
-          this.banprogram = "";
-        } catch (error) {
-          console.error("Error adding program:", error);
-        }
       }
     },
     // 금지 프로그램 삭제
