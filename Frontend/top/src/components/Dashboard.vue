@@ -435,6 +435,7 @@ export default {
     const saveWidgets = async () => {
       try {
         const layout = grid.save();
+        console.log(layout)
         const activeWidgets = layout.map((widget) => ({
           name: widget.el.dataset.componentName,
           x: widget.x,
