@@ -135,9 +135,10 @@ export default {
 
     // 주기적인 사용 시간 데이터 업데이트 시작
     startFetching() {
+      this.fetchData();
       this.interval = setInterval(() => {
-        fetchdata();
-      }, 60000);
+        this.fetchData();
+      }, 10000);
     },
     // 주기적인 업데이트 정지
     stopfetching() {
