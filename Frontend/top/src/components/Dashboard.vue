@@ -4,8 +4,12 @@
       <div class="header">
         <h1>Dashboard</h1>
         <div class="buttons">
-          <button class="openModalBtn" @click="openModal">목표 시간 설정</button>
-          <button class="save-button" @click="saveWidgets">위젯 설정 저장</button>
+          <button class="openModalBtn" @click="openModal">
+            목표 시간 설정
+          </button>
+          <button class="save-button" @click="saveWidgets">
+            위젯 설정 저장
+          </button>
           <button
             v-if="!isSidebarOpen"
             class="toggle-button"
@@ -632,7 +636,9 @@ export default {
   background-color: #f8f9fa;
   width: 100%;
   border-radius: 10px;
+  border-radius: 10px;
   margin-bottom: 20px;
+  box-sizing: border-box;
   box-sizing: border-box;
 }
 
@@ -745,7 +751,6 @@ export default {
 
 .grid-stack {
   width: 100%;
-  /* padding: 20px; */
   flex-shrink: 0;
 }
 
