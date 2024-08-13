@@ -52,14 +52,12 @@ export default {
 
 .sidebar-content {
   padding: 20px;
-  height: calc(100% - 40px);
+  height: 100%;
 }
 
 .sidebar-content button {
-  display: block;
   width: 100%;
   margin-bottom: 10px;
-  padding: 10px;
   background-color: #5865f2;
   color: white;
   border: none;
@@ -80,7 +78,6 @@ p {
   font-family: "Helvetica-BoldOblique", Helvetica;
   font-weight: 700;
   font-size: 14px;
-  margin-bottom: 0;
 }
 
 h2 {

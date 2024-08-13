@@ -35,7 +35,7 @@ export default {
     },
   },
   setup() {
-    const dailyAchievement = ref("0%");
+    const dailyAchievement = ref("0.00%");
     const percentage = ref(0); // 달성률 백분율 값
 
     const timeStringToSeconds = (timeString) => {
@@ -97,7 +97,7 @@ export default {
         percentage.value = Math.min(achievementRate, 100); // 100을 넘지 않도록 설정
         dailyAchievement.value = `${percentage.value.toFixed(2)}%`;
       } else {
-        dailyAchievement.value = "0%";
+        dailyAchievement.value = "0.00%";
         percentage.value = 0;
       }
     };
@@ -161,10 +161,10 @@ export default {
 }
 
 .percentage {
-  color: #1d1a1a;
+  color: #2d3748;
   font-family: "Helvetica-BoldOblique", Helvetica;
   font-weight: 700;
-  font-size: 0.5em;
+  font-size: 0.4em;
   text-anchor: middle;
 }
 
