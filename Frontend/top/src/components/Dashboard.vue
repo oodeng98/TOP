@@ -628,11 +628,12 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  /* margin: 20px; */
+  padding: 20px;
   background-color: #f8f9fa;
   width: 100%;
-  border-radius: 10px 10px 0 0;
+  border-radius: 10px;
   margin-bottom: 20px;
+  box-sizing: border-box;
 }
 
 .header h1 {
