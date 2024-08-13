@@ -37,7 +37,7 @@ export default {
 
     onMounted(() => {
       fetchTimeGoal();
-      const intervalId = setInterval(fetchTimeGoal, 60000);
+      const intervalId = setInterval(fetchTimeGoal, 10000);
 
       onUnmounted(() => {
         clearInterval(intervalId);
