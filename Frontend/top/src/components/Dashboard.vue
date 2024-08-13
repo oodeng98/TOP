@@ -443,6 +443,8 @@ export default {
           height: widget.h,
         }));
 
+        console.log("Active Widgets:", activeWidgets); // 디버깅: 전송할 데이터 확인
+
         await axios.post("https://i11a707.p.ssafy.io/api/widgets", activeWidgets);
 
         Swal.fire({
@@ -452,7 +454,7 @@ export default {
           confirmButtonText: "확인",
         });
       } catch (error) {
-        console.log(widgetStore.widgets);
+        console.error("Error saving widgets:", error); // 에러 메시지 출력
         Swal.fire({
           title: "오류!",
           text: "위젯을 저장하는 중에 문제가 발생했습니다. 나중에 다시 시도해 주세요.",
