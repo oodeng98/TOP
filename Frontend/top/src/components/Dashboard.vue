@@ -1,15 +1,11 @@
 <template>
-  <div @click="handleOutsideClick">
+  <div class="container" @click="handleOutsideClick">
     <div class="content">
       <div class="header">
         <h1>Dashboard</h1>
         <div class="buttons">
-          <button class="openModalBtn" @click="openModal">
-            목표 시간 설정
-          </button>
-          <button class="save-button" @click="saveWidgets">
-            위젯 설정 저장
-          </button>
+          <button class="openModalBtn" @click="openModal">목표 시간 설정</button>
+          <button class="save-button" @click="saveWidgets">위젯 설정 저장</button>
           <button
             v-if="!isSidebarOpen"
             class="toggle-button"
@@ -32,12 +28,12 @@
     <div v-if="isModalOpen" class="modal">
       <div class="modal-content">
         <span class="close" @click="closeModal">&times;</span>
-        <h2>목표 시간 설정</h2>
+        <h2>목표 집중 시간 설정</h2>
         <form>
           <div class="form-group">
-            <label for="dailyGoal">일간 목표 시간:</label>
+            <label for="dailyGoal">일간 목표 집중 시간:</label>
             <input type="number" v-model="dailyGoal" id="dailyGoal" /> 분
-            <button @click.stop="saveDailyGoal">저장</button>
+            <button @click="saveDailyGoal">저장</button>
           </div>
         </form>
       </div>
@@ -302,20 +298,11 @@ export default {
       isModalOpen.value = false;
     };
 
-    const updateBannedListBannedProgramList = () => {
-      const BannedProgramList = grid
-        .getGridItems()
-        .find((item) => item.el.dataset.componentName === "BannedProgramList");
-      if (BannedProgramList) {
-        BannedProgramList.el.__vue__?.fetchdata();
-      }
-    };
-
     const saveDailyGoal = async (event) => {
       event.preventDefault();
       try {
         await axios.put("https://i11a707.p.ssafy.io/api/focus-time/goal", {
-          timeGoal: dailyGoal.value,
+          timegoal: dailyGoal.value,
         });
         Swal.fire({
           title: "성공!",
@@ -434,19 +421,18 @@ export default {
 
     const saveWidgets = async () => {
       try {
-        const layout = grid.save();
-        console.log(layout)
-        const activeWidgets = layout.map((widget) => ({
-          name: widget.el.dataset.componentName,
-          x: widget.x,
-          y: widget.y,
-          width: widget.w,
-          height: widget.h,
-        }));
-
-        console.log("Active Widgets:", activeWidgets); // 디버깅: 전송할 데이터 확인
-
-        await axios.post("https://i11a707.p.ssafy.io/api/widgets", activeWidgets);
+        // 활성화된(대시보드에 떠있는) 위젯만 필터링
+        const activeWidgets = widgetStore.widgets.filter((widget) => {
+          const componentConfig = availableComponents.value.find(
+            (c) => c.componentName === widget.name
+          );
+          return componentConfig && componentConfig.isActive;
+        });
+        console.log(activeWidgets);
+        const response = await axios.post(
+          "https://i11a707.p.ssafy.io/api/widgets",
+          activeWidgets // 필터링된 위젯만 서버로 전송
+        );
 
         Swal.fire({
           title: "성공!",
@@ -455,41 +441,13 @@ export default {
           confirmButtonText: "확인",
         });
       } catch (error) {
-        console.error("Error saving widgets:", error); // 에러 메시지 출력
+        console.log(widgetStore.widgets);
         Swal.fire({
           title: "오류!",
           text: "위젯을 저장하는 중에 문제가 발생했습니다. 나중에 다시 시도해 주세요.",
           icon: "error",
           confirmButtonText: "확인",
         });
-      }
-    };
-
-    const loadWidgets = async () => {
-      try {
-        const response = await axios.get("https://i11a707.p.ssafy.io/api/widgets");
-        const storedWidgets = response.data;
-
-        if (storedWidgets.length > 0) {
-          storedWidgets.forEach(({ name, x, y, width, height }) => {
-            const componentConfig = components.find(c => c.componentName === name);
-            if (componentConfig) {
-              addWidget(componentConfig, width, height, { x, y });
-              componentConfig.isActive = true;
-            }
-          });
-        } else {
-          loadDefaultWidgets();
-        }
-      } catch (error) {
-        console.error("Error loading widgets:", error);
-        Swal.fire({
-          title: "오류!",
-          text: "위젯을 불러오는 중에 문제가 발생했습니다.",
-          icon: "error",
-          confirmButtonText: "확인",
-        });
-        loadDefaultWidgets();
       }
     };
 
@@ -649,9 +607,7 @@ export default {
       toggleSidebar,
       handleOutsideClick,
       saveWidgets,
-      loadWidgets,
       redirectToLogin,
-      updateBannedListBannedProgramList,
     };
   },
 };
@@ -673,9 +629,8 @@ export default {
   padding: 20px;
   background-color: #f8f9fa;
   width: 100%;
-  border-radius: 10px;
+  border-radius: 10px 10px 0 0;
   margin-bottom: 20px;
-  box-sizing: border-box;
 }
 
 .header h1 {
@@ -788,12 +743,10 @@ export default {
   width: 100%;
   padding: 20px;
   flex-shrink: 0;
-  box-sizing: border-box;
 }
 
 .grid-stack-item {
   width: calc(100% / 12);
-  box-sizing: border-box;
 }
 
 .grid-stack-item-content {
