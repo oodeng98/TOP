@@ -102,8 +102,11 @@ export default {
           name: appName,
         });
 
-        // 성공적으로 추가되면 로컬 리스트에도 추가
+        // 성공적으로 추가되면 로컬 bannedList에 추가
         this.bannedList.push({ name: appName });
+
+        // appList에서 해당 프로그램 삭제
+        this.appList = this.appList.filter(app => app.name !== appName);
 
       } catch (error) {
         if (error.response && error.response.status === 409) {
