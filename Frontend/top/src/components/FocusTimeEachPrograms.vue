@@ -24,8 +24,12 @@
                 <div class="app-name">{{ app.name }}</div>
                 <div class="text-wrapper">
                   {{ formatTime(app.focusTime) }}
-                  <button type="submit" @click.stop="addprogram(app.name)" class="image-button-plus">
-                    <img src="../../static/img/PlusCircle.svg" alt="">
+                  <button
+                    type="submit"
+                    @click.stop="addprogram(app.name)"
+                    class="image-button-plus"
+                  >
+                    <img src="../../static/img/PlusCircle.svg" alt="" />
                   </button>
                 </div>
               </div>
@@ -72,7 +76,7 @@ export default {
     },
     async addprogram(appName) {
       try {
-        await axios.post('https://i11a707.p.ssafy.io/api/focus-time/ban', {
+        await axios.post("https://i11a707.p.ssafy.io/api/focus-time/ban", {
           name: appName,
         });
       } catch (error) {
@@ -96,8 +100,8 @@ export default {
       event.target.src =
         require("../../static/application_icon/default.png").default;
     },
-  // 주기적인 사용 시간 데이터 업데이트 시작
-  startFetching() {
+    // 주기적인 사용 시간 데이터 업데이트 시작
+    startFetching() {
       this.fetchdata();
       this.interval = setInterval(() => {
         this.fetchdata();
@@ -112,7 +116,7 @@ export default {
   },
   beforeDestroy() {
     this.stopfetching();
-  }
+  },
 };
 </script>
 

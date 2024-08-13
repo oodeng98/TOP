@@ -27,8 +27,12 @@
                     :style="{ width: app.percentage + '%' }"
                   ></div>
                 </div>
-                <button type="submit" @click.stop="addprogram(app.name)" class="image-button-plus">
-                  <img src="../../static/img/PlusCircle.svg" alt="">
+                <button
+                  type="submit"
+                  @click.stop="addprogram(app.name)"
+                  class="image-button-plus"
+                >
+                  <img src="../../static/img/PlusCircle.svg" alt="" />
                 </button>
               </div>
               <img class="line" alt="Line" src="../../static/img/line.png" />
@@ -78,7 +82,9 @@ export default {
     },
     async fetchBannedList() {
       try {
-        const response = await axios.get('https://i11a707.p.ssafy.io/api/focus-time/ban');
+        const response = await axios.get(
+          "https://i11a707.p.ssafy.io/api/focus-time/ban"
+        );
         if (response.status === 200 && response.data.statusCode === 200) {
           this.bannedList = response.data.data.appList || [];
         } else {
@@ -92,22 +98,23 @@ export default {
     async addprogram(appName) {
       try {
         // 이미 금지된 프로그램인지 확인
-        if (this.bannedList.some(program => program.name === appName)) {
+        if (this.bannedList.some((program) => program.name === appName)) {
           console.warn(`${appName}은(는) 이미 금지된 프로그램입니다.`);
           return; // 이미 존재하면 중복 요청을 보내지 않음
         }
 
         // 서버로 POST 요청 보내기
-        await axios.post('https://i11a707.p.ssafy.io/api/focus-time/ban', {
+        await axios.post("https://i11a707.p.ssafy.io/api/focus-time/ban", {
           name: appName,
         });
 
         // 성공적으로 추가되면 로컬 리스트에도 추가
         this.bannedList.push({ name: appName });
-
       } catch (error) {
         if (error.response && error.response.status === 409) {
-          console.warn(`${appName}은(는) 이미 금지된 프로그램으로 등록되어 있습니다.`);
+          console.warn(
+            `${appName}은(는) 이미 금지된 프로그램으로 등록되어 있습니다.`
+          );
         } else {
           console.error("Error adding program:", error);
         }
