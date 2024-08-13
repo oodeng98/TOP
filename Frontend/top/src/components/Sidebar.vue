@@ -73,7 +73,7 @@ export default {
 }
 
 .sidebar-content button:hover {
-  background-color: #8187CE;
+  background-color: #8187ce;
 }
 
 p {

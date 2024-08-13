@@ -79,10 +79,9 @@ export default {
     };
 
     onMounted(() => {
-      updateWeeklyAchievement(); // Fetch immediately on mount
-      const intervalId = setInterval(updateWeeklyAchievement, 60000); // Fetch every 1 minute
+      updateWeeklyAchievement();
+      const intervalId = setInterval(updateWeeklyAchievement, 60000);
 
-      // Clean up the interval on component unmount
       onUnmounted(() => {
         clearInterval(intervalId);
       });

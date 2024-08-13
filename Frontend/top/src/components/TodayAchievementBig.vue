@@ -100,10 +100,9 @@ export default {
     };
 
     onMounted(() => {
-      updatePercentage(); // Fetch immediately on mount
-      const intervalId = setInterval(updatePercentage, 60000); // Fetch every 1 minute
+      updatePercentage();
+      const intervalId = setInterval(updatePercentage, 60000);
 
-      // Clean up the interval on component unmount
       onUnmounted(() => {
         clearInterval(intervalId);
       });
