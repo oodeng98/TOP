@@ -28,7 +28,8 @@ export default {
           }
         );
         if (response.data.timeGoal) {
-          dailyTimeGoal.value = response.data.timeGoal;
+          dailyTimeGoal.value = response.data.data.timeGoal;
+          console.log(response.data.data)
         }
       } catch (error) {
         console.error("데이터를 가져오는 중 오류 발생:", error);
