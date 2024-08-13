@@ -11,7 +11,7 @@
         />
         <path
           :class="['circle', { 'no-animation': !animated }]"
-          :style="{ strokeDasharray: `${percentage}, 100` }"
+          :style="{ strokeDasharray: `${percentage} ${100 - percentage}` }"
           d="M18 2.0845
              a 15.9155 15.9155 0 0 1 0 31.831
              a 15.9155 15.9155 0 0 1 0 -31.831"
@@ -38,7 +38,8 @@ export default {
   },
   setup() {
     const monthlyAchievement = ref("0%");
-    const interval = ref(null)
+    const percentage = ref(0); // 달성률 백분율 값
+    const interval = ref(null);
 
     const timeStringToSeconds = (timeString) => {
       const [hours, minutes, seconds] = timeString.split(":").map(Number);
@@ -61,7 +62,7 @@ export default {
         return monthlyFocusTime;
       } catch (error) {
         console.error(
-          "MonthAchievement2 데이터를 가져오는 중 오류 발생1:",
+          "MonthAchievement 데이터를 가져오는 중 오류 발생:",
           error
         );
         return 0;
@@ -79,11 +80,11 @@ export default {
           }
         );
         let timeGoal = 1;
-        timeGoal = response.data.data.timeGoal * 60;
+        timeGoal = response.data.data[0].timeGoal * 60;
         return timeGoal;
       } catch (error) {
         console.error(
-          "MonthAchievement2 데이터를 가져오는 중 오류 발생2:",
+          "MonthAchievement 데이터를 가져오는 중 오류 발생:",
           error
         );
         return 0;
@@ -96,6 +97,7 @@ export default {
 
       if (timeGoal > 0) {
         const achievementRate = (monthlyFocusTime / timeGoal) * 100;
+        percentage.value = Math.min(achievementRate, 100); // 100을 넘지 않도록 설정
         if (achievementRate <= 100) {
           monthlyAchievement.value = `${achievementRate.toFixed(2)}%`;
         } else {
@@ -103,6 +105,7 @@ export default {
         }
       } else {
         monthlyAchievement.value = "0.00%";
+        percentage.value = 0;
       }
     };
 
@@ -110,25 +113,28 @@ export default {
     const startFetching = () => {
       updatePercentage();
       interval.value = setInterval(() => {
-      updatePercentage();
-      }, 60000);
-    }
+        updatePercentage();
+      }, 10000);
+    };
+
     // 주기적인 업데이트 정지
     const stopfetching = () => {
-      if (interval) {
+      if (interval.value) {
         clearInterval(interval.value);
       }
-    }
+    };
+
     onMounted(() => {
       startFetching();
     });
 
     onBeforeUnmount(() => {
-    stopfetching();
-   });
-   
+      stopfetching();
+    });
+
     return {
       monthlyAchievement,
+      percentage, // 반환하여 템플릿에서 사용할 수 있도록 함
     };
   },
 };

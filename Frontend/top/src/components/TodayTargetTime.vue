@@ -27,8 +27,8 @@ export default {
             }
           }
         );
-        if (response.data.timeGoal) {
-          dailyTimeGoal.value = response.data.timeGoal;
+        if (response.data.data[0].timeGoal) {
+          dailyTimeGoal.value = response.data.data[0].timeGoal;
         }
       } catch (error) {
         console.error("데이터를 가져오는 중 오류 발생:", error);
@@ -37,7 +37,7 @@ export default {
 
     onMounted(() => {
       fetchTimeGoal();
-      const intervalId = setInterval(fetchTimeGoal, 60000);
+      const intervalId = setInterval(fetchTimeGoal, 10000);
 
       onUnmounted(() => {
         clearInterval(intervalId);
