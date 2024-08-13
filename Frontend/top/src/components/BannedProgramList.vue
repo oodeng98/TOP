@@ -116,6 +116,9 @@ export default {
   },
   mounted() {
     this.startFetching();
+
+    // FocusTimeEachProgram component에서 전달된 이벤트를 수신하여 bannedList를 갱신
+    this.$options("updateBannedList", this.fetchdata)
   },
   beforeDestroy() {
     this.stopfetching();

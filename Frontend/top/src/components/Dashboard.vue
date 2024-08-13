@@ -300,6 +300,15 @@ export default {
       isModalOpen.value = false;
     };
 
+    const updateBannedListBannedProgramList = () => {
+      const BannedProgramList = grid.getGridItems().find(
+        (item) => item.el.dataset.componentName === "BannedProgramList"
+      );
+      if (BannedProgramList) {
+        BannedProgramList.el.__vue__?.fetchdata();
+      }
+    }
+
     const saveDailyGoal = async (event) => {
       event.preventDefault();
       try {
@@ -351,6 +360,11 @@ export default {
       );
       if (contentElement) {
         const app = createApp(componentConfig.component);
+
+        // 이벤트 리스닝 추가
+        if (componentConfig.componentName === "FocusTimeEachPrograms" || componentConfig.componentName === "FocusTimeEachProgramsPercentage") {
+          app.config.globalProperties.$on("updateBannedList", updateBannedListBannedProgramList)
+        }
         app.mount(contentElement);
       } else {
         console.error("Failed to find .grid-stack-item-content element.");
@@ -612,6 +626,7 @@ export default {
       handleOutsideClick,
       saveWidgets,
       redirectToLogin,
+      updateBannedListBannedProgramList,
     };
   },
 };
