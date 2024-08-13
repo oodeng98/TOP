@@ -136,6 +136,7 @@ export default {
 
     // 주기적인 사용 시간 데이터 업데이트 시작
     startFetching() {
+      fetchdata();
       this.interval = setInterval(() => {
         fetchData();
       }, 60000);
