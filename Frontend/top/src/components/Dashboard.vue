@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import { createApp, onMounted, ref, nextTick } from "vue";
+import { createApp, onMounted, ref, nextTick, defineExpose } from "vue";
 import { GridStack } from "gridstack";
 import "gridstack/dist/gridstack.min.css";
 import axios from "axios";
@@ -608,6 +608,8 @@ export default {
       );
     };
 
+    defineExpose({handleOutsideClick})
+    
     return {
       gridstack,
       isSidebarOpen,
