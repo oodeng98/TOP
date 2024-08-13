@@ -11,17 +11,21 @@
 
 <script>
 import axios from "axios";
-import { ref, onMounted } from "vue";
+import { ref, onMounted, onUnmounted } from "vue";
 
 export default {
   setup() {
     const monthlyTimeGoal = ref("00:00:00");
-    const interval = ref(null);
 
-    const fetchdata = async () => {
+    const fetchTimeGoal = async () => {
       try {
         const response = await axios.get(
-          "https://i11a707.p.ssafy.io/api/focus-time/goal"
+          "https://i11a707.p.ssafy.io/api/focus-time/goal",
+          {
+            params : {
+              period : "month",
+            }
+          }
         );
         if (response.data.timeGoal) {
           monthlyTimeGoal.value = response.data.timeGoal;
@@ -31,27 +35,13 @@ export default {
       }
     };
 
-    // 주기적인 사용 시간 데이터 업데이트 시작
-    const startFetching = () => {
-      fetchdata();
-      interval = setInterval(() => {
-      fetchdata();
-      }, 60000);
-    }
-
-    // 주기적인 업데이트 정지
-    const stopfetching = () => {
-      if (interval) {
-        clearInterval(interval.value);
-      }
-    }
-
     onMounted(() => {
-      startFetching();
-    });
+      fetchTimeGoal();
+      const intervalId = setInterval(fetchTimeGoal, 60000);
 
-    onBeforeUnmount(() => {
-      stopfetching();
+      onUnmounted(() => {
+        clearInterval(intervalId);
+      });
     });
 
     return {
