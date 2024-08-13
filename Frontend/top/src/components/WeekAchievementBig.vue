@@ -61,7 +61,7 @@ export default {
         return weeklyFocusTime;
       } catch (error) {
         console.error(
-          "WeekAchievement2 데이터를 가져오는 중 오류 발생1:",
+          "WeekAchievement 데이터를 가져오는 중 오류 발생:",
           error
         );
         return 0;
@@ -83,7 +83,7 @@ export default {
         return timeGoal;
       } catch (error) {
         console.error(
-          "WeekAchievement2 데이터를 가져오는 중 오류 발생2:",
+          "WeekAchievement 데이터를 가져오는 중 오류 발생:",
           error
         );
         return 0;
@@ -110,7 +110,7 @@ export default {
 
     onMounted(() => {
       updatePercentage();
-      const intervalId = setInterval(updatePercentage, 10000);
+      const intervalId = setInterval(updatePercentage, 60000);
 
       onUnmounted(() => {
         clearInterval(intervalId);
