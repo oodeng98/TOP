@@ -68,7 +68,12 @@ export default {
     const fetchTimeGoal = async () => {
       try {
         const response = await axios.get(
-          "https://i11a707.p.ssafy.io/api/focus-time/goal"
+          "https://i11a707.p.ssafy.io/api/focus-time/goal",
+          {
+            params: {
+              period: "day",
+            },
+          }
         );
         console.log(response);
         let timeGoal = 1;
@@ -100,10 +105,9 @@ export default {
     };
 
     onMounted(() => {
-      updatePercentage(); // Fetch immediately on mount
-      const intervalId = setInterval(updatePercentage, 60000); // Fetch every 1 minute
+      updatePercentage();
+      const intervalId = setInterval(updatePercentage, 60000);
 
-      // Clean up the interval on component unmount
       onUnmounted(() => {
         clearInterval(intervalId);
       });

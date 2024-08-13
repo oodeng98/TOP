@@ -46,7 +46,12 @@ export default {
     const fetchTimeGoal = async () => {
       try {
         const response = await axios.get(
-          "https://i11a707.p.ssafy.io/api/focus-time/goal"
+          "https://i11a707.p.ssafy.io/api/focus-time/goal",
+          {
+            params: {
+              period: "week",
+            },
+          }
         );
         let timeGoal = 1;
         if (response.data.data.timeGoal) {
@@ -79,10 +84,9 @@ export default {
     };
 
     onMounted(() => {
-      updateWeeklyAchievement(); // Fetch immediately on mount
-      const intervalId = setInterval(updateWeeklyAchievement, 60000); // Fetch every 1 minute
+      updateWeeklyAchievement();
+      const intervalId = setInterval(updateWeeklyAchievement, 60000);
 
-      // Clean up the interval on component unmount
       onUnmounted(() => {
         clearInterval(intervalId);
       });

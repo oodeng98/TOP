@@ -37,14 +37,14 @@ export default {
     // 주기적인 사용 시간 데이터 업데이트 시작
     const startFetching = () => {
       fetchdata();
-      interval = setInterval(() => {
+      interval.value = setInterval(() => {
         fetchdata();
       }, 60000);
     }
 
     // 주기적인 업데이트 정지
     const stopfetching = () => {
-      if (interval) {
+      if (interval.value) {
         clearInterval(interval.value);
       }
     }

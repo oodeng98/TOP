@@ -43,17 +43,20 @@ export default {
     // axios로 데이터 받기, 데이터 채워지면 focusTimeList 주석처리하고 위에 3줄 주석지우기
     async fetchFocusTimeData() {
       try {
-        const response = await axios.get('https://i11a707.p.ssafy.io/api/dash/streak', {
-          params: { month: 6 }
-        });
+        const response = await axios.get(
+          "https://i11a707.p.ssafy.io/api/dash/streak",
+          {
+            params: { month: 6 },
+          }
+        );
         this.focusTimeList = response.data.data;
         this.generateYearData();
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error("Error fetching data:", error);
         this.setDefault();
       }
     },
-    
+
     setDefault() {
       const today = new Date();
       const week = today.getDay();
@@ -66,16 +69,17 @@ export default {
 
       // 지금
       endDate.setMonth(endDate.getMonth());
-      const totalDays = Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24)) + 1;
-      
+      const totalDays =
+        Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24)) + 1;
+
       for (let i = 0; i < totalDays + week; i++) {
         const currentDate = new Date(startDate);
         currentDate.setDate(startDate.getDate() + i);
-        const focusTimeEntry = 0
-        
+        const focusTimeEntry = 0;
+
         let activity = 0; // 집중시간 기본값
         let colorClass;
-        
+
         if (i < week) {
           colorClass = this.getColorClass(activity);
         } else {
@@ -86,7 +90,7 @@ export default {
         }
 
         this.yearData.push({
-          date: currentDate.toISOString().split('T')[0],
+          date: currentDate.toISOString().split("T")[0],
           activity,
           colorClass,
           focusTime: activity,
@@ -107,17 +111,20 @@ export default {
 
       // 지금
       endDate.setMonth(endDate.getMonth());
-      const totalDays = Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24)) + 1;
-      
+      const totalDays =
+        Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24)) + 1;
+
       for (let i = 0; i < totalDays + week; i++) {
         const currentDate = new Date(startDate);
         currentDate.setDate(startDate.getDate() + i);
-        const dateStr = currentDate.toISOString().split('T')[0].substring(5); // "MM-DD" 형식
-        const focusTimeEntry = this.focusTimeList.find(entry => entry.day === dateStr);
-        
+        const dateStr = currentDate.toISOString().split("T")[0].substring(5); // "MM-DD" 형식
+        const focusTimeEntry = this.focusTimeList.find(
+          (entry) => entry.day === dateStr
+        );
+
         let activity = 0; // 집중시간 기본값
         let colorClass;
-        
+
         if (i < week) {
           colorClass = this.getColorClass(activity);
         } else {
@@ -128,14 +135,14 @@ export default {
         }
 
         this.yearData.push({
-          date: currentDate.toISOString().split('T')[0],
+          date: currentDate.toISOString().split("T")[0],
           activity,
           colorClass,
           focusTime: activity,
         });
       }
     },
-  
+
     // 스트릭 시작일을 일요일로 고정
     getStartOfWeek(date) {
       const start = new Date(date);
@@ -144,7 +151,7 @@ export default {
       start.setDate(start.getDate() + diff); // 주의 시작일로 설정
       return start;
     },
-    
+
     getColorClass(activity) {
       if (activity) return "yes-activity";
       return "no-activity";
@@ -155,22 +162,24 @@ export default {
       const rowCount = 7; // 일주일 7일
       const row = (index % rowCount) + 1; // 1부터 시작
       const col = Math.floor(index / rowCount) + 1; // 1부터 시작
-      
+
       return {
         gridRowStart: row,
         gridColumnStart: col,
       };
     },
-    
+
     // 시간형식 변환
     formatTime(seconds) {
       const hrs = Math.floor(seconds / 3600);
       const mins = Math.floor((seconds % 3600) / 60);
       const secs = seconds % 60;
-      return `${hrs.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+      return `${hrs.toString().padStart(2, "0")}:${mins
+        .toString()
+        .padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
     },
   },
-}
+};
 </script>
 
 <style scoped>
@@ -237,5 +246,4 @@ export default {
 .yes-activity {
   background-color: rgba(88, 101, 242, 1);
 }
-
 </style>

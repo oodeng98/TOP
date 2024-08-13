@@ -31,10 +31,9 @@ export default {
     };
 
     onMounted(() => {
-      fetchTimeGoal(); // Fetch immediately on mount
-      const intervalId = setInterval(fetchTimeGoal, 60000); // Fetch every 1 minute
+      fetchTimeGoal();
+      const intervalId = setInterval(fetchTimeGoal, 60000);
 
-      // Clean up the interval on component unmount
       onUnmounted(() => {
         clearInterval(intervalId);
       });

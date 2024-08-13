@@ -7,7 +7,7 @@
           <div class="div3">{{ dailyFocusTime }}</div>
           <div class="text-wrapper-3">{{ focusTimeDifference }}</div>
         </div>
-        <div class="alphabet">T</div>
+        <div class="alphabet">D</div>
       </div>
     </div>
   </div>
@@ -67,10 +67,9 @@ export default {
     };
 
     onMounted(() => {
-      fetchFocusTime(); // Fetch immediately on mount
-      const intervalId = setInterval(fetchFocusTime, 60000); // Fetch every 1 minute
+      fetchFocusTime();
+      const intervalId = setInterval(fetchFocusTime, 60000);
 
-      // Clean up the interval on component unmount
       onUnmounted(() => {
         clearInterval(intervalId);
       });

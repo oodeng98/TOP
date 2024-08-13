@@ -130,10 +130,9 @@ export default {
     };
 
     onMounted(() => {
-      fetchFocusTimeData(); // Fetch immediately on mount
-      const intervalId = setInterval(fetchFocusTimeData, 60000); // Fetch every 1 minute
+      fetchFocusTimeData();
+      const intervalId = setInterval(fetchFocusTimeData, 60000);
 
-      // Clean up the interval on component unmount
       onUnmounted(() => {
         clearInterval(intervalId);
       });

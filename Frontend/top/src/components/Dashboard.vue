@@ -4,7 +4,6 @@
       <div class="header">
         <h1>Dashboard</h1>
         <div class="buttons">
-          <button class="login-button" @click="redirectToLogin">로그인</button>
           <button class="openModalBtn" @click="openModal">설정</button>
           <button class="save-button" @click="saveWidgets">저장</button>
           <button
@@ -304,7 +303,7 @@ export default {
     const saveDailyGoal = async (event) => {
       event.preventDefault();
       try {
-        await axios.post("/api/saveDailyGoal", { goal: dailyGoal.value });
+        await axios.put("https://i11a707.p.ssafy.io/api/focus-time/goal", { timegoal: dailyGoal.value });
         Swal.fire({
           title: "성공!",
           text: "일간 목표 집중 시간이 저장되었습니다.",
@@ -889,24 +888,6 @@ button {
 }
 
 button:hover {
-  background-color: #4a55d4;
-}
-
-.login-button {
-  position: relative;
-  width: 150px;
-  height: 60px;
-  background-color: #5865f2;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: right 0.3s ease;
-  text-align: center;
-  margin-right: 10px;
-}
-
-.login-button:hover {
   background-color: #4a55d4;
 }
 </style>
