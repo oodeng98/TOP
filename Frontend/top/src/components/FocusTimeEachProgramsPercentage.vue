@@ -52,8 +52,9 @@ export default {
     };
   },
   mounted() {
-    this.fetchData();
-    this.fetchBannedList();
+    this.fetchBannedList().then(() => {
+      this.fetchData();
+    });
   },
   methods: {
     async fetchData() {
@@ -102,7 +103,7 @@ export default {
           name: appName,
         });
 
-        // 성공적으로 추가되면 로컬 bannedList에 추가
+        // 성공적으로 추가되면 로컬 리스트에도 추가
         this.bannedList.push({ name: appName });
 
         // appList에서 해당 프로그램 삭제
