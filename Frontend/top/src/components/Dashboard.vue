@@ -640,8 +640,6 @@ export default {
       toggleComponent,
       isModalOpen,
       dailyGoal,
-      weeklyGoal,
-      monthlyGoal,
       openModal,
       closeModal,
       saveDailyGoal,
