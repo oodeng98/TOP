@@ -1,8 +1,6 @@
 <template>
   <div id="app" class="custom-container">
-    <!-- 로그인 성공 시에만 Dashboard 컴포넌트를 렌더링 -->
     <Dashboard v-if="isLoggedIn" />
-     <Dashboard />
   </div>
 </template>
 
@@ -17,7 +15,7 @@ export default {
   },
   data() {
     return {
-      isLoggedIn: false, // 로그인 상태를 추적하는 변수
+      isLoggedIn: false,
     };
   },
   mounted() {
@@ -56,14 +54,12 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 
-/* 새로운 고정 레이아웃 스타일링 */
 .custom-container {
-  width: 1200px; /* 고정된 너비 설정 */
-  margin: 0 auto; /* 화면 중앙 정렬 */
-  overflow-x: auto; /*가로 스크롤 활성화*/
-  overflow-y: hidden; /* 세로 스크롤 비활성화 (필요 시 제거 가능) */
+  width: 1200px;
+  margin: 0 auto;
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 </style>

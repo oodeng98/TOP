@@ -27,9 +27,8 @@ export default {
             }
           }
         );
-        console.log(response.data.data[1].timeGoal)
-        if (response.data.data.timeGoal) {
-          dailyTimeGoal.value = response.data.data.timeGoal;
+        if (response.data.data[0].timeGoal) {
+          dailyTimeGoal.value = response.data.data[0].timeGoal;
         }
       } catch (error) {
         console.error("데이터를 가져오는 중 오류 발생:", error);
