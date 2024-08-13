@@ -91,8 +91,6 @@ export default {
     const isSidebarOpen = ref(false);
     const isModalOpen = ref(false); // 모달 열림 상태 관리
     const dailyGoal = ref(0);
-    const weeklyGoal = ref(0);
-    const monthlyGoal = ref(0);
     const widgetStore = useWidgetStore(); // Pinia 스토어 사용
 
     let grid;
@@ -436,18 +434,16 @@ export default {
 
     const saveWidgets = async () => {
       try {
-        // 활성화된(대시보드에 떠있는) 위젯만 필터링
-        const activeWidgets = widgetStore.widgets.filter((widget) => {
-          const componentConfig = availableComponents.value.find(
-            (c) => c.componentName === widget.name
-          );
-          return componentConfig && componentConfig.isActive;
-        });
-        console.log(activeWidgets);
-        const response = await axios.post(
-          "https://i11a707.p.ssafy.io/api/widgets",
-          activeWidgets // 필터링된 위젯만 서버로 전송
-        );
+        const layout = grid.save();
+        const activeWidgets = layout.map((widget) => ({
+          name: widget.el.dataset.componentName,
+          x: widget.x,
+          y: widget.y,
+          width: widget.w,
+          height: widget.h,
+        }));
+
+        await axios.post("https://i11a707.p.ssafy.io/api/widgets", activeWidgets);
 
         Swal.fire({
           title: "성공!",
@@ -463,6 +459,34 @@ export default {
           icon: "error",
           confirmButtonText: "확인",
         });
+      }
+    };
+
+    const loadWidgets = async () => {
+      try {
+        const response = await axios.get("https://i11a707.p.ssafy.io/api/widgets");
+        const storedWidgets = response.data;
+
+        if (storedWidgets.length > 0) {
+          storedWidgets.forEach(({ name, x, y, width, height }) => {
+            const componentConfig = components.find(c => c.componentName === name);
+            if (componentConfig) {
+              addWidget(componentConfig, width, height, { x, y });
+              componentConfig.isActive = true;
+            }
+          });
+        } else {
+          loadDefaultWidgets();
+        }
+      } catch (error) {
+        console.error("Error loading widgets:", error);
+        Swal.fire({
+          title: "오류!",
+          text: "위젯을 불러오는 중에 문제가 발생했습니다.",
+          icon: "error",
+          confirmButtonText: "확인",
+        });
+        loadDefaultWidgets();
       }
     };
 
@@ -624,6 +648,7 @@ export default {
       toggleSidebar,
       handleOutsideClick,
       saveWidgets,
+      loadWidgets,
       redirectToLogin,
       updateBannedListBannedProgramList,
     };
