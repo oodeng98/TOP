@@ -4,8 +4,8 @@
       <div class="header">
         <h1>Dashboard</h1>
         <div class="buttons">
-          <button class="openModalBtn" @click="openModal">설정</button>
-          <button class="save-button" @click="saveWidgets">저장</button>
+          <button class="openModalBtn" @click="openModal">목표 시간 설정</button>
+          <button class="save-button" @click="saveWidgets">위젯 설정 저장</button>
           <button
             v-if="!isSidebarOpen"
             class="toggle-button"
