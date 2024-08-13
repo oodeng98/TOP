@@ -303,7 +303,9 @@ export default {
     const saveDailyGoal = async (event) => {
       event.preventDefault();
       try {
-        await axios.put("https://i11a707.p.ssafy.io/api/focus-time/goal", { timegoal: dailyGoal.value });
+        await axios.put("https://i11a707.p.ssafy.io/api/focus-time/goal", {
+          timegoal: dailyGoal.value,
+        });
         Swal.fire({
           title: "성공!",
           text: "일간 목표 집중 시간이 저장되었습니다.",
