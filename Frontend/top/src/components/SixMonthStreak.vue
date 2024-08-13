@@ -190,8 +190,6 @@ export default {
   border-radius: 15px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   background-color: white;
-  box-sizing: border-box;
-  overflow: auto;
 }
 
 .streak-string {
@@ -231,7 +229,8 @@ export default {
     16px
   ); /* 26주인데 인접 년도의 활동도 표시되어 넉넉하게 54주 */
   grid-gap: 4px;
-  /* margin: 20px auto; */
+  box-sizing: border-box;
+  overflow: auto;
 }
 
 .day {
