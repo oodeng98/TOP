@@ -190,14 +190,12 @@ export default {
   border-radius: 15px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   background-color: white;
-  box-sizing: border-box;
-  overflow: auto;
 }
 
 .streak-string {
   position: absolute;
   top: 10px;
-  left: 30px;
+  left: 20px;
   color: #a0aec0;
   font-family: "Helvetica-BoldOblique", Helvetica;
   font-weight: 700;
@@ -207,7 +205,7 @@ export default {
 .box {
   position: absolute;
   top: 50px;
-  left: 40px;
+  left: 20px;
 }
 
 .week-string {
@@ -224,7 +222,7 @@ export default {
 .calendar-grid {
   position: absolute;
   top: 50px;
-  left: 70px;
+  left: 40px;
   display: grid;
   grid-template-rows: repeat(7, 16px); /* 7일 */
   grid-template-columns: repeat(
@@ -232,7 +230,8 @@ export default {
     16px
   ); /* 26주인데 인접 년도의 활동도 표시되어 넉넉하게 54주 */
   grid-gap: 4px;
-  /* margin: 20px auto; */
+  box-sizing: border-box;
+  overflow: auto;
 }
 
 .day {
