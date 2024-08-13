@@ -21,7 +21,12 @@ export default {
     const fetchdata = async () => {
       try {
         const response = await axios.get(
-          "https://i11a707.p.ssafy.io/api/focus-time/goal"
+          "https://i11a707.p.ssafy.io/api/focus-time/goal",
+          {
+            params : {
+              period : "month",
+            }
+          }
         );
         if (response.data.timeGoal) {
           monthlyTimeGoal.value = response.data.timeGoal;
