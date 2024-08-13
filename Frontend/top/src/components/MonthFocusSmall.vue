@@ -1,5 +1,5 @@
 <template>
-  <div class="box">
+  <div class="box1">
     <div class="overlap-group1">
       <div class="text-wrapper1">이번달 집중 시간</div>
       <div class="div1">{{ monthlyFocusTime }}</div>
@@ -40,14 +40,14 @@ export default {
       interval.value = setInterval(() => {
         fetchdata();
       }, 60000);
-    };
+    }
 
     // 주기적인 업데이트 정지
     const stopfetching = () => {
       if (interval.value) {
         clearInterval(interval.value);
       }
-    };
+    }
 
     onMounted(() => {
       startFetching();
@@ -65,12 +65,12 @@ export default {
 </script>
 
 <style scoped>
-.box {
+.box1 {
   height: 100%;
   width: 100%;
 }
 
-.box .overlap-group1 {
+.box1 .overlap-group1 {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -78,11 +78,11 @@ export default {
   background-color: #ffffff;
   border-radius: 15px;
   box-shadow: 0px 3.5px 5.5px #00000005;
-  height: 100%;
+  height: 100px;
   width: 100%;
 }
 
-.box .text-wrapper1 {
+.box1 .text-wrapper1 {
   color: #a0aec0;
   font-family: "Helvetica-BoldOblique", Helvetica;
   font-size: 14px;
@@ -93,7 +93,7 @@ export default {
   white-space: nowrap;
 }
 
-.box .div1 {
+.box1 .div1 {
   color: #2d3748;
   font-family: "Helvetica-BoldOblique", Helvetica;
   font-size: 18px;

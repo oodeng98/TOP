@@ -1,38 +1,40 @@
 <template>
   <div class="box">
-    <div class="text-wrapper-4">프로그램 별 집중 시간</div>
-    <div class="overlap-group">
-      <div class="titles">
-        <div class="text-wrapper-2">Programs</div>
-        <div class="text-wrapper-2">사용 시간</div>
-      </div>
-      <div class="list">
-        <div class="items">
-          <div
-            v-for="(app, index) in appList"
-            :key="index"
-            class="soft-UI-XD-1"
-          >
-            <div class="item-content">
-              <img
-                class="icon"
-                :src="app.imagePath"
-                :alt="app.name"
-                @error="handleImageError"
-              />
-              <div class="app-name">{{ app.name }}</div>
-              <div class="text-wrapper">
-                {{ formatTime(app.focusTime) }}
-                <button
-                  type="submit"
-                  @click.stop="addprogram(app.name)"
-                  class="image-button-plus"
-                >
-                  <img src="../../static/img/PlusCircle.svg" alt="" />
-                </button>
+    <div class="element">
+      <div class="text-wrapper-4">프로그램 별 집중 시간</div>
+      <div class="overlap-group">
+        <div class="titles">
+          <div class="text-wrapper-3">Programs</div>
+          <div class="text-wrapper-2">사용 시간</div>
+        </div>
+        <div class="list">
+          <div class="items">
+            <div
+              v-for="(app, index) in appList"
+              :key="index"
+              class="soft-UI-XD-1"
+            >
+              <div class="item-content">
+                <img
+                  class="icon"
+                  :src="app.imagePath"
+                  :alt="app.name"
+                  @error="handleImageError"
+                />
+                <div class="app-name">{{ app.name }}</div>
+                <div class="text-wrapper">
+                  {{ formatTime(app.focusTime) }}
+                  <button
+                    type="submit"
+                    @click.stop="addprogram(app.name)"
+                    class="image-button-plus"
+                  >
+                    <img src="../../static/img/PlusCircle.svg" alt="" />
+                  </button>
+                </div>
               </div>
+              <img class="line" alt="Line" src="../../static/img/line.png" />
             </div>
-            <img class="line" alt="Line" src="../../static/img/line.png" />
           </div>
         </div>
       </div>
@@ -92,7 +94,8 @@ export default {
         this.appList = this.appList.filter((app) => app.name !== appName);
 
         // BannedProgramList.vue 컴포턴트에 갱신 요청
-        this.$emit("updateBannedList");
+        this.$emit("updateBannedList")
+
       } catch (error) {
         if (error.response && error.response.status === 409) {
           console.warn(
@@ -148,7 +151,12 @@ export default {
   box-shadow: 0px 3.5px 5.5px #00000005;
   padding-top: 20px;
   overflow: hidden; /* 박스 자체에 스크롤이 생기지 않도록 설정 */
-  box-sizing: border-box;
+}
+
+.box .element {
+  height: 100%; /* 요소 높이 100%로 설정 */
+  width: 100%;
+  overflow: hidden; /* 요소 내부에 스크롤이 생기지 않도록 설정 */
 }
 
 .box .overlap-group {
@@ -157,7 +165,6 @@ export default {
   width: 100%;
   padding: 20px;
   background-color: #ffffff; /* 백그라운드 색상 설정 */
-  box-sizing: border-box;
 }
 
 .box .list {
@@ -226,7 +233,8 @@ export default {
   margin-bottom: 10px;
 }
 
-.box .text-wrapper-2 {
+.box .text-wrapper-2,
+.box .text-wrapper-3 {
   color: #a0aec0;
   font-family: "Helvetica-BoldOblique", Helvetica;
   font-size: 15px;
@@ -244,7 +252,7 @@ export default {
   line-height: 25.2px;
   margin-bottom: 10px;
   text-align: center;
-  width: 100%;
+  margin-left: 20px;
 }
 
 .image-button-plus {

@@ -1,8 +1,10 @@
 <template>
-  <div class="box">
-    <div class="overlap-group6">
-      <div class="title-data6">월간 목표 집중 시간</div>
-      <div class="text6">{{ monthlyTimeGoal }}</div>
+  <div class="box6">
+    <div class="element6">
+      <div class="overlap-group6">
+        <div class="text6">{{ monthlyTimeGoal }}</div>
+        <div class="title-data6">월간 목표 집중 시간</div>
+      </div>
     </div>
   </div>
 </template>
@@ -20,9 +22,9 @@ export default {
         const response = await axios.get(
           "https://i11a707.p.ssafy.io/api/focus-time/goal",
           {
-            params: {
-              period: "month",
-            },
+            params : {
+              period : "month",
+            }
           }
         );
         if (response.data.data[0].timeGoal) {
@@ -50,41 +52,52 @@ export default {
 </script>
 
 <style scoped>
-.box {
+.box6 {
   height: 100%;
   width: 100%;
 }
 
-.box .overlap-group6 {
-  display: flex;
+.box6 .element6 {
+  height: 100px;
+  left: 0;
+  top: 0;
+  width: 165px;
+}
+
+.box6 .overlap-group6 {
   background-color: #ffffff;
   border-radius: 15px;
   box-shadow: 0px 3.5px 5.5px #00000005;
-  height: 100%;
-  width: 100%;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
+  height: 100px;
+  position: relative;
+  width: 190px;
 }
 
-.box .text6 {
+.box6 .text6 {
   color: #1d1a1a;
   font-family: "Helvetica-BoldOblique", Helvetica;
   font-size: 30px;
   font-weight: 700;
+  left: 35px;
   letter-spacing: 0.38px;
   line-height: 24px;
+  position: absolute;
+  top: 45px;
   white-space: nowrap;
+  width: 63px;
 }
 
-.box .title-data6 {
+.box6 .title-data6 {
   color: #a0aec0;
   font-family: "Helvetica-BoldOblique", Helvetica;
   font-size: 14px;
   font-weight: 700;
+  left: 32px;
   letter-spacing: 0.5px;
   line-height: 22px;
-  margin-bottom: 5px;
+  position: absolute;
+  text-align: center;
+  top: 8px;
   white-space: nowrap;
 }
 </style>

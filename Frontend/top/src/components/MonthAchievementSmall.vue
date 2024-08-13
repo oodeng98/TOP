@@ -13,8 +13,8 @@ import { ref, onMounted, onBeforeUnmount } from "vue";
 
 export default {
   setup() {
-    const monthlyAchievement = ref("0.00%");
-    const interval = ref(null);
+    const monthlyAchievement = ref("0%");
+    const interval = ref(null)
 
     const timeStringToSeconds = (timeString) => {
       const [hours, minutes, seconds] = timeString.split(":").map(Number);
@@ -88,16 +88,16 @@ export default {
     const startFetching = () => {
       updateMonthlyAchievement();
       interval.value = setInterval(() => {
-        updateMonthlyAchievement();
+      updateMonthlyAchievement();
       }, 60000);
-    };
+    }
 
     // 주기적인 업데이트 정지
     const stopfetching = () => {
       if (interval.value) {
         clearInterval(interval.value);
       }
-    };
+    }
 
     onMounted(() => {
       startFetching();
