@@ -32,10 +32,10 @@
     <div v-if="isModalOpen" class="modal">
       <div class="modal-content">
         <span class="close" @click="closeModal">&times;</span>
-        <h2>목표 집중 시간 설정</h2>
+        <h2>목표 시간 설정</h2>
         <form>
           <div class="form-group">
-            <label for="dailyGoal">일간 목표 집중 시간:</label>
+            <label for="dailyGoal">일간 목표 시간:</label>
             <input type="number" v-model="dailyGoal" id="dailyGoal" /> 분
             <button @click.stop="saveDailyGoal">저장</button>
           </div>
@@ -647,8 +647,9 @@ export default {
   padding: 20px;
   background-color: #f8f9fa;
   width: 100%;
-  border-radius: 10px 10px 0 0;
+  border-radius: 10px;
   margin-bottom: 20px;
+  box-sizing: border-box;
 }
 
 .header h1 {
@@ -761,10 +762,12 @@ export default {
   width: 100%;
   padding: 20px;
   flex-shrink: 0;
+  box-sizing: border-box;
 }
 
 .grid-stack-item {
   width: calc(100% / 12);
+  box-sizing: border-box;
 }
 
 .grid-stack-item-content {
