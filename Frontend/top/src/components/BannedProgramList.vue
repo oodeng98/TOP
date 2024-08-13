@@ -43,6 +43,7 @@
 </template>
 
 <script>
+import { eventBus } from "@/eventBus";
 import axios from "axios";
 
 export default {
@@ -105,7 +106,7 @@ export default {
       this.fetchdata();
       this.interval = setInterval(() => {
         this.fetchdata();
-      }, 60000);
+      }, 10000);
     },
     // 주기적인 업데이트 정지
     stopfetching() {
@@ -115,7 +116,19 @@ export default {
     },
   },
   mounted() {
+    this.fetchdata();
     this.startFetching();
+
+    // 이벤트 리스너 추가
+    this.$watch(
+      () => eventBus.updateBannedList,
+      (newValue) => {
+        if (newValue) {
+          this.fetchdata(); // 데이터 갱신
+          eventBus.updateBannedList = false; // 이벤트 플래그 초기화
+        }
+      }
+    )
   },
   beforeDestroy() {
     this.stopfetching();

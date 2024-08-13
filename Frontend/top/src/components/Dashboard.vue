@@ -1,11 +1,15 @@
 <template>
-  <div class="container" @click="handleOutsideClick">
+  <div @click="handleOutsideClick">
     <div class="content">
       <div class="header">
         <h1>Dashboard</h1>
         <div class="buttons">
-          <button class="openModalBtn" @click="openModal">목표 시간 설정</button>
-          <button class="save-button" @click="saveWidgets">위젯 설정 저장</button>
+          <button class="openModalBtn" @click="openModal">
+            목표 시간 설정
+          </button>
+          <button class="save-button" @click="saveWidgets">
+            위젯 설정 저장
+          </button>
           <button
             v-if="!isSidebarOpen"
             class="toggle-button"
@@ -33,7 +37,7 @@
           <div class="form-group">
             <label for="dailyGoal">일간 목표 집중 시간:</label>
             <input type="number" v-model="dailyGoal" id="dailyGoal" /> 분
-            <button @click="saveDailyGoal">저장</button>
+            <button @click.stop="saveDailyGoal">저장</button>
           </div>
         </form>
       </div>
@@ -300,55 +304,24 @@ export default {
       isModalOpen.value = false;
     };
 
+    const updateBannedListBannedProgramList = () => {
+      const BannedProgramList = grid
+        .getGridItems()
+        .find((item) => item.el.dataset.componentName === "BannedProgramList");
+      if (BannedProgramList) {
+        BannedProgramList.el.__vue__?.fetchdata();
+      }
+    };
+
     const saveDailyGoal = async (event) => {
       event.preventDefault();
       try {
         await axios.put("https://i11a707.p.ssafy.io/api/focus-time/goal", {
-          timegoal: dailyGoal.value,
+          timeGoal: dailyGoal.value,
         });
         Swal.fire({
           title: "성공!",
           text: "일간 목표 집중 시간이 저장되었습니다.",
-          icon: "success",
-          confirmButtonText: "확인",
-        });
-      } catch (error) {
-        Swal.fire({
-          title: "오류!",
-          text: "저장 중 문제가 발생했습니다.",
-          icon: "error",
-          confirmButtonText: "확인",
-        });
-      }
-    };
-
-    const saveWeeklyGoal = async (event) => {
-      event.preventDefault();
-      try {
-        await axios.post("/api/saveWeeklyGoal", { goal: weeklyGoal.value });
-        Swal.fire({
-          title: "성공!",
-          text: "주간 목표 집중 시간이 저장되었습니다.",
-          icon: "success",
-          confirmButtonText: "확인",
-        });
-      } catch (error) {
-        Swal.fire({
-          title: "오류!",
-          text: "저장 중 문제가 발생했습니다.",
-          icon: "error",
-          confirmButtonText: "확인",
-        });
-      }
-    };
-
-    const saveMonthlyGoal = async (event) => {
-      event.preventDefault();
-      try {
-        await axios.post("/api/saveMonthlyGoal", { goal: monthlyGoal.value });
-        Swal.fire({
-          title: "성공!",
-          text: "월간 목표 집중 시간이 저장되었습니다.",
           icon: "success",
           confirmButtonText: "확인",
         });
@@ -652,6 +625,7 @@ export default {
       handleOutsideClick,
       saveWidgets,
       redirectToLogin,
+      updateBannedListBannedProgramList,
     };
   },
 };

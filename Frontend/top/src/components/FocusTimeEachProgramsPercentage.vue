@@ -45,6 +45,7 @@
 </template>
 
 <script>
+import { eventBus } from "@/eventBus";
 import axios from "axios";
 
 export default {
@@ -56,9 +57,8 @@ export default {
     };
   },
   mounted() {
-    this.fetchBannedList().then(() => {
-      this.fetchData();
-    });
+    this.fetchData();
+    this.fetchBannedList();
   },
   methods: {
     async fetchData() {
@@ -109,11 +109,17 @@ export default {
           name: appName,
         });
 
-        // 성공적으로 추가되면 로컬 리스트에도 추가
+        eventBus.updateBannedList = true; // 이벤트발생
+
+        // 성공적으로 추가되면 로컬 bannedList에 추가
         this.bannedList.push({ name: appName });
 
         // appList에서 해당 프로그램 삭제
         this.appList = this.appList.filter((app) => app.name !== appName);
+
+        // BannedProgramList.vue 컴포턴트에 갱신 요청
+        this.$emit("updateBannedList")
+
       } catch (error) {
         if (error.response && error.response.status === 409) {
           console.warn(

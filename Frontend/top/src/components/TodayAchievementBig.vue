@@ -75,7 +75,6 @@ export default {
             },
           }
         );
-        console.log(response);
         let timeGoal = 1;
         timeGoal = response.data.data.timeGoal * 60;
         return timeGoal;
