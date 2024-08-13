@@ -70,7 +70,12 @@ export default {
     const fetchTimeGoal = async () => {
       try {
         const response = await axios.get(
-          "https://i11a707.p.ssafy.io/api/focus-time/goal"
+          "https://i11a707.p.ssafy.io/api/focus-time/goal",
+          {
+            params: {
+              period: "week",
+            },
+          }
         );
         let timeGoal = 1;
         timeGoal = response.data.data.timeGoal * 60;
