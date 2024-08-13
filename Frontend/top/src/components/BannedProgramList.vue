@@ -16,7 +16,17 @@
           class="li-relative"
         >
           <div class="between">
-            <div style="font-weight: 700">{{ program.name }}</div>
+            <div style="display: flex; align-items: center">
+              <img
+                class="icon"
+                :src="getImagePath(program.name)"
+                :alt="program.name"
+                @error="handleImageError"
+              />
+              <div style="font-weight: 700; margin-left: 10px">
+                {{ program.name }}
+              </div>
+            </div>
             <div class="focus-time">{{ formatTime(program.focusTime) }}</div>
           </div>
           <button
@@ -51,7 +61,10 @@ export default {
         const response = await axios.get(
           "https://i11a707.p.ssafy.io/api/focus-time/ban"
         );
-        this.bannedList = response.data.data;
+        this.bannedList = response.data.data.map((program) => ({
+          ...program,
+          imagePath: this.getImagePath(program.name),
+        }));
       } catch (error) {
         console.error("Error to fetch data:", error);
       }
@@ -75,6 +88,17 @@ export default {
       return `${hrs.toString().padStart(2, "0")}:${mins
         .toString()
         .padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
+    },
+    getImagePath(appName) {
+      try {
+        return require(`../../static/application_icon/${appName}.png`);
+      } catch (e) {
+        return require("../../static/application_icon/default.png");
+      }
+    },
+    handleImageError(event) {
+      event.target.src =
+        require("../../static/application_icon/default.png").default;
     },
     // 주기적인 사용 시간 데이터 업데이트 시작
     startFetching() {
@@ -210,5 +234,11 @@ input::placeholder {
 
 .focus-time {
   padding-right: 30px;
+}
+
+.icon {
+  height: 25px;
+  width: 25px;
+  margin-right: 10px;
 }
 </style>
