@@ -150,13 +150,14 @@ export default {
   border-radius: 15px;
   box-shadow: 0px 3.5px 5.5px #00000005;
   padding-top: 20px;
-  overflow: hidden; /* 박스 자체에 스크롤이 생기지 않도록 설정 */
+  box-sizing: border-box;
+  overflow: auto;
 }
 
 .box .element {
   height: 100%; /* 요소 높이 100%로 설정 */
   width: 100%;
-  overflow: hidden; /* 요소 내부에 스크롤이 생기지 않도록 설정 */
+  box-sizing: border-box;
 }
 
 .box .overlap-group {

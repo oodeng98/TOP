@@ -178,7 +178,8 @@ export default {
   border-radius: 15px;
   box-shadow: 0px 3.5px 5.5px #00000005;
   padding-top: 20px;
-  overflow: hidden;
+  box-sizing: border-box;
+  overflow: auto;
 }
 
 .box .element {
