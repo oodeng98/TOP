@@ -13,7 +13,7 @@ import { ref, onMounted, onUnmounted } from "vue";
 
 export default {
   setup() {
-    const weeklyAchievement = ref("0%");
+    const weeklyAchievement = ref("0.00%");
 
     const timeStringToSeconds = (timeString) => {
       const [hours, minutes, seconds] = timeString.split(":").map(Number);
@@ -79,7 +79,7 @@ export default {
           weeklyAchievement.value = "100%";
         }
       } else {
-        weeklyAchievement.value = "0%";
+        weeklyAchievement.value = "0.00%";
       }
     };
 
@@ -113,7 +113,7 @@ export default {
   background-color: #ffffff;
   border-radius: 15px;
   box-shadow: 0px 3.5px 5.5px #00000005;
-  height: 100px;
+  height: 100%;
   width: 100%;
 }
 
@@ -125,16 +125,15 @@ export default {
   letter-spacing: 0.5px;
   line-height: 22px;
   white-space: nowrap;
-  margin-bottom: 8px; /* 텍스트 간격을 위해 추가 */
 }
 
 .box6 .text6 {
-  color: #1d1a1a;
+  color: #2d3748;
   font-family: "Helvetica-BoldOblique", Helvetica;
-  font-size: 30px;
+  font-size: 20px;
   font-weight: 700;
-  letter-spacing: 0.38px;
-  line-height: 24px;
+  letter-spacing: 0;
+  line-height: 25.2px;
   white-space: nowrap;
 }
 </style>

@@ -53,6 +53,9 @@ export default {
 .box1 {
   height: 100%;
   width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .box1 .overlap-group1 {

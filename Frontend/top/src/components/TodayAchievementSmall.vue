@@ -114,7 +114,7 @@ export default {
   background-color: #ffffff;
   border-radius: 15px;
   box-shadow: 0px 3.5px 5.5px #00000005;
-  height: 100px;
+  height: 100%;
   width: 100%;
 }
 
@@ -126,13 +126,12 @@ export default {
   letter-spacing: 0.5px;
   line-height: 22px;
   white-space: nowrap;
-  margin-bottom: 8px; /* 텍스트 간격을 위해 추가 */
 }
 
 .box6 .text6 {
   color: #2d3748;
   font-family: "Helvetica-BoldOblique", Helvetica;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 700;
   letter-spacing: 0;
   line-height: 25.2px;

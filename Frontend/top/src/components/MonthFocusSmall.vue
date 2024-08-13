@@ -40,14 +40,14 @@ export default {
       interval.value = setInterval(() => {
         fetchdata();
       }, 60000);
-    }
+    };
 
     // 주기적인 업데이트 정지
     const stopfetching = () => {
       if (interval.value) {
         clearInterval(interval.value);
       }
-    }
+    };
 
     onMounted(() => {
       startFetching();
@@ -68,6 +68,9 @@ export default {
 .box1 {
   height: 100%;
   width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .box1 .overlap-group1 {

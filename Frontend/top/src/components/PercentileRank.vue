@@ -1,14 +1,14 @@
 <template>
   <div class="subbox4">
     <div class="box4">
-      <div class="title">집중 백분율</div>
+      <div class="title">집중 백분위</div>
       <div class="group4">
         <div class="overlap4">
           <div class="overlap-group4">
             <div class="chart4">
               <div class="div4">
                 <div class="ellipse4"></div>
-                <div class="text4">{{ dailyPercentile }}%</div>
+                <div class="text4">{{ dailyPercentile }}</div>
                 <img
                   class="img4"
                   alt="Ellipse"
@@ -20,7 +20,7 @@
             <div class="overlap-wrapper4">
               <div class="overlap-4-2">
                 <div class="ellipse-4-2"></div>
-                <div class="text-4-2">{{ weeklyPercentile }}%</div>
+                <div class="text-4-2">{{ weeklyPercentile }}</div>
                 <div class="text-4-3">월간 백분위</div>
                 <img
                   class="ellipse-4-3"
@@ -33,7 +33,7 @@
           <div class="overlap-group-wrapper4">
             <div class="overlap-4-3">
               <div class="ellipse-4-4"></div>
-              <div class="text-4-4">{{ monthlyPercentile }}%</div>
+              <div class="text-4-4">{{ monthlyPercentile }}</div>
               <div class="text-4-5">주간 백분위</div>
               <img
                 class="ellipse-4-5"
@@ -171,11 +171,11 @@ export default {
   font-family: "Helvetica-BoldOblique", Helvetica;
   font-size: 33.7px;
   font-weight: 700;
-  left: 49px;
+  left: 53px;
   letter-spacing: 0.53px;
   line-height: 33.7px;
   position: absolute;
-  top: 63px;
+  top: 65px;
   white-space: nowrap;
   width: 70px;
 }
@@ -189,7 +189,7 @@ export default {
   letter-spacing: 0.53px;
   line-height: 12.7px;
   position: absolute;
-  top: 118px;
+  top: 105px;
   white-space: nowrap;
   width: 74px;
 }
@@ -233,7 +233,7 @@ export default {
   font-family: "Helvetica-BoldOblique", Helvetica;
   font-size: 20.8px;
   font-weight: 700;
-  left: 30px;
+  left: 32px;
   letter-spacing: 0.32px;
   line-height: 20.8px;
   position: absolute;
@@ -294,7 +294,7 @@ export default {
   font-family: "Helvetica-BoldOblique", Helvetica;
   font-size: 24px;
   font-weight: 700;
-  left: 35px;
+  left: 44px;
   letter-spacing: 0.38px;
   line-height: 24px;
   position: absolute;
@@ -311,7 +311,7 @@ export default {
   letter-spacing: 0.38px;
   line-height: 12px;
   position: absolute;
-  top: 83px;
+  top: 78px;
   white-space: nowrap;
 }
 

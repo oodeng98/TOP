@@ -195,9 +195,8 @@ export default {
 }
 
 .streak-string {
-  position: absolute;
+  position: relative;
   top: 10px;
-  left: 30px;
   color: #a0aec0;
   font-family: "Helvetica-BoldOblique", Helvetica;
   font-weight: 700;
@@ -207,7 +206,7 @@ export default {
 .box {
   position: absolute;
   top: 50px;
-  left: 40px;
+  left: 10px;
 }
 
 .week-string {
@@ -224,7 +223,7 @@ export default {
 .calendar-grid {
   position: absolute;
   top: 50px;
-  left: 70px;
+  left: 30px;
   display: grid;
   grid-template-rows: repeat(7, 16px); /* 7일 */
   grid-template-columns: repeat(

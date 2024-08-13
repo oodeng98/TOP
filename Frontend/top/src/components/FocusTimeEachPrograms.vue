@@ -1,40 +1,34 @@
 <template>
   <div class="box">
-    <div class="element">
-      <div class="text-wrapper-4">프로그램 별 집중 시간</div>
-      <div class="overlap-group">
-        <div class="titles">
-          <div class="text-wrapper-3">Programs</div>
-          <div class="text-wrapper-2">사용 시간</div>
-        </div>
-        <div class="list">
-          <div class="items">
-            <div
-              v-for="(app, index) in appList"
-              :key="index"
-              class="soft-UI-XD-1"
-            >
-              <div class="item-content">
-                <img
-                  class="icon"
-                  :src="app.imagePath"
-                  :alt="app.name"
-                  @error="handleImageError"
-                />
-                <div class="app-name">{{ app.name }}</div>
-                <div class="text-wrapper">
-                  {{ formatTime(app.focusTime) }}
-                  <button
-                    type="submit"
-                    @click.stop="addprogram(app.name)"
-                    class="image-button-plus"
-                  >
-                    <img src="../../static/img/PlusCircle.svg" alt="" />
-                  </button>
-                </div>
+    <div class="text-wrapper-4">프로그램 별 집중 시간</div>
+    <div class="overlap-group">
+      <div class="titles">
+        <div class="text-wrapper-2">Programs</div>
+        <div class="text-wrapper-2">사용 시간</div>
+      </div>
+      <div class="list">
+        <div class="items">
+          <div v-for="(app, index) in appList" :key="index" class="number">
+            <div class="item-content">
+              <img
+                class="icon"
+                :src="app.imagePath"
+                :alt="app.name"
+                @error="handleImageError"
+              />
+              <div class="app-name">{{ app.name }}</div>
+              <div class="text-wrapper">
+                {{ formatTime(app.focusTime) }}
+                <button
+                  type="submit"
+                  @click.stop="addprogram(app.name)"
+                  class="image-button-plus"
+                >
+                  <img src="../../static/img/PlusCircle.svg" alt="" />
+                </button>
               </div>
-              <img class="line" alt="Line" src="../../static/img/line.png" />
             </div>
+            <img class="line" alt="Line" src="../../static/img/line.png" />
           </div>
         </div>
       </div>
@@ -76,26 +70,20 @@ export default {
     },
     async addprogram(appName) {
       try {
-        // 이미 금지된 프로그램인지 확인
         if (this.bannedList.some((program) => program.name === appName)) {
           console.warn(`${appName}은(는) 이미 금지된 프로그램입니다.`);
           return; // 이미 존재하면 중복 요청을 보내지 않음
         }
 
-        // 서버로 POST 요청 보내기
         await axios.post("https://i11a707.p.ssafy.io/api/focus-time/ban", {
           name: appName,
         });
 
-        // 성공적으로 추가되면 로컬 리스트에도 추가
         this.bannedList.push({ name: appName });
 
-        // appList에서 해당 프로그램 삭제
         this.appList = this.appList.filter((app) => app.name !== appName);
 
-        // BannedProgramList.vue 컴포턴트에 갱신 요청
-        this.$emit("updateBannedList")
-
+        this.$emit("updateBannedList");
       } catch (error) {
         if (error.response && error.response.status === 409) {
           console.warn(
@@ -166,6 +154,7 @@ export default {
   width: 100%;
   padding: 20px;
   background-color: #ffffff; /* 백그라운드 색상 설정 */
+  box-sizing: border-box;
 }
 
 .box .list {
@@ -177,7 +166,7 @@ export default {
   flex-direction: column;
 }
 
-.box .soft-UI-XD-1 {
+.box .number {
   display: flex;
   flex-direction: column;
   margin-bottom: 10px;
@@ -234,8 +223,7 @@ export default {
   margin-bottom: 10px;
 }
 
-.box .text-wrapper-2,
-.box .text-wrapper-3 {
+.box .text-wrapper-2 {
   color: #a0aec0;
   font-family: "Helvetica-BoldOblique", Helvetica;
   font-size: 15px;
@@ -257,10 +245,10 @@ export default {
 }
 
 .image-button-plus {
-  background: none; /* 배경 제거 */
-  border: none; /* 테두리 제거 */
-  padding: 0; /* 여백 제거 */
-  cursor: pointer; /* 커서 포인터로 변경 */
-  outline: none; /* 클릭 시 나타나는 외곽선 제거 */
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  outline: none;
 }
 </style>

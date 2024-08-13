@@ -63,7 +63,6 @@ import WeekFocusBigWithoutComparison from "./WeekFocusBigWithoutComparison.vue";
 import MonthFocusBigWithoutComparison from "./MonthFocusBigWithoutComparison.vue";
 import TotalFocusBig from "./TotalFocusBig.vue";
 import PercentileRank from "./PercentileRank.vue";
-import TimerCheck from "./TimerCheck.vue";
 import TodayAchievementSmall from "./TodayAchievementSmall.vue";
 import WeekAchievementSmall from "./WeekAchievementSmall.vue";
 import MonthAchievementSmall from "./MonthAchievementSmall.vue";
@@ -249,13 +248,6 @@ export default {
         componentName: "PercentileRank",
         width: 4,
         height: 3,
-      },
-      {
-        name: "타이머 4x2",
-        component: TimerCheck,
-        componentName: "TimerCheck",
-        width: 4,
-        height: 2,
       },
       {
         name: "캘린더 5x4",
@@ -596,8 +588,8 @@ export default {
       );
     };
 
-    defineExpose({handleOutsideClick})
-    
+    defineExpose({ handleOutsideClick });
+
     return {
       gridstack,
       isSidebarOpen,
@@ -619,7 +611,6 @@ export default {
 </script>
 
 <style scoped>
-
 .layout {
   display: flex;
   height: 100vh;

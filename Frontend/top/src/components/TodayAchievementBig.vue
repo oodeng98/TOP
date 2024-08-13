@@ -104,7 +104,7 @@ export default {
 
     onMounted(() => {
       updatePercentage();
-      const intervalId = setInterval(updatePercentage, 10000);
+      const intervalId = setInterval(updatePercentage, 60000);
 
       onUnmounted(() => {
         clearInterval(intervalId);
@@ -169,7 +169,7 @@ export default {
 }
 
 .goal-label {
-  margin-top: 10px;
+  margin-top: 4px;
   font-family: "Helvetica-BoldOblique", Helvetica;
   font-size: 14px;
   font-weight: 700;

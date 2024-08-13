@@ -1,10 +1,8 @@
 <template>
   <div class="box1">
-    <div class="element1">
-      <div class="overlap-group1">
-        <div class="text-wrapper1">총 집중 시간</div>
-        <div class="div1">{{ totalFocusTime }}</div>
-      </div>
+    <div class="overlap-group1">
+      <div class="text-wrapper1">총 집중 시간</div>
+      <div class="div1">{{ totalFocusTime }}</div>
     </div>
   </div>
 </template>
@@ -50,6 +48,9 @@ export default {
 .box1 {
   height: 100%;
   width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .box1 .overlap-group1 {

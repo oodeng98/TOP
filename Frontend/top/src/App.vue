@@ -1,6 +1,6 @@
 <template>
   <div id="app" class="custom-container">
-    <Dashboard v-if="isLoggedIn" />     
+    <Dashboard v-if="isLoggedIn" />
   </div>
 </template>
 

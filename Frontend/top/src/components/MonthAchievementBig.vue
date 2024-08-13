@@ -37,7 +37,7 @@ export default {
     },
   },
   setup() {
-    const monthlyAchievement = ref("0%");
+    const monthlyAchievement = ref("0.00%");
     const percentage = ref(0); // 달성률 백분율 값
     const interval = ref(null);
 
@@ -104,7 +104,7 @@ export default {
           monthlyAchievement.value = "100%";
         }
       } else {
-        monthlyAchievement.value = "0%";
+        monthlyAchievement.value = "0.00%";
         percentage.value = 0;
       }
     };
@@ -182,15 +182,14 @@ export default {
 }
 
 .percentage {
-  color: #1d1a1a;
+  color: #2d3748;
   font-family: "Helvetica-BoldOblique", Helvetica;
   font-weight: 700;
-  font-size: 0.5em;
+  font-size: 0.4em;
   text-anchor: middle;
 }
 
 .goal-label {
-  margin-top: 10px;
   font-family: "Helvetica-BoldOblique", Helvetica;
   font-size: 14px;
   font-weight: 700;
