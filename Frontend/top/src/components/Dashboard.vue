@@ -1,11 +1,15 @@
 <template>
-  <div class="container" @click="handleOutsideClick">
+  <div @click="handleOutsideClick">
     <div class="content">
       <div class="header">
         <h1>Dashboard</h1>
         <div class="buttons">
-          <button class="openModalBtn" @click="openModal">목표 시간 설정</button>
-          <button class="save-button" @click="saveWidgets">위젯 설정 저장</button>
+          <button class="openModalBtn" @click="openModal">
+            목표 시간 설정
+          </button>
+          <button class="save-button" @click="saveWidgets">
+            위젯 설정 저장
+          </button>
           <button
             v-if="!isSidebarOpen"
             class="toggle-button"
@@ -301,13 +305,13 @@ export default {
     };
 
     const updateBannedListBannedProgramList = () => {
-      const BannedProgramList = grid.getGridItems().find(
-        (item) => item.el.dataset.componentName === "BannedProgramList"
-      );
+      const BannedProgramList = grid
+        .getGridItems()
+        .find((item) => item.el.dataset.componentName === "BannedProgramList");
       if (BannedProgramList) {
         BannedProgramList.el.__vue__?.fetchdata();
       }
-    }
+    };
 
     const saveDailyGoal = async (event) => {
       event.preventDefault();
