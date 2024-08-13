@@ -56,8 +56,9 @@ export default {
     };
   },
   mounted() {
-    this.fetchData();
-    this.fetchBannedList();
+    this.fetchBannedList().then(() => {
+      this.fetchData();
+    });
   },
   methods: {
     async fetchData() {
@@ -110,6 +111,9 @@ export default {
 
         // 성공적으로 추가되면 로컬 리스트에도 추가
         this.bannedList.push({ name: appName });
+
+        // appList에서 해당 프로그램 삭제
+        this.appList = this.appList.filter((app) => app.name !== appName);
       } catch (error) {
         if (error.response && error.response.status === 409) {
           console.warn(
@@ -139,10 +143,10 @@ export default {
 
     // 주기적인 사용 시간 데이터 업데이트 시작
     startFetching() {
-      this.fetchdata();
+      this.fetchData();
       this.interval = setInterval(() => {
-        this.fetchdata();
-      }, 60000);
+        this.fetchData();
+      }, 10000);
     },
     // 주기적인 업데이트 정지
     stopfetching() {
