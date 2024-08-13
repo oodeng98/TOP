@@ -428,7 +428,6 @@ export default {
           );
           return componentConfig && componentConfig.isActive;
         });
-        console.log(activeWidgets);
         const response = await axios.post(
           "https://i11a707.p.ssafy.io/api/widgets",
           activeWidgets // 필터링된 위젯만 서버로 전송

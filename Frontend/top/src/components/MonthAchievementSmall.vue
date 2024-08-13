@@ -80,7 +80,7 @@ export default {
           monthlyAchievement.value = "100%";
         }
       } else {
-        monthlyAchievement.value = "0.00%";
+        monthlyAchievement.value = "0%";
       }
     };
 

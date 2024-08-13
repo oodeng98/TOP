@@ -97,7 +97,7 @@ export default {
         percentage.value = Math.min(achievementRate, 100); // 100을 넘지 않도록 설정
         dailyAchievement.value = `${percentage.value.toFixed(2)}%`;
       } else {
-        dailyAchievement.value = "0.00%";
+        dailyAchievement.value = "0%";
         percentage.value = 0;
       }
     };
