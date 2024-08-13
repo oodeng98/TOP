@@ -37,7 +37,7 @@
           <div class="form-group">
             <label for="dailyGoal">일간 목표 집중 시간:</label>
             <input type="number" v-model="dailyGoal" id="dailyGoal" /> 분
-            <button @click="saveDailyGoal">저장</button>
+            <button @click.stop="saveDailyGoal">저장</button>
           </div>
         </form>
       </div>
@@ -317,7 +317,7 @@ export default {
       event.preventDefault();
       try {
         await axios.put("https://i11a707.p.ssafy.io/api/focus-time/goal", {
-          timegoal: dailyGoal.value,
+          timeGoal: dailyGoal.value,
         });
         Swal.fire({
           title: "성공!",
