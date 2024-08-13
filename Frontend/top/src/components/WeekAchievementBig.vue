@@ -11,7 +11,7 @@
         />
         <path
           :class="['circle', { 'no-animation': !animated }]"
-          :style="{ strokeDasharray: `${percentage}, 100` }"
+          :style="{ strokeDasharray: `${percentage} ${100 - percentage}` }"
           d="M18 2.0845
              a 15.9155 15.9155 0 0 1 0 31.831
              a 15.9155 15.9155 0 0 1 0 -31.831"
@@ -38,6 +38,7 @@ export default {
   },
   setup() {
     const weeklyAchievement = ref("0%");
+    const percentage = ref(0); // 달성률 백분율 값
 
     const timeStringToSeconds = (timeString) => {
       const [hours, minutes, seconds] = timeString.split(":").map(Number);
@@ -95,6 +96,7 @@ export default {
 
       if (timeGoal > 0) {
         const achievementRate = (weeklyFocusTime / timeGoal) * 100;
+        percentage.value = Math.min(achievementRate, 100); // 100을 넘지 않도록 설정
         if (achievementRate <= 100) {
           weeklyAchievement.value = `${achievementRate.toFixed(2)}%`;
         } else {
@@ -102,12 +104,13 @@ export default {
         }
       } else {
         weeklyAchievement.value = "0.00%";
+        percentage.value = 0;
       }
     };
 
     onMounted(() => {
       updatePercentage();
-      const intervalId = setInterval(updatePercentage, 60000);
+      const intervalId = setInterval(updatePercentage, 10000);
 
       onUnmounted(() => {
         clearInterval(intervalId);
@@ -116,6 +119,7 @@ export default {
 
     return {
       weeklyAchievement,
+      percentage,
     };
   },
 };

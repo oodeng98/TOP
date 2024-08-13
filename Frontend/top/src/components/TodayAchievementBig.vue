@@ -104,7 +104,7 @@ export default {
 
     onMounted(() => {
       updatePercentage();
-      const intervalId = setInterval(updatePercentage, 60000);
+      const intervalId = setInterval(updatePercentage, 10000);
 
       onUnmounted(() => {
         clearInterval(intervalId);
