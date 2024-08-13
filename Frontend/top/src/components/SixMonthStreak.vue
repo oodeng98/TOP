@@ -190,6 +190,8 @@ export default {
   border-radius: 15px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   background-color: white;
+  box-sizing: border-box;
+  overflow: auto;
 }
 
 .streak-string {
