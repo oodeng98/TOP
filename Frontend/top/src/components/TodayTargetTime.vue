@@ -27,7 +27,7 @@ export default {
             }
           }
         );
-        console.log(response.data.data[1])
+        console.log(response.data.data)
         if (response.data.data.timeGoal) {
           dailyTimeGoal.value = response.data.data.timeGoal;
         }
