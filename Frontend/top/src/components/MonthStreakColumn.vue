@@ -43,7 +43,6 @@ export default {
           params: { month: 1 }
         });
         const focusTimeList = response.data.data;
-        console.log(focusTimeList);
         const updatedColumns = this.columns.map((column, colIndex) =>
           column.map((day, rowIndex) => {
             const dateString = new Date(2023, 6, colIndex * 7 + rowIndex + 1)
@@ -61,6 +60,7 @@ export default {
         console.error('Error fetching streak data:', error);
       }
     },
+    
     startFetching() {
       this.fetchdata();
       this.interval = setInterval(() => {
