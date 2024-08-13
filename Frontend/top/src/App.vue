@@ -2,6 +2,7 @@
   <div id="app" class="custom-container">
     <!-- 로그인 성공 시에만 Dashboard 컴포넌트를 렌더링 -->
     <Dashboard v-if="isLoggedIn" />
+     <Dashboard />
   </div>
 </template>
 
@@ -62,7 +63,7 @@ export default {
 .custom-container {
   width: 1200px; /* 고정된 너비 설정 */
   margin: 0 auto; /* 화면 중앙 정렬 */
-  overflow-x: auto; /* 가로 스크롤 활성화 */
+  overflow-x: auto; /*가로 스크롤 활성화*/
   overflow-y: hidden; /* 세로 스크롤 비활성화 (필요 시 제거 가능) */
 }
 </style>

@@ -645,11 +645,11 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px;
+  /* margin: 20px; */
   background-color: #f8f9fa;
   width: 100%;
   border-radius: 10px 10px 0 0;
-  margin-bottom: 20px;
+  /* margin-bottom: 20px; */
 }
 
 .header h1 {
@@ -748,10 +748,11 @@ export default {
 
 .content {
   flex-grow: 1;
-  overflow: auto;
+  overflow: visible;
   transition: margin-right 0.3s ease, width 0.3s ease;
   background-color: #f8f9fa;
   border-radius: 10px;
+  width: 100%;
 }
 
 .layout.sidebar-open .content {
@@ -760,7 +761,7 @@ export default {
 
 .grid-stack {
   width: 100%;
-  padding: 20px;
+  /* padding: 20px; */
   flex-shrink: 0;
 }
 
