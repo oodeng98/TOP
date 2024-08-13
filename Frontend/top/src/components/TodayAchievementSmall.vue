@@ -13,7 +13,7 @@ import { ref, onMounted, onUnmounted } from "vue";
 
 export default {
   setup() {
-    const dailyAchievement = ref("0%");
+    const dailyAchievement = ref("0.00%");
 
     const timeStringToSeconds = (timeString) => {
       const [hours, minutes, seconds] = timeString.split(":").map(Number);
@@ -51,7 +51,7 @@ export default {
           {
             params: {
               period: "day",
-            }
+            },
           }
         );
         let timeGoal = 1;
@@ -80,7 +80,7 @@ export default {
           dailyAchievement.value = "100%";
         }
       } else {
-        dailyAchievement.value = "0%";
+        dailyAchievement.value = "0.00%";
       }
     };
 
@@ -130,12 +130,12 @@ export default {
 }
 
 .box6 .text6 {
-  color: #1d1a1a;
+  color: #2d3748;
   font-family: "Helvetica-BoldOblique", Helvetica;
-  font-size: 30px;
+  font-size: 18px;
   font-weight: 700;
-  letter-spacing: 0.38px;
-  line-height: 24px;
+  letter-spacing: 0;
+  line-height: 25.2px;
   white-space: nowrap;
 }
 </style>
