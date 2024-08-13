@@ -1,15 +1,11 @@
 <template>
-  <div @click="handleOutsideClick">
+  <div class="container" @click="handleOutsideClick">
     <div class="content">
       <div class="header">
         <h1>Dashboard</h1>
         <div class="buttons">
-          <button class="openModalBtn" @click="openModal">
-            목표 시간 설정
-          </button>
-          <button class="save-button" @click="saveWidgets">
-            위젯 설정 저장
-          </button>
+          <button class="openModalBtn" @click="openModal">목표 시간 설정</button>
+          <button class="save-button" @click="saveWidgets">위젯 설정 저장</button>
           <button
             v-if="!isSidebarOpen"
             class="toggle-button"
@@ -32,12 +28,12 @@
     <div v-if="isModalOpen" class="modal">
       <div class="modal-content">
         <span class="close" @click="closeModal">&times;</span>
-        <h2>목표 시간 설정</h2>
+        <h2>목표 집중 시간 설정</h2>
         <form>
           <div class="form-group">
-            <label for="dailyGoal">일간 목표 시간:</label>
+            <label for="dailyGoal">일간 목표 집중 시간:</label>
             <input type="number" v-model="dailyGoal" id="dailyGoal" /> 분
-            <button @click.stop="saveDailyGoal">저장</button>
+            <button @click="saveDailyGoal">저장</button>
           </div>
         </form>
       </div>
@@ -91,8 +87,6 @@ export default {
     const isSidebarOpen = ref(false);
     const isModalOpen = ref(false); // 모달 열림 상태 관리
     const dailyGoal = ref(0);
-    const weeklyGoal = ref(0);
-    const monthlyGoal = ref(0);
     const widgetStore = useWidgetStore(); // Pinia 스토어 사용
 
     let grid;
@@ -304,20 +298,11 @@ export default {
       isModalOpen.value = false;
     };
 
-    const updateBannedListBannedProgramList = () => {
-      const BannedProgramList = grid
-        .getGridItems()
-        .find((item) => item.el.dataset.componentName === "BannedProgramList");
-      if (BannedProgramList) {
-        BannedProgramList.el.__vue__?.fetchdata();
-      }
-    };
-
     const saveDailyGoal = async (event) => {
       event.preventDefault();
       try {
         await axios.put("https://i11a707.p.ssafy.io/api/focus-time/goal", {
-          timeGoal: dailyGoal.value,
+          timegoal: dailyGoal.value,
         });
         Swal.fire({
           title: "성공!",
@@ -443,7 +428,6 @@ export default {
           );
           return componentConfig && componentConfig.isActive;
         });
-        console.log(activeWidgets);
         const response = await axios.post(
           "https://i11a707.p.ssafy.io/api/widgets",
           activeWidgets // 필터링된 위젯만 서버로 전송
@@ -618,8 +602,6 @@ export default {
       toggleComponent,
       isModalOpen,
       dailyGoal,
-      weeklyGoal,
-      monthlyGoal,
       openModal,
       closeModal,
       saveDailyGoal,
@@ -627,7 +609,6 @@ export default {
       handleOutsideClick,
       saveWidgets,
       redirectToLogin,
-      updateBannedListBannedProgramList,
     };
   },
 };
@@ -650,9 +631,8 @@ export default {
   /* margin: 20px; */
   background-color: #f8f9fa;
   width: 100%;
-  border-radius: 10px;
+  border-radius: 10px 10px 0 0;
   margin-bottom: 20px;
-  box-sizing: border-box;
 }
 
 .header h1 {
@@ -766,12 +746,10 @@ export default {
   width: 100%;
   /* padding: 20px; */
   flex-shrink: 0;
-  box-sizing: border-box;
 }
 
 .grid-stack-item {
   width: calc(100% / 12);
-  box-sizing: border-box;
 }
 
 .grid-stack-item-content {

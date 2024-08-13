@@ -80,7 +80,7 @@ export default {
           dailyAchievement.value = "100%";
         }
       } else {
-        dailyAchievement.value = "0.00%";
+        dailyAchievement.value = "0%";
       }
     };
 

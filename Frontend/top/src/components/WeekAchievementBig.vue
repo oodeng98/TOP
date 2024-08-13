@@ -103,7 +103,7 @@ export default {
           weeklyAchievement.value = "100%";
         }
       } else {
-        weeklyAchievement.value = "0.00%";
+        weeklyAchievement.value = "0%";
         percentage.value = 0;
       }
     };
