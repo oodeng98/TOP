@@ -320,46 +320,6 @@ export default {
       }
     };
 
-    const saveWeeklyGoal = async (event) => {
-      event.preventDefault();
-      try {
-        await axios.post("/api/saveWeeklyGoal", { goal: weeklyGoal.value });
-        Swal.fire({
-          title: "성공!",
-          text: "주간 목표 집중 시간이 저장되었습니다.",
-          icon: "success",
-          confirmButtonText: "확인",
-        });
-      } catch (error) {
-        Swal.fire({
-          title: "오류!",
-          text: "저장 중 문제가 발생했습니다.",
-          icon: "error",
-          confirmButtonText: "확인",
-        });
-      }
-    };
-
-    const saveMonthlyGoal = async (event) => {
-      event.preventDefault();
-      try {
-        await axios.post("/api/saveMonthlyGoal", { goal: monthlyGoal.value });
-        Swal.fire({
-          title: "성공!",
-          text: "월간 목표 집중 시간이 저장되었습니다.",
-          icon: "success",
-          confirmButtonText: "확인",
-        });
-      } catch (error) {
-        Swal.fire({
-          title: "오류!",
-          text: "저장 중 문제가 발생했습니다.",
-          icon: "error",
-          confirmButtonText: "확인",
-        });
-      }
-    };
-
     const availableComponents = ref(
       components.map((c) => ({ ...c, isActive: false }))
     );
