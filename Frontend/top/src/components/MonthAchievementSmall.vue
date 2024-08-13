@@ -87,14 +87,14 @@ export default {
     // 주기적인 사용 시간 데이터 업데이트 시작
     const startFetching = () => {
       updateMonthlyAchievement();
-      interval = setInterval(() => {
+      interval.value = setInterval(() => {
       updateMonthlyAchievement();
       }, 60000);
     }
 
     // 주기적인 업데이트 정지
     const stopfetching = () => {
-      if (interval) {
+      if (interval.value) {
         clearInterval(interval.value);
       }
     }
