@@ -52,10 +52,11 @@ export default {
 
 .sidebar-content {
   padding: 20px;
-  height: 100%;
+  height: calc(100% - 40px);
 }
 
 .sidebar-content button {
+  display: block;
   width: 100%;
   margin-bottom: 10px;
   padding: 10px;
@@ -79,7 +80,7 @@ p {
   font-family: "Helvetica-BoldOblique", Helvetica;
   font-weight: 700;
   font-size: 14px;
-  margin: 0;
+  margin-bottom: 0;
 }
 
 h2 {
