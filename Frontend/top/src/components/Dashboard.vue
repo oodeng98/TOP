@@ -360,11 +360,6 @@ export default {
       );
       if (contentElement) {
         const app = createApp(componentConfig.component);
-
-        // 이벤트 리스닝 추가
-        if (componentConfig.componentName === "FocusTimeEachPrograms" || componentConfig.componentName === "FocusTimeEachProgramsPercentage") {
-          app.config.globalProperties.$on("updateBannedList", updateBannedListBannedProgramList)
-        }
         app.mount(contentElement);
       } else {
         console.error("Failed to find .grid-stack-item-content element.");

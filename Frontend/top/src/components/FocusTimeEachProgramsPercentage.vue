@@ -45,6 +45,7 @@
 </template>
 
 <script>
+import { eventBus } from "@/eventBus";
 import axios from "axios";
 
 export default {
@@ -107,6 +108,8 @@ export default {
         await axios.post("https://i11a707.p.ssafy.io/api/focus-time/ban", {
           name: appName,
         });
+
+        eventBus.updateBannedList = true; // 이벤트발생
 
         // 성공적으로 추가되면 로컬 bannedList에 추가
         this.bannedList.push({ name: appName });
