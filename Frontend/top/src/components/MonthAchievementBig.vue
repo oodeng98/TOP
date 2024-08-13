@@ -37,7 +37,7 @@ export default {
     },
   },
   setup() {
-    const monthlyAchievement = ref("0%");
+    const monthlyAchievement = ref("0.00%");
     const percentage = ref(0); // 달성률 백분율 값
     const interval = ref(null);
 
