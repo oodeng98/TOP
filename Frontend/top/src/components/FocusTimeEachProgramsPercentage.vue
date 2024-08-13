@@ -1,42 +1,40 @@
 <template>
   <div class="box">
-    <div class="element">
-      <div class="text-wrapper-4">프로그램 별 집중 시간</div>
-      <div class="overlap-group">
-        <div class="titles">
-          <div class="text-wrapper-3">Programs</div>
-          <div class="text-wrapper-2">집중 시간</div>
-          <div class="text-wrapper-2">집중 비율</div>
-        </div>
-        <div class="list">
-          <div class="items">
-            <div v-for="(app, index) in appList" :key="index" class="number">
-              <div class="item-content">
-                <img
-                  class="icon"
-                  :src="getImagePath(app.name)"
-                  :alt="app.name"
-                  @error="handleImageError"
-                />
-                <div class="app-name">{{ app.name }}</div>
-                <div class="text-wrapper0">{{ formatTime(app.focusTime) }}</div>
-                <div class="text-wrapper1">{{ app.percentage }}%</div>
-                <div class="progress-bar">
-                  <div
-                    class="progress"
-                    :style="{ width: app.percentage + '%' }"
-                  ></div>
-                </div>
-                <button
-                  type="submit"
-                  @click.stop="addprogram(app.name)"
-                  class="image-button-plus"
-                >
-                  <img src="../../static/img/PlusCircle.svg" alt="" />
-                </button>
+    <div class="text-wrapper-4">프로그램 별 집중 시간</div>
+    <div class="overlap-group">
+      <div class="titles">
+        <div class="text-wrapper-2">Programs</div>
+        <div class="text-wrapper-2">집중 시간</div>
+        <div class="text-wrapper-2">집중 비율</div>
+      </div>
+      <div class="list">
+        <div class="items">
+          <div v-for="(app, index) in appList" :key="index" class="number">
+            <div class="item-content">
+              <img
+                class="icon"
+                :src="getImagePath(app.name)"
+                :alt="app.name"
+                @error="handleImageError"
+              />
+              <div class="app-name">{{ app.name }}</div>
+              <div class="text-wrapper0">{{ formatTime(app.focusTime) }}</div>
+              <div class="text-wrapper1">{{ app.percentage }}%</div>
+              <div class="progress-bar">
+                <div
+                  class="progress"
+                  :style="{ width: app.percentage + '%' }"
+                ></div>
               </div>
-              <img class="line" alt="Line" src="../../static/img/line.png" />
+              <button
+                type="submit"
+                @click.stop="addprogram(app.name)"
+                class="image-button-plus"
+              >
+                <img src="../../static/img/PlusCircle.svg" alt="" />
+              </button>
             </div>
+            <img class="line" alt="Line" src="../../static/img/line.png" />
           </div>
         </div>
       </div>
@@ -118,8 +116,7 @@ export default {
         this.appList = this.appList.filter((app) => app.name !== appName);
 
         // BannedProgramList.vue 컴포턴트에 갱신 요청
-        this.$emit("updateBannedList")
-
+        this.$emit("updateBannedList");
       } catch (error) {
         if (error.response && error.response.status === 409) {
           console.warn(
@@ -179,19 +176,16 @@ export default {
   box-shadow: 0px 3.5px 5.5px #00000005;
   padding-top: 20px;
   overflow: hidden;
-}
-
-.box .element {
-  height: 100%;
-  width: 100%;
+  box-sizing: border-box;
 }
 
 .box .overlap-group {
-  height: calc(100% - 50px);
+  height: 100%;
   overflow-y: auto;
   width: 100%;
   padding: 20px;
   background-color: #ffffff;
+  box-sizing: border-box;
 }
 
 .box .list {
@@ -289,8 +283,7 @@ export default {
   margin-bottom: 10px;
 }
 
-.box .text-wrapper-2,
-.box .text-wrapper-3 {
+.box .text-wrapper-2 {
   color: #a0aec0;
   font-family: "Helvetica-BoldOblique", Helvetica;
   font-size: 15px;
