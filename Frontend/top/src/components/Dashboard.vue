@@ -658,6 +658,7 @@ export default {
 </script>
 
 <style scoped>
+
 .layout {
   display: flex;
   height: 100vh;

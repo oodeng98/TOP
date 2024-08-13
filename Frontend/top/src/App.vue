@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class="container">
+  <div id="app">
     <!-- 로그인 성공 시에만 Dashboard 컴포넌트를 렌더링 -->
     <Dashboard v-if="isLoggedIn" />
   </div>
