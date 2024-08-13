@@ -149,7 +149,7 @@ export default {
   background-color: #ffffff;
   border-radius: 15px;
   box-shadow: 0px 3.5px 5.5px #00000005;
-  padding-top: 20px;
+  padding: 20px;
   box-sizing: border-box;
   overflow: auto;
 }
@@ -164,7 +164,6 @@ export default {
   height: 100%; /* 요소 높이 100%로 설정 */
   overflow-y: auto; /* 세로 스크롤이 생기도록 설정 */
   width: 100%;
-  padding: 20px;
   background-color: #ffffff; /* 백그라운드 색상 설정 */
 }
 
