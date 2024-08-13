@@ -10,7 +10,7 @@
              a 15.9155 15.9155 0 0 1 0 -31.831"
         />
         <path
-          :class="['circle', { 'no-animation': !animated }]"
+          class="circle"
           :style="{ strokeDasharray: `${percentage}, 100` }"
           d="M18 2.0845
              a 15.9155 15.9155 0 0 1 0 31.831
@@ -36,6 +36,7 @@ export default {
   },
   setup() {
     const dailyAchievement = ref("0%");
+    const percentage = ref("0");
 
     const timeStringToSeconds = (timeString) => {
       const [hours, minutes, seconds] = timeString.split(":").map(Number);
@@ -95,11 +96,14 @@ export default {
         const achievementRate = (dailyFocusTime / timeGoal) * 100;
         if (achievementRate <= 100) {
           dailyAchievement.value = `${achievementRate.toFixed(2)}%`;
+          percentage.value = achievementRate.toFixed(2);
         } else {
           dailyAchievement.value = "100%";
+          percentage.value = "100";
         }
       } else {
         dailyAchievement.value = "0.00%";
+        percentage.value = "0";
       }
     };
 
@@ -114,6 +118,7 @@ export default {
 
     return {
       dailyAchievement,
+      percentage,
     };
   },
 };
