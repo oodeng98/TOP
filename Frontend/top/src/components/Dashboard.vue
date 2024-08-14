@@ -478,9 +478,10 @@ export default {
           const storedWidgets = response.data;
 
           console.log("Stored widgets:", storedWidgets);
-
+          console.log(storedWidgets.length);
           if (storedWidgets.length) {
             // 가져온 위젯 데이터로 위젯 추가
+            console.log("위젯 로딩해보자");
             storedWidgets.forEach(({ name, width, height, x, y }) => {
               const componentConfig = availableComponents.value.find(
                 (c) => c.componentName === name // component의 name과 매칭
