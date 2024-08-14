@@ -15,7 +15,7 @@
 
 <script>
 import axios from "axios";
-import { ref, onMounted, onUnmounted } from "vue";
+import { ref, onMounted, onBeforeUnmount } from "vue";
 
 export default {
   setup() {
@@ -67,13 +67,27 @@ export default {
       }
     };
 
-    onMounted(() => {
+    // 주기적인 사용 시간 데이터 업데이트 시작
+    const startFetching = () => {
       fetchFocusTime();
-      const intervalId = setInterval(fetchFocusTime, 60000);
+      interval.value = setInterval(() => {
+        fetchFocusTime();
+      }, 10000);
+    };
 
-      onUnmounted(() => {
-        clearInterval(intervalId);
-      });
+    // 주기적인 업데이트 정지
+    const stopfetching = () => {
+      if (interval.value) {
+        clearInterval(interval.value);
+      }
+    };
+
+    onMounted(() => {
+      startFetching();
+    });
+
+    onBeforeUnmount(() => {
+      stopfetching();
     });
 
     return {
