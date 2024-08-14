@@ -115,7 +115,7 @@ export default {
         // appList에서 해당 프로그램 삭제
         this.appList = this.appList.filter((app) => app.name !== appName);
 
-        // BannedProgramList.vue 컴포턴트에 갱신 요청
+        // BannedProgramList.vue 컴포넌트에 갱신 요청
         this.$emit("updateBannedList");
       } catch (error) {
         if (error.response && error.response.status === 409) {
@@ -160,6 +160,17 @@ export default {
   },
   mounted() {
     this.startFetching();
+
+    //이벤트 리스너 추가
+    this.$watch(
+      () => eventBus.updateAppList,
+      (newValue) => {
+        if (newValue) {
+          this.fetchData(); // 데이터 갱신
+          eventBus.updateAppList = false; // 이벤트 플래그 초기화
+        }
+      }
+    )
   },
   beforeDestroy() {
     this.stopfetching();
