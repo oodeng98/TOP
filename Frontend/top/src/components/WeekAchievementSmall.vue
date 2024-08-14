@@ -12,8 +12,16 @@ import axios from "axios";
 import { ref, onMounted, onUnmounted } from "vue";
 
 export default {
+  name: "GoalChart",
+  props: {
+    animated: {
+      type: Boolean,
+      default: true,
+    },
+  },
   setup() {
     const weeklyAchievement = ref("0.00%");
+    const percentage = ref(0); // 달성률 백분율 값
 
     const timeStringToSeconds = (timeString) => {
       const [hours, minutes, seconds] = timeString.split(":").map(Number);
@@ -35,10 +43,7 @@ export default {
         );
         return weeklyFocusTime;
       } catch (error) {
-        console.error(
-          "WeekAchievement1 데이터를 가져오는 중 오류 발생1:",
-          error
-        );
+        console.error("WeekAchievement 데이터를 가져오는 중 오류 발생:", error);
         return 0;
       }
     };
@@ -54,25 +59,21 @@ export default {
           }
         );
         let timeGoal = 1;
-        if (response.data.data.timeGoal) {
-          timeGoal = response.data.data.timeGoal * 60;
-        }
+        timeGoal = response.data.data.timeGoal * 60;
         return timeGoal;
       } catch (error) {
-        console.error(
-          "WeekAchievement1 데이터를 가져오는 중 오류 발생2:",
-          error
-        );
+        console.error("WeekAchievement 데이터를 가져오는 중 오류 발생:", error);
         return 0;
       }
     };
 
-    const updateWeeklyAchievement = async () => {
+    const updatePercentage = async () => {
       const weeklyFocusTime = await fetchFocusTime();
       const timeGoal = await fetchTimeGoal();
 
       if (timeGoal > 0) {
         const achievementRate = (weeklyFocusTime / timeGoal) * 100;
+        percentage.value = Math.min(achievementRate, 100); // 100을 넘지 않도록 설정
         if (achievementRate <= 100) {
           weeklyAchievement.value = `${achievementRate.toFixed(2)}%`;
         } else {
@@ -80,12 +81,13 @@ export default {
         }
       } else {
         weeklyAchievement.value = "0.00%";
+        percentage.value = 0;
       }
     };
 
     onMounted(() => {
-      updateWeeklyAchievement();
-      const intervalId = setInterval(updateWeeklyAchievement, 60000);
+      updatePercentage();
+      const intervalId = setInterval(updatePercentage, 60000);
 
       onUnmounted(() => {
         clearInterval(intervalId);
@@ -94,6 +96,7 @@ export default {
 
     return {
       weeklyAchievement,
+      percentage,
     };
   },
 };
