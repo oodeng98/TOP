@@ -475,16 +475,13 @@ export default {
           const response = await axios.get(
             "https://i11a707.p.ssafy.io/api/widgets"
           );
-          const storedWidgets = response.data;
+          const storedWidgets = response.data.data;
 
           console.log("Stored widgets:", storedWidgets);
-          console.log(storedWidgets.length);
           if (storedWidgets.length) {
-            // 가져온 위젯 데이터로 위젯 추가
-            console.log("위젯 로딩해보자");
             storedWidgets.forEach(({ name, width, height, x, y }) => {
               const componentConfig = availableComponents.value.find(
-                (c) => c.componentName === name // component의 name과 매칭
+                (c) => c.componentName === name
               );
               if (componentConfig) {
                 console.log(`Adding widget: ${name} at (${x}, ${y})`);
