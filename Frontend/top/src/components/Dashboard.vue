@@ -412,7 +412,7 @@ export default {
           return {
             name: widget.name, // 데이터셋에서 componentName을 가져옴
             width: widget.w,
-            height: widget.h,
+            height: widget.h ? widget.h : 1,
             x: widget.x,
             y: widget.y,
           };
