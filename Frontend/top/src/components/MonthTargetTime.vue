@@ -29,8 +29,8 @@ export default {
         );
         if (response.data.data.timeGoal) {
           monthlyTimeGoal.value = response.data.data.timeGoal;
-          const h = Math.floor(monthlyTimeGoal.value / 60); // 시간을 계산
-          const m = monthlyTimeGoal.value % 60; // 분을 계산
+          const h = Math.floor(monthlyTimeGoal.value / 3600); // 시간을 계산
+          const m = (monthlyTimeGoal.value - h*3600) / 60; // 분을 계산
           monthlyTimeGoal.value = `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:00`; // "hh:mm:00" 형식으로 설정
         }
       } catch (error) {
