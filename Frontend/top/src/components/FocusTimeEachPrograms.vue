@@ -37,6 +37,7 @@
 </template>
 
 <script>
+import { eventBus } from "@/eventBus";
 import axios from "axios";
 
 export default {
