@@ -306,7 +306,6 @@ export default {
         });
 
         isModalOpen.value = false;
-
       } catch (error) {
         Swal.fire({
           title: "오류!",
@@ -407,9 +406,7 @@ export default {
     const saveWidgets = async () => {
       try {
         // GridStack의 현재 상태를 JSON 형식으로 저장
-        console.log("저장 시도");
         const gridData = grid.save();
-        console.log("gridData", gridData);
         // 필요한 데이터만 추출
         const formattedData = gridData.map((widget) => {
           return {
@@ -420,7 +417,6 @@ export default {
             y: widget.y,
           };
         });
-        console.log("formattedData", formattedData);
 
         // 서버로 데이터 전송
         const response = await axios.post(
@@ -466,51 +462,46 @@ export default {
         gridElement
       );
 
-        // 이벤트 위임을 사용하여 삭제 버튼 클릭 처리
-        gridElement.addEventListener("click", (event) => {
-          if (event.target.classList.contains("widget-delete")) {
-            removeWidget(event);
-          }
-        });
-
-        try {
-          // 서버에서 저장된 위젯 상태 가져오기
-          const response = await axios.get(
-            "https://i11a707.p.ssafy.io/api/widgets"
-          );
-          const storedWidgets = response.data.data;
-
-          console.log("Stored widgets:", storedWidgets);
-          if (storedWidgets.length) {
-            storedWidgets.forEach(({ name, width, height, x, y }) => {
-              const componentConfig = availableComponents.value.find(
-                (c) => c.componentName === name
-              );
-              if (componentConfig) {
-                console.log(`Adding widget: ${name} at (${x}, ${y})`);
-                addWidget(componentConfig, width, height, { x, y });
-                componentConfig.isActive = true;
-              } else {
-                console.error(`Component with name ${name} not found.`);
-              }
-            });
-          } else {
-            console.log(
-              "No widgets found on the server, loading default widgets."
-            );
-            loadDefaultWidgets();
-          }
-        } catch (error) {
-          console.error("Error loading widgets:", error);
-          Swal.fire({
-            title: "오류!",
-            text: "위젯을 불러오는 중에 문제가 발생했습니다. 나중에 다시 시도해 주세요.",
-            icon: "error",
-            confirmButtonText: "확인",
-          });
+      // 이벤트 위임을 사용하여 삭제 버튼 클릭 처리
+      gridElement.addEventListener("click", (event) => {
+        if (event.target.classList.contains("widget-delete")) {
+          removeWidget(event);
         }
       });
-      
+
+      try {
+        // 서버에서 저장된 위젯 상태 가져오기
+        const response = await axios.get(
+          "https://i11a707.p.ssafy.io/api/widgets"
+        );
+        const storedWidgets = response.data.data;
+
+        if (storedWidgets.length) {
+          storedWidgets.forEach(({ name, width, height, x, y }) => {
+            const componentConfig = availableComponents.value.find(
+              (c) => c.componentName === name
+            );
+            if (componentConfig) {
+              addWidget(componentConfig, width, height, { x, y });
+              componentConfig.isActive = true;
+            } else {
+              console.error(`Component with name ${name} not found.`);
+            }
+          });
+        } else {
+          loadDefaultWidgets();
+        }
+      } catch (error) {
+        console.error("Error loading widgets:", error);
+        Swal.fire({
+          title: "오류!",
+          text: "위젯을 불러오는 중에 문제가 발생했습니다. 나중에 다시 시도해 주세요.",
+          icon: "error",
+          confirmButtonText: "확인",
+        });
+      }
+    });
+
     const loadDefaultWidgets = () => {
       const defaultComponents = [
         {

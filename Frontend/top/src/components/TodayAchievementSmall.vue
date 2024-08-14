@@ -1,8 +1,8 @@
 <template>
-  <div class="box6">
-    <div class="overlap-group6">
-      <div class="title-data6">일간 목표 달성률</div>
-      <div class="text6">{{ dailyAchievement }}</div>
+  <div class="box">
+    <div class="item">
+      <div class="title">일간 목표 달성률</div>
+      <div class="achievement">{{ dailyAchievement }}</div>
     </div>
   </div>
 </template>
@@ -120,12 +120,12 @@ export default {
 </script>
 
 <style scoped>
-.box6 {
+.box {
   height: 100%;
   width: 100%;
 }
 
-.box6 .overlap-group6 {
+.box .item {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -137,7 +137,7 @@ export default {
   width: 100%;
 }
 
-.box6 .title-data6 {
+.box .title {
   color: #a0aec0;
   font-family: "Helvetica-BoldOblique", Helvetica;
   font-size: 14px;
@@ -147,7 +147,7 @@ export default {
   white-space: nowrap;
 }
 
-.box6 .text6 {
+.box .achievement {
   color: #2d3748;
   font-family: "Helvetica-BoldOblique", Helvetica;
   font-size: 20px;

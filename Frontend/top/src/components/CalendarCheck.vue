@@ -103,7 +103,6 @@ export default {
       while (daysArray.length) {
         this.calendar.push(daysArray.splice(0, 7));
       }
-      console.log(this.calendar);
     },
 
     async provideFocusTime() {
@@ -115,14 +114,15 @@ export default {
           }
         );
         this.focustimeList = response.data.data;
-      }
-      catch(error){
+      } catch (error) {
         console.error("Error fetching data: ", error);
       }
     },
 
     syncFocusTime(day) {
-      const calenderFocusTime = this.focustimeList.find(data => parseInt(data.day.slice(-2)) === day);
+      const calenderFocusTime = this.focustimeList.find(
+        (data) => parseInt(data.day.slice(-2)) === day
+      );
       return calenderFocusTime ? calenderFocusTime.focusTime : 0;
     },
 

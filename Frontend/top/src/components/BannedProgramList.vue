@@ -3,8 +3,8 @@
     <div class="header">
       <div class="top-font">금지 프로그램 목록</div>
     </div>
-    <div class="pass-list">
-      <div class="between">
+    <div class="program-list">
+      <div class="program">
         <span class="mid-font">Programs</span>
         <span class="mid-font focus-time">사용 시간</span>
       </div>
@@ -15,7 +15,7 @@
           :key="index"
           class="li-relative"
         >
-          <div class="between">
+          <div class="program">
             <div style="display: flex; align-items: center">
               <img
                 class="icon"
@@ -129,7 +129,7 @@ export default {
       this.fetchdata();
       this.interval = setInterval(() => {
         this.fetchdata();
-      }, 1000);
+      }, 10000);
     },
 
     stopfetching() {
@@ -213,7 +213,7 @@ input::placeholder {
   padding-left: 10px;
 }
 
-.pass-list {
+.program-list {
   width: 100%;
   height: 80%;
   padding-left: 0px;
@@ -254,7 +254,7 @@ input::placeholder {
   display: block;
 }
 
-.between {
+.program {
   display: flex;
   justify-content: space-between;
 }

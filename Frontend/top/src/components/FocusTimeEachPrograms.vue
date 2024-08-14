@@ -1,10 +1,10 @@
 <template>
   <div class="box">
-    <div class="text-wrapper-4">프로그램 별 집중 시간</div>
+    <div class="title">프로그램 별 집중 시간</div>
     <div class="overlap-group">
-      <div class="titles">
-        <div class="text-wrapper-2">Programs</div>
-        <div class="text-wrapper-2">사용 시간</div>
+      <div class="programs">
+        <div class="program-text">Programs</div>
+        <div class="program-text">사용 시간</div>
       </div>
       <div class="list">
         <div class="items">
@@ -17,12 +17,12 @@
                 @error="handleImageError"
               />
               <div class="app-name ellipsis">{{ app.name }}</div>
-              <div class="text-wrapper">
+              <div class="focus-time">
                 {{ formatTime(app.focusTime) }}
                 <button
                   type="submit"
                   @click.stop="addprogram(app.name)"
-                  class="image-button-plus"
+                  class="plus-button"
                 >
                   <img src="../../static/img/PlusCircle.svg" alt="" />
                 </button>
@@ -233,7 +233,7 @@ export default {
   text-align: left;
 }
 
-.box .text-wrapper {
+.box .focus-time {
   color: #2d3748;
   font-family: "Helvetica-BoldOblique", Helvetica;
   font-size: 18px;
@@ -251,13 +251,13 @@ export default {
   margin-bottom: 5px;
 }
 
-.box .titles {
+.box .programs {
   display: flex;
   justify-content: space-between;
   margin-bottom: 10px;
 }
 
-.box .text-wrapper-2 {
+.box .program-text {
   color: #a0aec0;
   font-family: "Helvetica-BoldOblique", Helvetica;
   font-size: 15px;
@@ -266,7 +266,7 @@ export default {
   line-height: 15px;
 }
 
-.box .text-wrapper-4 {
+.box .title {
   color: #a0aec0;
   font-family: "Helvetica-BoldOblique", Helvetica;
   font-size: 18px;
@@ -278,7 +278,7 @@ export default {
   margin-left: 20px;
 }
 
-.image-button-plus {
+.plus-button {
   background: none;
   border: none;
   padding: 0;
