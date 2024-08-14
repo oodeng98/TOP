@@ -12,8 +12,16 @@ import axios from "axios";
 import { ref, onMounted, onBeforeUnmount } from "vue";
 
 export default {
+  name: "GoalChart",
+  props: {
+    animated: {
+      type: Boolean,
+      default: true,
+    },
+  },
   setup() {
     const monthlyAchievement = ref("0.00%");
+    const percentage = ref(0); // 달성률 백분율 값
     const interval = ref(null);
 
     const timeStringToSeconds = (timeString) => {
@@ -37,7 +45,7 @@ export default {
         return monthlyFocusTime;
       } catch (error) {
         console.error(
-          "MonthAchievement1 데이터를 가져오는 중 오류 발생1:",
+          "MonthAchievement 데이터를 가져오는 중 오류 발생:",
           error
         );
         return 0;
@@ -55,25 +63,24 @@ export default {
           }
         );
         let timeGoal = 1;
-        if (response.data.data.timeGoal) {
-          timeGoal = response.data.data.timeGoal * 60;
-        }
+        timeGoal = response.data.data.timeGoal * 60;
         return timeGoal;
       } catch (error) {
         console.error(
-          "MonthAchievement1 데이터를 가져오는 중 오류 발생2:",
+          "MonthAchievement 데이터를 가져오는 중 오류 발생:",
           error
         );
         return 0;
       }
     };
 
-    const updateMonthlyAchievement = async () => {
+    const updatePercentage = async () => {
       const monthlyFocusTime = await fetchFocusTime();
       const timeGoal = await fetchTimeGoal();
 
       if (timeGoal > 0) {
         const achievementRate = (monthlyFocusTime / timeGoal) * 100;
+        percentage.value = Math.min(achievementRate, 100); // 100을 넘지 않도록 설정
         if (achievementRate <= 100) {
           monthlyAchievement.value = `${achievementRate.toFixed(2)}%`;
         } else {
@@ -81,15 +88,16 @@ export default {
         }
       } else {
         monthlyAchievement.value = "0.00%";
+        percentage.value = 0;
       }
     };
 
     // 주기적인 사용 시간 데이터 업데이트 시작
     const startFetching = () => {
-      updateMonthlyAchievement();
+      updatePercentage();
       interval.value = setInterval(() => {
-        updateMonthlyAchievement();
-      }, 60000);
+        updatePercentage();
+      }, 10000);
     };
 
     // 주기적인 업데이트 정지
@@ -109,6 +117,7 @@ export default {
 
     return {
       monthlyAchievement,
+      percentage, // 반환하여 템플릿에서 사용할 수 있도록 함
     };
   },
 };

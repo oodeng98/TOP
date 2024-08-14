@@ -12,6 +12,13 @@ import axios from "axios";
 import { ref, onMounted, onUnmounted } from "vue";
 
 export default {
+  name: "GoalChart",
+  props: {
+    animated: {
+      type: Boolean,
+      default: true,
+    },
+  },
   setup() {
     const dailyAchievement = ref("0.00%");
     const percentage = ref(0); // 달성률 백분율 값
@@ -31,14 +38,13 @@ export default {
             },
           }
         );
-
         const dailyFocusTime = timeStringToSeconds(
           response.data.data.totalFocusTime
         );
         return dailyFocusTime;
       } catch (error) {
         console.error(
-          "TodayAchievement1 데이터를 가져오는 중 오류 발생1:",
+          "TodayAchievement2 데이터를 가져오는 중 오류 발생1:",
           error
         );
         return 0;
@@ -56,20 +62,18 @@ export default {
           }
         );
         let timeGoal = 1;
-        if (response.data.data.timeGoal) {
-          timeGoal = response.data.data.timeGoal * 60;
-        }
+        timeGoal = response.data.data.timeGoal * 60;
         return timeGoal;
       } catch (error) {
         console.error(
-          "TodayAchievement1 데이터를 가져오는 중 오류 발생2:",
+          "TodayAchievement2 데이터를 가져오는 중 오류 발생2:",
           error
         );
         return 0;
       }
     };
 
-    const updateDailyAchievement = async () => {
+    const updatePercentage = async () => {
       const dailyFocusTime = await fetchFocusTime();
       const timeGoal = await fetchTimeGoal();
 
@@ -84,8 +88,8 @@ export default {
     };
 
     onMounted(() => {
-      updateDailyAchievement();
-      const intervalId = setInterval(updateDailyAchievement, 60000);
+      updatePercentage();
+      const intervalId = setInterval(updatePercentage, 60000);
 
       onUnmounted(() => {
         clearInterval(intervalId);
