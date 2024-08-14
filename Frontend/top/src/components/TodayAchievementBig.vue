@@ -77,7 +77,7 @@ export default {
           }
         );
         let timeGoal = 1;
-        timeGoal = response.data.data.timeGoal * 60;
+        timeGoal = response.data.data.timeGoal;
         return timeGoal;
       } catch (error) {
         console.error(
