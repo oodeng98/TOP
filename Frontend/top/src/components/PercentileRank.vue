@@ -54,9 +54,9 @@ import { ref, onMounted, onUnmounted } from "vue";
 
 export default {
   setup() {
-    const dailyPercentile = ref("0%");
-    const weeklyPercentile = ref("0%");
-    const monthlyPercentile = ref("0%");
+    const dailyPercentile = ref("0");
+    const weeklyPercentile = ref("0");
+    const monthlyPercentile = ref("0");
 
     const fetchPercentile = async () => {
       try {
