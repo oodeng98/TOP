@@ -248,9 +248,8 @@ export default {
   font-weight: 700;
   letter-spacing: 0;
   line-height: 25.2px;
-  margin-left: 40px;
   flex: 0 0 190px; /* 고정된 너비로 설정하여 정렬을 쉽게 함 */
-  text-align: left;
+  text-align: center;
   white-space: nowrap;
 }
 
