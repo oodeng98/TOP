@@ -27,6 +27,9 @@ export default {
         );
         if (response.data.data.timeGoal) {
           dailyTimeGoal.value = response.data.data.timeGoal;
+          const h = Math.floor(dailyTimeGoal.value / 60); // 시간을 계산
+          const m = dailyTimeGoal.value % 60; // 분을 계산
+          dailyTimeGoal.value = `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:00`; // "hh:mm:00" 형식으로 설정
         }
       } catch (error) {
         console.error("데이터를 가져오는 중 오류 발생:", error);
