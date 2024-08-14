@@ -1,6 +1,6 @@
 <template>
   <div id="app" class="custom-container">
-    <Dashboard v-if="isLoggedIn" />
+    <Dashboard v-if="isLoggedIn" />     
   </div>
 </template>
 
@@ -47,7 +47,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
