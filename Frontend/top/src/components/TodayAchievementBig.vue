@@ -92,7 +92,6 @@ export default {
     const updatePercentage = async () => {
       const dailyFocusTime = await fetchFocusTime();
       const timeGoal = await fetchTimeGoal();
-      
 
       if (timeGoal > 0) {
         const achievementRate = (dailyFocusTime / timeGoal) * 100;
@@ -109,7 +108,7 @@ export default {
       updatePercentage();
       interval.value = setInterval(() => {
         updatePercentage();
-      }, 10000);
+      }, 1000);
     };
 
     // 주기적인 업데이트 정지

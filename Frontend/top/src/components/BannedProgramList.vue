@@ -129,7 +129,7 @@ export default {
       this.fetchdata();
       this.interval = setInterval(() => {
         this.fetchdata();
-      }, 10000);
+      }, 1000);
     },
 
     stopfetching() {

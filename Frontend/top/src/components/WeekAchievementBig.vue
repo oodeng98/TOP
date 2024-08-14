@@ -76,7 +76,7 @@ export default {
           }
         );
         let timeGoal = 1;
-        timeGoal = response.data.data.timeGoal * 60;
+        timeGoal = response.data.data.timeGoal;
         return timeGoal;
       } catch (error) {
         console.error("WeekAchievement 데이터를 가져오는 중 오류 발생:", error);
@@ -104,7 +104,7 @@ export default {
 
     onMounted(() => {
       updatePercentage();
-      const intervalId = setInterval(updatePercentage, 60000);
+      const intervalId = setInterval(updatePercentage, 1000);
 
       onUnmounted(() => {
         clearInterval(intervalId);

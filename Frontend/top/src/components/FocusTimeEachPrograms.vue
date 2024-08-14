@@ -137,7 +137,7 @@ export default {
       this.fetchData();
       this.interval = setInterval(() => {
         this.fetchData();
-      }, 10000);
+      }, 1000);
     },
     // 주기적인 업데이트 정지
     stopfetching() {
@@ -158,7 +158,7 @@ export default {
           eventBus.updateAppList = false; // 이벤트 플레그 초기화
         }
       }
-    )
+    );
   },
   beforeDestroy() {
     this.stopfetching();

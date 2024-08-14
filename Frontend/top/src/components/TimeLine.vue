@@ -131,7 +131,7 @@ export default {
 
     onMounted(() => {
       fetchFocusTimeData();
-      const intervalId = setInterval(fetchFocusTimeData, 60000);
+      const intervalId = setInterval(fetchFocusTimeData, 1000);
 
       onUnmounted(() => {
         clearInterval(intervalId);

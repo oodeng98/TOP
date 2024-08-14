@@ -150,7 +150,7 @@ export default {
       this.fetchData();
       this.interval = setInterval(() => {
         this.fetchData();
-      }, 10000);
+      }, 1000);
     },
     // 주기적인 업데이트 정지
     stopfetching() {

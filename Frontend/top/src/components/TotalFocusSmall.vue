@@ -30,7 +30,7 @@ export default {
 
     onMounted(() => {
       fetchFocusTime();
-      const intervalId = setInterval(fetchFocusTime, 60000);
+      const intervalId = setInterval(fetchFocusTime, 1000);
 
       onUnmounted(() => {
         clearInterval(intervalId);

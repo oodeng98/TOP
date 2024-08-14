@@ -45,7 +45,7 @@ export default {
       fetchFocusTime();
       interval.value = setInterval(() => {
         fetchFocusTime();
-      }, 10000);
+      }, 1000);
     };
 
     // 주기적인 업데이트 정지

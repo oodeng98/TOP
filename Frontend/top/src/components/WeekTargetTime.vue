@@ -30,8 +30,10 @@ export default {
         if (response.data.data.timeGoal) {
           weeklyTimeGoal.value = response.data.data.timeGoal;
           const h = Math.floor(weeklyTimeGoal.value / 3600); // 시간을 계산
-          const m = (weeklyTimeGoal.value - h*3600) / 60; // 분을 계산
-          weeklyTimeGoal.value = `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:00`; // "hh:mm:00" 형식으로 설정
+          const m = (weeklyTimeGoal.value - h * 3600) / 60; // 분을 계산
+          weeklyTimeGoal.value = `${String(h).padStart(2, "0")}:${String(
+            m
+          ).padStart(2, "0")}:00`; // "hh:mm:00" 형식으로 설정
         }
       } catch (error) {
         console.error("데이터를 가져오는 중 오류 발생:", error);
@@ -40,7 +42,7 @@ export default {
 
     onMounted(() => {
       fetchTimeGoal();
-      const intervalId = setInterval(fetchTimeGoal, 60000);
+      const intervalId = setInterval(fetchTimeGoal, 1000);
 
       onUnmounted(() => {
         clearInterval(intervalId);

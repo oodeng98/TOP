@@ -45,15 +45,15 @@ export default {
       fetchdata();
       interval.value = setInterval(() => {
         fetchdata();
-      }, 60000);
-    }
+      }, 1000);
+    };
 
     // 주기적인 업데이트 정지
     const stopfetching = () => {
       if (interval) {
         clearInterval(interval.value);
       }
-    }
+    };
 
     onMounted(() => {
       startFetching();

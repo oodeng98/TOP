@@ -74,7 +74,7 @@ export default {
 
     onMounted(() => {
       fetchPercentile();
-      const intervalId = setInterval(fetchPercentile, 60000);
+      const intervalId = setInterval(fetchPercentile, 1000);
 
       onUnmounted(() => {
         clearInterval(intervalId);
