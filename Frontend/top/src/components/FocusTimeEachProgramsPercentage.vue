@@ -97,7 +97,7 @@ export default {
     async addprogram(appName) {
       try {
         // 이미 금지된 프로그램인지 확인
-        this.fetchBannedList();
+        await this.fetchBannedList();
         if (this.bannedList.some((program) => program.name === appName)) {
           console.warn(`${appName}은(는) 이미 금지된 프로그램입니다.`);
           return; // 이미 존재하면 중복 요청을 보내지 않음
