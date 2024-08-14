@@ -43,11 +43,13 @@ export default {
   data() {
     return {
       appList: [],
+      bannedList: [], // bannedList를 빈 배열로 초기화
       interval: null,
     };
   },
   mounted() {
-    this.startFetching();
+    this.fetchData();
+    this.fetchBannedList();
   },
   methods: {
     async fetchData() {
@@ -67,6 +69,20 @@ export default {
         console.error("FocusTimeEachPrograms API request failed:", error);
       }
     },
+    async fetchBannedList() {
+      try {
+        const response = await axios.get(
+          "https://i11a707.p.ssafy.io/api/focus-time/ban"
+        );
+        if (response.status === 200 && response.data.statusCode === 200) {
+          this.bannedList = response.data.data.appList || [];
+        } else {
+          console.error("Failed to fetch banned list");
+        }
+      } catch (error) {
+        console.error("API request failed:", error);
+      }
+    },
     async addprogram(appName) {
       try {
         if (this.bannedList.some((program) => program.name === appName)) {
@@ -78,8 +94,12 @@ export default {
           name: appName,
         });
 
+        eventBus.updateBannedList = true; // 이벤트발생
+
+        // 성공적으로 추가되면 로컬 bannedList에 추가
         this.bannedList.push({ name: appName });
 
+        // appList에서 해당 프로그램 삭제
         this.appList = this.appList.filter((app) => app.name !== appName);
 
         this.$emit("updateBannedList");
@@ -115,7 +135,7 @@ export default {
       this.fetchData();
       this.interval = setInterval(() => {
         this.fetchData();
-      }, 60000);
+      }, 10000);
     },
     // 주기적인 업데이트 정지
     stopfetching() {
@@ -123,6 +143,20 @@ export default {
         clearInterval(this.interval);
       }
     },
+  },
+  mounted() {
+    this.startFetching();
+
+    // 이벤트 리스터 추가
+    this.$watch(
+      () => eventBus.updateAppList,
+      (newValue) => {
+        if (newValue) {
+          this.fetchData(); // 데이터 갱신
+          eventBus.updateAppList = false; // 이벤트 플레그 초기화
+        }
+      }
+    )
   },
   beforeDestroy() {
     this.stopfetching();
