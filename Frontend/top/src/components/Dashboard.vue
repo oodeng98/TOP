@@ -79,7 +79,6 @@ import MonthTargetTime from "./MonthTargetTime.vue";
 import SixMonthStreak from "./SixMonthStreak.vue";
 import BannedProgramList from "./BannedProgramList.vue";
 
-import { useWidgetStore } from "@/store/useWidgetStore";
 import Swal from "sweetalert2";
 
 export default {
@@ -90,7 +89,6 @@ export default {
     const isSidebarOpen = ref(false);
     const isModalOpen = ref(false); // 모달 열림 상태 관리
     const dailyGoal = ref(0);
-    const widgetStore = useWidgetStore(); // Pinia 스토어 사용
 
     let grid;
 
@@ -408,6 +406,7 @@ export default {
         // GridStack의 현재 상태를 JSON 형식으로 저장
         console.log("저장 시도");
         const gridData = grid.save();
+        console.log("gridData", gridData);
         // 필요한 데이터만 추출
         const formattedData = gridData.map((widget) => {
           return {
@@ -418,7 +417,7 @@ export default {
             y: widget.y,
           };
         });
-        console.log(formattedData);
+        console.log("formattedData", formattedData);
 
         // 서버로 데이터 전송
         const response = await axios.post(
