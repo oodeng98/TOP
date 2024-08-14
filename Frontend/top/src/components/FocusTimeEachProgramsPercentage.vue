@@ -256,8 +256,7 @@ export default {
   font-weight: 700;
   letter-spacing: 0;
   line-height: 25.2px;
-  margin-left: -30px; /* 텍스트를 왼쪽으로 10px 이동 */
-  flex: 0 0 190px; /* 고정된 너비로 설정하여 정렬을 쉽게 함 */
+  flex: 0 0 150px; /* 고정된 너비로 설정하여 정렬을 쉽게 함 */
   text-align: center;
   white-space: nowrap;
 }
