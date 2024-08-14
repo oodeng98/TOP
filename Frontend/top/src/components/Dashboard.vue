@@ -304,6 +304,9 @@ export default {
           icon: "success",
           confirmButtonText: "확인",
         });
+
+        isModalOpen.value = false;
+
       } catch (error) {
         Swal.fire({
           title: "오류!",
