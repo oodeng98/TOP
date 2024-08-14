@@ -294,7 +294,7 @@ export default {
   font-family: "Helvetica-BoldOblique", Helvetica;
   font-size: 24px;
   font-weight: 700;
-  left: 44px;
+  left: 40px;
   letter-spacing: 0.38px;
   line-height: 24px;
   position: absolute;
