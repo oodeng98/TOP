@@ -94,7 +94,7 @@ export default {
         if (achievementRate <= 100) {
           weeklyAchievement.value = `${achievementRate.toFixed(2)}%`;
         } else {
-          weeklyAchievement.value = "100%";
+          weeklyAchievement.value = "100.00%";
         }
       } else {
         weeklyAchievement.value = "0.00%";

@@ -101,7 +101,7 @@ export default {
         if (achievementRate <= 100) {
           monthlyAchievement.value = `${achievementRate.toFixed(2)}%`;
         } else {
-          monthlyAchievement.value = "100%";
+          monthlyAchievement.value = "100.00%";
         }
       } else {
         monthlyAchievement.value = "0.00%";
