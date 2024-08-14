@@ -446,21 +446,22 @@ export default {
     };
 
     onMounted(async () => {
-      await nextTick(async () => {
-        const gridElement = gridstack.value;
-        if (!gridElement) {
-          console.error("GridStack element not found");
-          return;
-        }
+      await nextTick();
+      const gridElement = gridstack.value;
 
-        grid = GridStack.init(
-          {
-            column: 12, // 그리드 열 수 설정
-            cellHeight: 125, // 셀 높이 설정
-            float: true,
-          },
-          gridElement
-        );
+      if (!gridElement) {
+        console.error("GridStack element not found");
+        return;
+      }
+
+      grid = GridStack.init(
+        {
+          column: 12, // 그리드 열 수 설정
+          cellHeight: 125, // 셀 높이 설정
+          float: true,
+        },
+        gridElement
+      );
 
         // 이벤트 위임을 사용하여 삭제 버튼 클릭 처리
         gridElement.addEventListener("click", (event) => {
@@ -506,8 +507,7 @@ export default {
           });
         }
       });
-    });
-
+      
     const loadDefaultWidgets = () => {
       const defaultComponents = [
         {
