@@ -328,16 +328,16 @@ export default {
 
       const widgetElement = document.createElement("div");
       widgetElement.className = "grid-stack-item";
-      widgetElement.dataset.componentName = componentConfig.componentName; // componentName으로 저장
+      widgetElement.dataset.componentName = componentConfig.componentName;
       widgetElement.innerHTML = `
         <div class="grid-stack-item-content">
-          <div class="widget-delete">✖</div>
         </div>`;
       grid.addWidget(widgetElement, {
         w: width,
         h: height,
         ...pos,
         noResize: true,
+        name: componentConfig.componentName,
       });
 
       const contentElement = widgetElement.querySelector(
@@ -349,15 +349,6 @@ export default {
       } else {
         console.error("Failed to find .grid-stack-item-content element.");
       }
-
-      // Pinia 스토어에 위젯 추가
-      widgetStore.addWidget({
-        name: componentConfig.componentName, // component의 name으로 저장
-        width,
-        height,
-        x: pos.x || 0,
-        y: pos.y || 0,
-      });
     };
 
     const removeWidget = (event) => {
@@ -371,9 +362,6 @@ export default {
       if (componentConfig) {
         componentConfig.isActive = false;
       }
-
-      // Pinia 스토어에서 위젯 제거
-      widgetStore.removeWidget(componentName);
     };
 
     const toggleComponent = (name) => {
@@ -417,16 +405,25 @@ export default {
 
     const saveWidgets = async () => {
       try {
-        // 활성화된(대시보드에 떠있는) 위젯만 필터링
-        const activeWidgets = widgetStore.widgets.filter((widget) => {
-          const componentConfig = availableComponents.value.find(
-            (c) => c.componentName === widget.name
-          );
-          return componentConfig && componentConfig.isActive;
+        // GridStack의 현재 상태를 JSON 형식으로 저장
+        console.log("저장 시도");
+        const gridData = grid.save();
+        // 필요한 데이터만 추출
+        const formattedData = gridData.map((widget) => {
+          return {
+            name: widget.name, // 데이터셋에서 componentName을 가져옴
+            width: widget.w,
+            height: widget.h,
+            x: widget.x,
+            y: widget.y,
+          };
         });
+        console.log(formattedData);
+
+        // 서버로 데이터 전송
         const response = await axios.post(
           "https://i11a707.p.ssafy.io/api/widgets",
-          activeWidgets // 필터링된 위젯만 서버로 전송
+          formattedData
         );
 
         Swal.fire({
@@ -436,7 +433,6 @@ export default {
           confirmButtonText: "확인",
         });
       } catch (error) {
-        console.log(widgetStore.widgets);
         Swal.fire({
           title: "오류!",
           text: "위젯을 저장하는 중에 문제가 발생했습니다. 나중에 다시 시도해 주세요.",
@@ -483,7 +479,7 @@ export default {
 
           console.log("Stored widgets:", storedWidgets);
 
-          if (storedWidgets.length > 0) {
+          if (storedWidgets.length) {
             // 가져온 위젯 데이터로 위젯 추가
             storedWidgets.forEach(({ name, width, height, x, y }) => {
               const componentConfig = availableComponents.value.find(
