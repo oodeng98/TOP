@@ -25,6 +25,7 @@
             'day',
             { 'current-month': day.isCurrentMonth, today: day.isToday },
           ]"
+          :title="`일일 집중: ${formatTime(syncFocusTime(day.date))}`"
         >
           {{ day.date }}
         </div>
@@ -34,6 +35,8 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   data() {
     return {
@@ -56,10 +59,12 @@ export default {
       selectedYear: new Date().getFullYear(),
       selectedMonth: new Date().getMonth(),
       calendar: [],
+      focustimeList: [],
     };
   },
   mounted() {
     this.updateCalendar();
+    this.provideFocusTime();
   },
   methods: {
     generateYears() {
@@ -98,6 +103,37 @@ export default {
       while (daysArray.length) {
         this.calendar.push(daysArray.splice(0, 7));
       }
+      console.log(this.calendar);
+    },
+
+    async provideFocusTime() {
+      try {
+        const response = await axios.get(
+          "https://i11a707.p.ssafy.io/api/dash/streak",
+          {
+            params: { month: 1 },
+          }
+        );
+        this.focustimeList = response.data.data;
+      }
+      catch(error){
+        console.error("Error fetching data: ", error);
+      }
+    },
+
+    syncFocusTime(day) {
+      const calenderFocusTime = this.focustimeList.find(data => parseInt(data.day.slice(-2)) === day);
+      return calenderFocusTime ? calenderFocusTime.focusTime : 0;
+    },
+
+    // 시간형식 변환
+    formatTime(seconds) {
+      const hrs = Math.floor(seconds / 3600);
+      const mins = Math.floor((seconds % 3600) / 60);
+      const secs = seconds % 60;
+      return `${hrs.toString().padStart(2, "0")}:${mins
+        .toString()
+        .padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
     },
   },
 };
