@@ -17,7 +17,7 @@
                 :alt="app.name"
                 @error="handleImageError"
               />
-              <div class="app-name">{{ app.name }}</div>
+              <div class="app-name ellipsis">{{ app.name }}</div>
               <div class="text-wrapper0">{{ formatTime(app.focusTime) }}</div>
               <div class="text-wrapper1">{{ app.percentage }}%</div>
               <div class="progress-bar">
@@ -180,6 +180,14 @@ export default {
 </script>
 
 <style scoped>
+
+.ellipsis {
+  width: 200px; /* 원하는 너비 설정 */
+  white-space: nowrap; /* 텍스트를 한 줄로 유지 */
+  overflow: hidden; /* 넘치는 텍스트를 숨김 */
+  text-overflow: ellipsis; /* 넘치는 텍스트에 말줄임표 추가 */
+}
+
 .box {
   height: 100%;
   width: 100%;
