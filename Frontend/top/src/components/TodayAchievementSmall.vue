@@ -76,6 +76,7 @@ export default {
     const updatePercentage = async () => {
       const dailyFocusTime = await fetchFocusTime();
       const timeGoal = await fetchTimeGoal();
+      const interval = ref(null);
 
       if (timeGoal > 0) {
         const achievementRate = (dailyFocusTime / timeGoal) * 100;

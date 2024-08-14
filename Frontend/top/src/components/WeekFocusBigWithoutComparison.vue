@@ -19,6 +19,7 @@ import { ref, onMounted, onBeforeUnmount } from "vue";
 export default {
   setup() {
     const weeklyFocusTime = ref("00:00:00");
+    const interval = ref(null);
 
     const fetchFocusTime = async () => {
       try {
