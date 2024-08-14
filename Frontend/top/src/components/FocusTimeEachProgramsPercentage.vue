@@ -171,7 +171,7 @@ export default {
           eventBus.updateAppList = false; // 이벤트 플래그 초기화
         }
       }
-    )
+    );
   },
   beforeDestroy() {
     this.stopfetching();
@@ -180,7 +180,6 @@ export default {
 </script>
 
 <style scoped>
-
 .ellipsis {
   width: 200px; /* 원하는 너비 설정 */
   white-space: nowrap; /* 텍스트를 한 줄로 유지 */
