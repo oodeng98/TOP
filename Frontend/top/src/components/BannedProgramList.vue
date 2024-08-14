@@ -51,6 +51,7 @@ export default {
   data() {
     return {
       banprogram: "",
+      appList: [],
       bannedList: [],
       interval: null,
     };
@@ -70,6 +71,20 @@ export default {
         console.error("Error to fetch data:", error);
       }
     },
+    async fetchAppList() {
+      try {
+        const response = await axios.get(
+          "https://i11a707.p.ssafy.io/api/dash/stats/app"
+        );
+        if (response.status === 200 && response.data.statusCode === 200) {
+          this.appList = response.data.data.appList || [];
+        } else {
+          console.error("Failed to fetch app list");
+        }
+      } catch (error) {
+        console.error("API request failed:", error)
+      }
+    },
     // 금지 프로그램 삭제
     async removeprogram(index, programName) {
       try {
@@ -77,6 +92,14 @@ export default {
           data: { name: programName },
         });
         this.bannedList.splice(index, 1);
+
+        eventBus.updateAppList = true;  // 이벤트 발생
+
+        // 성공적으로 삭제되면 로컬 appList에 추가
+        this.appList.push({ name: programName });
+
+        // FocusTimeEachProgramsPercentage.vue, FocusTimeEachPrograms.vue 컴포넌트에 갱신 요청
+        this.$emit("updateAppList")
       } catch (error) {
         console.error("Error removing program:", error);
       }
