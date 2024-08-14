@@ -37,6 +37,7 @@ export default {
   setup() {
     const dailyAchievement = ref("0.00%");
     const percentage = ref(0); // 달성률 백분율 값
+    const interval = ref(null);
 
     const timeStringToSeconds = (timeString) => {
       const [hours, minutes, seconds] = timeString.split(":").map(Number);
@@ -91,6 +92,7 @@ export default {
     const updatePercentage = async () => {
       const dailyFocusTime = await fetchFocusTime();
       const timeGoal = await fetchTimeGoal();
+      
 
       if (timeGoal > 0) {
         const achievementRate = (dailyFocusTime / timeGoal) * 100;

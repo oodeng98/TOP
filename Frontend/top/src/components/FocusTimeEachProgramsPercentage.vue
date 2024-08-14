@@ -292,6 +292,7 @@ export default {
   display: flex;
   justify-content: space-between;
   margin-bottom: 10px;
+  margin-top: 10px;
 }
 
 .box .text-wrapper-2 {
@@ -310,7 +311,6 @@ export default {
   font-weight: 700;
   letter-spacing: 0;
   line-height: 25.2px;
-  margin-bottom: 10px;
   text-align: center;
   margin-left: 20px;
 }

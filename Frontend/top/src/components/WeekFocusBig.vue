@@ -21,6 +21,7 @@ export default {
   setup() {
     const weeklyFocusTime = ref("00:00:00");
     const focusTimeDifference = ref("+00:00:00");
+    const interval = ref(null);
 
     const timeStringToSeconds = (timeString) => {
       const [hours, minutes, seconds] = timeString.split(":").map(Number);
