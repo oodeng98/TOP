@@ -54,8 +54,8 @@ export default {
           }
         );
         let timeGoal = 1;
-        if (response.data.data[0].timeGoal) {
-          timeGoal = response.data.data[0].timeGoal * 60;
+        if (response.data.data.timeGoal) {
+          timeGoal = response.data.data.timeGoal * 60;
         }
         return timeGoal;
       } catch (error) {

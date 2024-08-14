@@ -76,7 +76,7 @@ export default {
           }
         );
         let timeGoal = 1;
-        timeGoal = response.data.data[0].timeGoal * 60;
+        timeGoal = response.data.data.timeGoal * 60;
         return timeGoal;
       } catch (error) {
         console.error("WeekAchievement 데이터를 가져오는 중 오류 발생:", error);
