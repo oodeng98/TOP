@@ -44,7 +44,7 @@ export default {
           "https://i11a707.p.ssafy.io/api/dash/stats/focus-time",
           {
             params: {
-              period: "week",
+              period: "month",
             },
           }
         );
