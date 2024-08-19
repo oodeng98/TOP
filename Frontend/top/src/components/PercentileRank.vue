@@ -20,7 +20,7 @@
             <div class="overlap-wrapper4">
               <div class="overlap-4-2">
                 <div class="ellipse-4-2"></div>
-                <div class="text-4-2">{{ weeklyPercentile }}%</div>
+                <div class="text-4-2">{{ monthlyPercentile }}%</div>
                 <div class="text-4-3">월간 백분위</div>
                 <img
                   class="ellipse-4-3"
@@ -33,7 +33,7 @@
           <div class="overlap-group-wrapper4">
             <div class="overlap-4-3">
               <div class="ellipse-4-4"></div>
-              <div class="text-4-4">{{ monthlyPercentile }}%</div>
+              <div class="text-4-4">{{ weeklyPercentile }}%</div>
               <div class="text-4-5">주간 백분위</div>
               <img
                 class="ellipse-4-5"
